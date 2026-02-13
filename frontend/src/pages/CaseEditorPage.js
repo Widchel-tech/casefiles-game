@@ -52,16 +52,21 @@ export default function CaseEditorPage() {
   });
 
   useEffect(() => {
+    if (authLoading) return;
+    
     if (!isOwner) {
       navigate('/owner/login');
       return;
     }
-    if (!isNew) {
+    if (!isNew && caseId) {
       fetchCase();
+    } else {
+      setPageLoading(false);
     }
-  }, [isOwner, navigate, isNew, caseId]);
+  }, [isOwner, navigate, isNew, caseId, authLoading]);
 
   const fetchCase = async () => {
+    setPageLoading(true);
     try {
       const response = await axios.get(`${API_URL}/owner/cases/${caseId}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -70,6 +75,8 @@ export default function CaseEditorPage() {
     } catch (error) {
       toast.error('Failed to load case');
       navigate('/owner/cases');
+    } finally {
+      setPageLoading(false);
     }
   };
 
