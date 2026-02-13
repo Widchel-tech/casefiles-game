@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import axios from 'axios';
 
 const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
@@ -18,10 +18,18 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('casefiles_token'));
   const [loading, setLoading] = useState(true);
 
-  const api = axios.create({
-    baseURL: API_URL,
-    headers: token ? { Authorization: `Bearer ${token}` } : {}
-  });
+  // Create api instance that updates with token
+  const api = useMemo(() => {
+    const instance = axios.create({
+      baseURL: API_URL
+    });
+    
+    if (token) {
+      instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+    
+    return instance;
+  }, [token]);
 
   const fetchUser = useCallback(async () => {
     if (!token) {
@@ -29,11 +37,15 @@ export const AuthProvider = ({ children }) => {
       return;
     }
     try {
-      const response = await api.get('/auth/me');
+      const response = await axios.get(`${API_URL}/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setUser(response.data);
     } catch (error) {
       console.error('Auth error:', error);
-      logout();
+      localStorage.removeItem('casefiles_token');
+      setToken(null);
+      setUser(null);
     } finally {
       setLoading(false);
     }
