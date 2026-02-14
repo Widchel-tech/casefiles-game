@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Fingerprint, LayoutDashboard, FileText, Users, BarChart3, 
-  Settings, LogOut, Plus, TrendingUp, Trophy, Clock, CheckCircle
+  Settings, LogOut, Plus, TrendingUp, Trophy, Clock, CheckCircle, DollarSign
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { useAuth } from '../contexts/AuthContext';
