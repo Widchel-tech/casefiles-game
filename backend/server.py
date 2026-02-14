@@ -1215,11 +1215,15 @@ async def stripe_webhook(request: Request):
 # ============== OWNER USER MANAGEMENT ==============
 
 @api_router.get("/owner/users")
-async def get_users(user=Depends(get_owner_user)):
+async def get_users(user=Depends(get_owner_user), limit: int = 100, skip: int = 0):
+    # Add pagination for users list
+    max_limit = min(limit, 200)
     users = await db.users.find(
         {"role": "player"},
-        {"_id": 0, "password": 0}
-    ).to_list(1000)
+        {"_id": 0, "password": 0, "id": 1, "username": 1, "email": 1, 
+         "career_points": 1, "level": 1, "level_title": 1, "created_at": 1,
+         "subscription_status": 1}
+    ).sort("created_at", -1).skip(skip).limit(max_limit).to_list(max_limit)
     return users
 
 # ============== REVENUE & STRIPE CONNECT ==============
