@@ -67,7 +67,7 @@ export default function OwnerCasesPage() {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate('/owner/login');
   };
 
   return (
