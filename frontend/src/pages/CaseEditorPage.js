@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { 
   Fingerprint, LayoutDashboard, FileText, Users, BarChart3, 
-  LogOut, Save, ArrowLeft, Plus, Trash2, GripVertical, Check
+  LogOut, Save, ArrowLeft, Plus, Trash2, GripVertical, Check, DollarSign, Image
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { Switch } from '../components/ui/switch';
 import { useAuth } from '../contexts/AuthContext';
+import ImageUpload from '../components/ImageUpload';
 import axios from 'axios';
 import { toast } from 'sonner';
 
