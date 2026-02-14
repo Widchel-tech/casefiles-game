@@ -102,6 +102,7 @@ class ClueModel(BaseModel):
     description: str
     load_bearing: bool = False
     misdirection: bool = False
+    image_url: Optional[str] = None
 
 class EndingModel(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
