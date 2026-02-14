@@ -214,7 +214,7 @@ export default function CaseEditorPage() {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate('/owner/login');
   };
 
   if (pageLoading) {
