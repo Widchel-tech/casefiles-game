@@ -18,12 +18,10 @@ export default function OwnerDashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isOwner) {
-      navigate('/owner/login');
-      return;
+    if (token) {
+      fetchData();
     }
-    fetchData();
-  }, [isOwner, navigate]);
+  }, [token]);
 
   const fetchData = async () => {
     try {
