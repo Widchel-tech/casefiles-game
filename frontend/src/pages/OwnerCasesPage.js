@@ -112,6 +112,13 @@ export default function OwnerCasesPage() {
               <Users className="w-4 h-4" />
               Players
             </Link>
+            <Link
+              to="/owner/revenue"
+              className="flex items-center gap-3 px-4 py-3 text-zinc-400 hover:text-white hover:bg-zinc-800/50 font-mono text-sm uppercase tracking-widest transition-colors"
+            >
+              <DollarSign className="w-4 h-4" />
+              Revenue
+            </Link>
           </div>
         </nav>
 
