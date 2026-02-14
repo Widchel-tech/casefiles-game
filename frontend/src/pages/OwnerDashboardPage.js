@@ -44,7 +44,7 @@ export default function OwnerDashboardPage() {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate('/owner/login');
   };
 
   const stats = analytics ? [
