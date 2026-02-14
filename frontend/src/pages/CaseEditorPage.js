@@ -479,41 +479,55 @@ export default function CaseEditorPage() {
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-3 gap-4">
-                    <Input
-                      value={suspect.name}
-                      onChange={(e) => updateSuspect(index, 'name', e.target.value)}
-                      placeholder="Full Name"
-                      className="bg-zinc-950 border-zinc-800 rounded-none text-white"
+                  <div className="flex gap-6">
+                    {/* Portrait Upload */}
+                    <ImageUpload
+                      value={suspect.portrait_url}
+                      onChange={(url) => updateSuspect(index, 'portrait_url', url)}
+                      token={token}
+                      label="Portrait"
+                      previewSize="medium"
                     />
-                    <Input
-                      type="number"
-                      value={suspect.age}
-                      onChange={(e) => updateSuspect(index, 'age', parseInt(e.target.value))}
-                      placeholder="Age"
-                      className="bg-zinc-950 border-zinc-800 rounded-none text-white"
-                    />
-                    <Input
-                      value={suspect.role}
-                      onChange={(e) => updateSuspect(index, 'role', e.target.value)}
-                      placeholder="Role/Relationship"
-                      className="bg-zinc-950 border-zinc-800 rounded-none text-white"
-                    />
+                    
+                    {/* Suspect Details */}
+                    <div className="flex-1 space-y-4">
+                      <div className="grid grid-cols-3 gap-4">
+                        <Input
+                          value={suspect.name}
+                          onChange={(e) => updateSuspect(index, 'name', e.target.value)}
+                          placeholder="Full Name"
+                          className="bg-zinc-950 border-zinc-800 rounded-none text-white"
+                        />
+                        <Input
+                          type="number"
+                          value={suspect.age}
+                          onChange={(e) => updateSuspect(index, 'age', parseInt(e.target.value))}
+                          placeholder="Age"
+                          className="bg-zinc-950 border-zinc-800 rounded-none text-white"
+                        />
+                        <Input
+                          value={suspect.role}
+                          onChange={(e) => updateSuspect(index, 'role', e.target.value)}
+                          placeholder="Role/Relationship"
+                          className="bg-zinc-950 border-zinc-800 rounded-none text-white"
+                        />
+                      </div>
+                      
+                      <Textarea
+                        value={suspect.motive_angle}
+                        onChange={(e) => updateSuspect(index, 'motive_angle', e.target.value)}
+                        placeholder="Potential motive..."
+                        className="bg-zinc-950 border-zinc-800 rounded-none text-white h-16"
+                      />
+                      
+                      <Textarea
+                        value={suspect.alibi_summary}
+                        onChange={(e) => updateSuspect(index, 'alibi_summary', e.target.value)}
+                        placeholder="Alibi details..."
+                        className="bg-zinc-950 border-zinc-800 rounded-none text-white h-16"
+                      />
+                    </div>
                   </div>
-                  
-                  <Textarea
-                    value={suspect.motive_angle}
-                    onChange={(e) => updateSuspect(index, 'motive_angle', e.target.value)}
-                    placeholder="Potential motive..."
-                    className="bg-zinc-950 border-zinc-800 rounded-none text-white h-16"
-                  />
-                  
-                  <Textarea
-                    value={suspect.alibi_summary}
-                    onChange={(e) => updateSuspect(index, 'alibi_summary', e.target.value)}
-                    placeholder="Alibi details..."
-                    className="bg-zinc-950 border-zinc-800 rounded-none text-white h-16"
-                  />
                 </div>
               ))}
             </TabsContent>
