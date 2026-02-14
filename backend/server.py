@@ -966,29 +966,57 @@ async def get_analytics_overview(user=Depends(get_owner_user)):
 
 @api_router.get("/owner/analytics/cases/{case_id}")
 async def get_case_analytics(case_id: str, user=Depends(get_owner_user)):
-    # Sessions for this case
-    sessions = await db.play_sessions.find({"case_id": case_id}, {"_id": 0}).to_list(10000)
+    # Use aggregation pipeline for efficient analytics
+    pipeline = [
+        {"$match": {"case_id": case_id}},
+        {"$group": {
+            "_id": None,
+            "total_plays": {"$sum": 1},
+            "completed": {"$sum": {"$cond": [{"$ne": ["$ended_at", None]}, 1, 0]}},
+            "scores": {"$push": "$final_score"},
+            "session_ids": {"$push": "$id"}
+        }}
+    ]
     
-    total_plays = len(sessions)
-    completed = sum(1 for s in sessions if s.get("ended_at"))
+    result = await db.play_sessions.aggregate(pipeline).to_list(1)
     
-    # Average score
-    scores = [s.get("final_score", 0) for s in sessions if s.get("final_score")]
+    if not result:
+        return {
+            "total_plays": 0,
+            "completed": 0,
+            "completion_rate": 0,
+            "avg_score": 0,
+            "choice_frequency": {},
+            "scene_activity": {}
+        }
+    
+    stats = result[0]
+    total_plays = stats.get("total_plays", 0)
+    completed = stats.get("completed", 0)
+    scores = [s for s in stats.get("scores", []) if s is not None]
     avg_score = sum(scores) / len(scores) if scores else 0
+    session_ids = stats.get("session_ids", [])[:1000]  # Limit to 1000 sessions
     
-    # Choice frequency
-    events = await db.event_logs.find(
-        {"session_id": {"$in": [s["id"] for s in sessions]}},
-        {"_id": 0}
-    ).to_list(100000)
+    # Get choice/scene frequency using aggregation (limited)
+    event_pipeline = [
+        {"$match": {"session_id": {"$in": session_ids}}},
+        {"$limit": 10000},  # Limit events to prevent memory issues
+        {"$group": {
+            "_id": {"choice_id": "$choice_id", "scene_id": "$scene_id"},
+            "count": {"$sum": 1}
+        }}
+    ]
+    
+    events = await db.event_logs.aggregate(event_pipeline).to_list(1000)
     
     choice_counts = {}
     scene_dropoffs = {}
     for event in events:
-        choice_id = event.get("choice_id")
-        scene_id = event.get("scene_id")
-        choice_counts[choice_id] = choice_counts.get(choice_id, 0) + 1
-        scene_dropoffs[scene_id] = scene_dropoffs.get(scene_id, 0) + 1
+        if event["_id"]["choice_id"]:
+            choice_counts[event["_id"]["choice_id"]] = event["count"]
+        if event["_id"]["scene_id"]:
+            scene_id = event["_id"]["scene_id"]
+            scene_dropoffs[scene_id] = scene_dropoffs.get(scene_id, 0) + event["count"]
     
     return {
         "total_plays": total_plays,
@@ -1008,8 +1036,15 @@ async def get_leaderboard(user=Depends(get_owner_user)):
     return players
 
 @api_router.get("/owner/analytics/export")
-async def export_analytics(user=Depends(get_owner_user)):
-    sessions = await db.play_sessions.find({}, {"_id": 0}).to_list(100000)
+async def export_analytics(user=Depends(get_owner_user), limit: int = 1000, skip: int = 0):
+    # Add pagination to export with reasonable limits
+    max_limit = min(limit, 5000)  # Cap at 5000 records per export
+    sessions = await db.play_sessions.find(
+        {}, 
+        {"_id": 0, "id": 1, "user_id": 1, "case_id": 1, "started_at": 1, 
+         "ended_at": 1, "ending_type": 1, "final_score": 1, "procedural_risk": 1}
+    ).skip(skip).limit(max_limit).to_list(max_limit)
+    
     import csv
     import io
     
@@ -1019,7 +1054,16 @@ async def export_analytics(user=Depends(get_owner_user)):
         writer.writeheader()
         writer.writerows(sessions)
     
-    return {"csv_data": output.getvalue()}
+    # Get total count for pagination info
+    total_count = await db.play_sessions.count_documents({})
+    
+    return {
+        "csv_data": output.getvalue(),
+        "total_records": total_count,
+        "returned_records": len(sessions),
+        "skip": skip,
+        "limit": max_limit
+    }
 
 # ============== LEADERBOARD (PUBLIC) ==============
 
