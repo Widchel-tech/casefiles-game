@@ -594,6 +594,77 @@ export default function CaseEditorPage() {
                     </div>
                   </div>
 
+                  {/* Scene Media Upload */}
+                  <div className="space-y-2 pt-4 border-t border-zinc-800">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs text-zinc-500">SCENE MEDIA (Crime Scene Photos)</span>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          const input = document.createElement('input');
+                          input.type = 'file';
+                          input.accept = 'image/*';
+                          input.onchange = async (e) => {
+                            const file = e.target.files[0];
+                            if (!file) return;
+                            if (file.size > 5 * 1024 * 1024) {
+                              toast.error('Image must be less than 5MB');
+                              return;
+                            }
+                            try {
+                              const formData = new FormData();
+                              formData.append('file', file);
+                              const response = await axios.post(`${API_URL}/owner/upload`, formData, {
+                                headers: {
+                                  Authorization: `Bearer ${token}`,
+                                  'Content-Type': 'multipart/form-data'
+                                }
+                              });
+                              const imageUrl = `${process.env.REACT_APP_BACKEND_URL}${response.data.url}`;
+                              const newMediaUrls = [...(scene.media_urls || []), imageUrl];
+                              updateScene(sceneIndex, 'media_urls', newMediaUrls);
+                              toast.success('Image uploaded');
+                            } catch (error) {
+                              toast.error('Failed to upload image');
+                            }
+                          };
+                          input.click();
+                        }}
+                        variant="ghost"
+                        className="text-zinc-400 hover:text-white text-xs h-6"
+                        data-testid={`add-scene-media-${sceneIndex}`}
+                      >
+                        <Plus className="w-3 h-3 mr-1" />
+                        Add Photo
+                      </Button>
+                    </div>
+                    
+                    {scene.media_urls && scene.media_urls.length > 0 && (
+                      <div className="flex flex-wrap gap-3">
+                        {scene.media_urls.map((url, mediaIndex) => (
+                          <div key={mediaIndex} className="relative w-24 h-24 group">
+                            <img 
+                              src={url} 
+                              alt={`Scene media ${mediaIndex + 1}`}
+                              className="w-full h-full object-cover border border-zinc-700"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const newMediaUrls = scene.media_urls.filter((_, i) => i !== mediaIndex);
+                                updateScene(sceneIndex, 'media_urls', newMediaUrls);
+                              }}
+                              className="absolute top-1 right-1 bg-red-900/80 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              data-testid={`remove-scene-media-${sceneIndex}-${mediaIndex}`}
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
                   {/* Choices */}
                   <div className="space-y-3 pt-4 border-t border-zinc-800">
                     <div className="flex items-center justify-between">
