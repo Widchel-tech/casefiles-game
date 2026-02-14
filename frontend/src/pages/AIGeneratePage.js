@@ -98,7 +98,7 @@ export default function AIGeneratePage() {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate('/owner/login');
   };
 
   return (
