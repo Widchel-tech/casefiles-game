@@ -22,7 +22,7 @@ const US_STATES = ['Illinois', 'California', 'New York', 'Texas', 'Florida', 'Oh
 
 export default function CaseEditorPage() {
   const { caseId } = useParams();
-  const { token, logout, isOwner, loading: authLoading } = useAuth();
+  const { token, logout } = useAuth();
   const navigate = useNavigate();
   const isNew = caseId === 'new' || !caseId;
   
