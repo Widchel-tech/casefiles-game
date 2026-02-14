@@ -217,14 +217,12 @@ export default function CaseEditorPage() {
     navigate('/');
   };
 
-  if (authLoading || pageLoading) {
+  if (pageLoading) {
     return (
       <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
         <div className="text-center">
           <Fingerprint className="w-12 h-12 text-zinc-600 mx-auto animate-pulse" />
-          <p className="text-zinc-500 mt-4 font-mono text-sm">
-            {authLoading ? 'AUTHENTICATING...' : 'LOADING CASE...'}
-          </p>
+          <p className="text-zinc-500 mt-4 font-mono text-sm">LOADING CASE...</p>
         </div>
       </div>
     );
