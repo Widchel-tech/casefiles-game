@@ -112,7 +112,7 @@ export default function ImageUpload({
         // Image Preview
         <div className={`relative ${sizeClasses[previewSize]} group`}>
           <img 
-            src={value} 
+            src={getImageUrl(value)} 
             alt="Uploaded" 
             className="w-full h-full object-cover border border-zinc-700"
           />
