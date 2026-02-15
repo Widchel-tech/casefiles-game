@@ -361,6 +361,20 @@ export default function GameplayPage() {
                   </div>
                   
                   <div className="p-6 border border-zinc-800 bg-zinc-900/30 mb-6">
+                    {/* Scene Media/Images */}
+                    {currentScene.media_urls && currentScene.media_urls.length > 0 && (
+                      <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {currentScene.media_urls.map((url, idx) => (
+                          <div key={idx} className="border border-zinc-700 overflow-hidden">
+                            <img 
+                              src={getImageUrl(url)} 
+                              alt={`Scene evidence ${idx + 1}`}
+                              className="w-full h-48 object-cover"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     <p className="text-zinc-300 leading-relaxed font-typewriter whitespace-pre-wrap">
                       {currentScene.narration}
                     </p>
