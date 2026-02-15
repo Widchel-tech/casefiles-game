@@ -1132,8 +1132,8 @@ async def public_leaderboard(user=Depends(get_current_user)):
 # ============== SUBSCRIPTION / STRIPE ==============
 
 SUBSCRIPTION_PACKAGES = {
-    "monthly": 5.00,
-    "yearly": 50.00
+    "monthly": 10.99,
+    "yearly": 100.00
 }
 
 @api_router.post("/payments/checkout")

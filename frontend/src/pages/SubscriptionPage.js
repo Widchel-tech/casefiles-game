@@ -75,7 +75,7 @@ export default function SubscriptionPage() {
     {
       id: 'monthly',
       name: 'Monthly',
-      price: 5,
+      price: 10.99,
       period: '/month',
       billing: 'Billed monthly, cancel anytime',
       features: [
@@ -90,13 +90,13 @@ export default function SubscriptionPage() {
     {
       id: 'yearly',
       name: 'Yearly',
-      price: 50,
+      price: 100,
       period: '/year',
-      badge: 'SAVE $10',
+      badge: 'SAVE $32',
       billing: 'Billed annually, cancel anytime',
       features: [
         'Everything in Monthly',
-        '2 months FREE',
+        'Over 2 months FREE',
         'Priority access to new cases',
         'Exclusive Task Force cases',
         'Advanced analytics',
