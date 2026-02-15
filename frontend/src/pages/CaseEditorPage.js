@@ -36,6 +36,7 @@ export default function CaseEditorPage() {
     location_county: '',
     location_state: 'Illinois',
     victim_overview: '',
+    victim_photo_url: null,
     summary: '',
     difficulty: 2,
     time_limit_minutes: 15,
@@ -44,8 +45,8 @@ export default function CaseEditorPage() {
     scenes: [],
     clues: [],
     endings: [
-      { id: crypto.randomUUID(), type: 'CLOSED_GOOD', title: 'Case Closed', narration: '', cp_base: 30, cp_modifiers: {} },
-      { id: crypto.randomUUID(), type: 'COMPROMISED_BAD', title: 'Case Compromised', narration: '', cp_base: 5, cp_modifiers: {} }
+      { id: crypto.randomUUID(), type: 'CLOSED_GOOD', title: 'Case Closed', narration: '', cp_base: 30, cp_modifiers: {}, mugshot_url: null },
+      { id: crypto.randomUUID(), type: 'COMPROMISED_BAD', title: 'Case Compromised', narration: '', cp_base: 5, cp_modifiers: {}, mugshot_url: null }
     ],
     published: false,
     patch_notes: [],
