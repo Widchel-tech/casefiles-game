@@ -6,9 +6,10 @@ Build "CASE FILES" - a hyper-realistic FBI investigation game platform featuring
 - Player web app for playing FBI investigation cases with scenes, choices, clues, procedural risk tracking
 - Owner/Admin portal for case management, media uploads, analytics, subscriptions
 - AI-powered case generation and suspect interrogation using OpenAI GPT-5.2
-- Subscription system ($5/mo, $50/yr) with Stripe integration
+- Subscription system ($10.99/mo, $100/yr) with Stripe integration
 - Persistent career progression with levels and career points
 - Real money payouts via Stripe Connect for subscription revenue
+- Freemium model: first case is free, all subsequent cases require subscription
 
 ### User Personas
 1. **Players**: Crime/detective enthusiasts, true crime fans, ages 18-45 who enjoy procedural investigation games
@@ -144,6 +145,13 @@ Build "CASE FILES" - a hyper-realistic FBI investigation game platform featuring
 
 ## Changelog
 
+### Feb 15, 2026
+- **UPDATED**: Subscription pricing changed from $5/mo + $50/yr to **$10.99/mo + $100/yr**
+- **UPDATED**: Yearly savings badge updated to "SAVE $32" (reflects 12 × $10.99 = $131.88 vs $100)
+- Backend `SUBSCRIPTION_PACKAGES` updated in server.py
+- Frontend `SubscriptionPage.js` pricing display updated
+- Freemium model in place: first case free, subscription required for additional cases
+
 ### Feb 13, 2026
 - **FIXED**: Owner portal navigation bug - Added missing routes for `/owner/analytics`, `/owner/users`, `/owner/revenue` in App.js
 - **ADDED**: Revenue link to sidebar navigation in OwnerDashboardPage and OwnerCasesPage
@@ -156,9 +164,10 @@ Build "CASE FILES" - a hyper-realistic FBI investigation game platform featuring
 ---
 
 ## Next Action Items
-1. Test Stripe Connect onboarding flow in production environment
-2. Add image upload functionality to case editor
-3. Implement case validation before publishing
-4. Create more sample cases using AI generation
-5. Add detailed player progress tracking
-6. Implement session replay for failed cases
+1. Test complete subscription flow with Stripe checkout ($10.99/mo or $100/yr)
+2. Test Stripe Connect onboarding flow for owner payouts
+3. Implement AI Case Generation (OpenAI GPT-5.2 integration)
+4. Implement Analytics backend with detailed player metrics
+5. Implement "Validate Case" feature before publishing
+6. Create more sample cases using AI generation
+7. Add session replay functionality for failed cases
