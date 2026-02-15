@@ -1577,9 +1577,9 @@ async def startup_event():
             user_id = str(uuid.uuid4())
             owner_doc = {
                 "id": user_id,
-                "username": "admin",
-                "email": "admin@casefiles.fbi",
-                "password": hash_password("admin123"),
+                "username": "Widchel",
+                "email": "Widchel.ant08@casefiles.fbi",
+                "password": hash_password("WidAnt1234!"),
                 "role": "owner",
                 "career_points": 0,
                 "level": 1,
@@ -1587,7 +1587,7 @@ async def startup_event():
                 "created_at": datetime.now(timezone.utc).isoformat()
             }
             await db.users.insert_one(owner_doc)
-            logger.info("Owner admin user created: admin@casefiles.fbi")
+            logger.info("Owner admin user created")
         else:
             logger.info("Owner admin user already exists")
     except Exception as e:
