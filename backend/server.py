@@ -1215,39 +1215,47 @@ async def create_checkout(data: CheckoutRequest, request: Request, user=Depends(
 @api_router.get("/payments/status/{session_id}")
 async def get_payment_status(session_id: str, user=Depends(get_current_user)):
     api_key = os.environ.get("STRIPE_API_KEY")
-    stripe_checkout = StripeCheckout(api_key=api_key, webhook_url="")
     
-    status = await stripe_checkout.get_checkout_status(session_id)
+    import stripe
+    stripe.api_key = api_key
     
-    # Update transaction
-    if status.payment_status == "paid":
-        tx = await db.payment_transactions.find_one({"session_id": session_id}, {"_id": 0})
-        if tx and tx.get("payment_status") != "completed":
-            await db.payment_transactions.update_one(
-                {"session_id": session_id},
-                {"$set": {"payment_status": "completed"}}
-            )
-            
-            # Update user subscription
-            package_type = tx.get("package_type", "monthly")
-            if package_type == "yearly":
-                expires = datetime.now(timezone.utc) + timedelta(days=365)
-            else:
-                expires = datetime.now(timezone.utc) + timedelta(days=30)
-            
-            await db.users.update_one(
-                {"id": user["id"]},
-                {"$set": {
-                    "subscription_status": "active",
-                    "subscription_expires": expires.isoformat(),
-                    "subscription_type": package_type
-                }}
-            )
-    
-    return {
-        "status": status.status,
-        "payment_status": status.payment_status
-    }
+    try:
+        session = stripe.checkout.Session.retrieve(session_id)
+        
+        # Update transaction and user subscription if completed
+        if session.status == "complete" and session.payment_status == "paid":
+            tx = await db.payment_transactions.find_one({"session_id": session_id}, {"_id": 0})
+            if tx and tx.get("payment_status") != "completed":
+                # Get subscription ID from the session
+                subscription_id = session.subscription
+                
+                await db.payment_transactions.update_one(
+                    {"session_id": session_id},
+                    {"$set": {
+                        "payment_status": "completed",
+                        "subscription_id": subscription_id
+                    }}
+                )
+                
+                # Update user subscription - recurring so no fixed expiry
+                package_type = tx.get("package_type", "monthly")
+                
+                await db.users.update_one(
+                    {"id": user["id"]},
+                    {"$set": {
+                        "subscription_status": "active",
+                        "subscription_type": package_type,
+                        "stripe_subscription_id": subscription_id,
+                        "subscription_started": datetime.now(timezone.utc).isoformat()
+                    }}
+                )
+        
+        return {
+            "status": session.status,
+            "payment_status": session.payment_status
+        }
+    except stripe.error.StripeError as e:
+        raise HTTPException(status_code=500, detail=f"Stripe error: {str(e)}")
 
 @api_router.post("/webhook/stripe")
 async def stripe_webhook(request: Request):
@@ -1255,29 +1263,88 @@ async def stripe_webhook(request: Request):
     signature = request.headers.get("Stripe-Signature")
     
     api_key = os.environ.get("STRIPE_API_KEY")
-    stripe_checkout = StripeCheckout(api_key=api_key, webhook_url="")
+    webhook_secret = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
+    
+    import stripe
+    stripe.api_key = api_key
     
     try:
-        webhook_response = await stripe_checkout.handle_webhook(body, signature)
+        # Verify webhook signature if secret is set
+        if webhook_secret:
+            event = stripe.Webhook.construct_event(body, signature, webhook_secret)
+        else:
+            import json
+            event = json.loads(body)
         
-        if webhook_response.payment_status == "paid":
-            session_id = webhook_response.session_id
-            metadata = webhook_response.metadata
+        event_type = event.get("type") if isinstance(event, dict) else event.type
+        data = event.get("data", {}).get("object", {}) if isinstance(event, dict) else event.data.object
+        
+        # Handle checkout completion
+        if event_type == "checkout.session.completed":
+            session_id = data.get("id") if isinstance(data, dict) else data.id
+            metadata = data.get("metadata", {}) if isinstance(data, dict) else data.metadata
+            subscription_id = data.get("subscription") if isinstance(data, dict) else data.subscription
             
             user_id = metadata.get("user_id")
             package_type = metadata.get("package_type", "monthly")
             
             await db.payment_transactions.update_one(
                 {"session_id": session_id},
-                {"$set": {"payment_status": "completed"}}
+                {"$set": {
+                    "payment_status": "completed",
+                    "subscription_id": subscription_id
+                }}
             )
             
-            if package_type == "yearly":
-                expires = datetime.now(timezone.utc) + timedelta(days=365)
-            else:
-                expires = datetime.now(timezone.utc) + timedelta(days=30)
-            
             await db.users.update_one(
+                {"id": user_id},
+                {"$set": {
+                    "subscription_status": "active",
+                    "subscription_type": package_type,
+                    "stripe_subscription_id": subscription_id,
+                    "subscription_started": datetime.now(timezone.utc).isoformat()
+                }}
+            )
+        
+        # Handle subscription renewal (invoice paid)
+        elif event_type == "invoice.paid":
+            subscription_id = data.get("subscription") if isinstance(data, dict) else data.subscription
+            if subscription_id:
+                # Find user by subscription ID and extend access
+                await db.users.update_one(
+                    {"stripe_subscription_id": subscription_id},
+                    {"$set": {
+                        "subscription_status": "active",
+                        "last_payment_at": datetime.now(timezone.utc).isoformat()
+                    }}
+                )
+                logger.info(f"Subscription renewed: {subscription_id}")
+        
+        # Handle subscription cancellation
+        elif event_type == "customer.subscription.deleted":
+            subscription_id = data.get("id") if isinstance(data, dict) else data.id
+            await db.users.update_one(
+                {"stripe_subscription_id": subscription_id},
+                {"$set": {
+                    "subscription_status": "cancelled",
+                    "subscription_cancelled_at": datetime.now(timezone.utc).isoformat()
+                }}
+            )
+            logger.info(f"Subscription cancelled: {subscription_id}")
+        
+        # Handle payment failure
+        elif event_type == "invoice.payment_failed":
+            subscription_id = data.get("subscription") if isinstance(data, dict) else data.subscription
+            if subscription_id:
+                await db.users.update_one(
+                    {"stripe_subscription_id": subscription_id},
+                    {"$set": {
+                        "subscription_status": "past_due"
+                    }}
+                )
+                logger.info(f"Payment failed for subscription: {subscription_id}")
+        
+        return {"status": "ok"}
                 {"id": user_id},
                 {"$set": {
                     "subscription_status": "active",
