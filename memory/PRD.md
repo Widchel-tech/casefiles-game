@@ -148,6 +148,11 @@ Build "CASE FILES" - a hyper-realistic FBI investigation game platform featuring
 ### Feb 15, 2026
 - **UPDATED**: Subscription pricing changed from $5/mo + $50/yr to **$10.99/mo + $100/yr**
 - **UPDATED**: Yearly savings badge updated to "SAVE $32" (reflects 12 × $10.99 = $131.88 vs $100)
+- **FIXED**: Stripe API error handling for production deployment
+  - Added API key format validation (must start with `sk_live_` or `sk_test_`)
+  - Changed error responses from 500 to 503 for service unavailability
+  - Added `AuthenticationError` handling for invalid API keys
+  - User-friendly error messages instead of raw Stripe errors
 - Backend `SUBSCRIPTION_PACKAGES` updated in server.py
 - Frontend `SubscriptionPage.js` pricing display updated
 - Freemium model in place: first case free, subscription required for additional cases
