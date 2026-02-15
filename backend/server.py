@@ -1144,6 +1144,14 @@ async def create_checkout(data: CheckoutRequest, request: Request, user=Depends(
     amount = SUBSCRIPTION_PACKAGES[data.package_type]
     api_key = os.environ.get("STRIPE_API_KEY")
     
+    # Validate Stripe configuration
+    if not api_key:
+        raise HTTPException(status_code=503, detail="Payment system is not configured. Please contact support.")
+    
+    if not api_key.startswith(("sk_live_", "sk_test_")):
+        logger.error("Invalid Stripe API key format in payments/checkout")
+        raise HTTPException(status_code=503, detail="Payment system is misconfigured. Please contact support.")
+    
     host_url = data.origin_url.rstrip("/")
     
     # Import stripe directly for subscription support
@@ -1209,12 +1217,20 @@ async def create_checkout(data: CheckoutRequest, request: Request, user=Depends(
         
         return {"url": session.url, "session_id": session.id}
         
+    except stripe.error.AuthenticationError as e:
+        logger.error(f"Stripe authentication error in checkout: {e}")
+        raise HTTPException(status_code=503, detail="Payment authentication failed. Please contact support.")
     except stripe.error.StripeError as e:
-        raise HTTPException(status_code=500, detail=f"Stripe error: {str(e)}")
+        logger.error(f"Stripe checkout error: {e}")
+        raise HTTPException(status_code=503, detail="Payment service temporarily unavailable. Please try again later.")
 
 @api_router.get("/payments/status/{session_id}")
 async def get_payment_status(session_id: str, user=Depends(get_current_user)):
     api_key = os.environ.get("STRIPE_API_KEY")
+    
+    # Validate Stripe configuration
+    if not api_key or not api_key.startswith(("sk_live_", "sk_test_")):
+        raise HTTPException(status_code=503, detail="Payment system is not properly configured.")
     
     import stripe
     stripe.api_key = api_key
@@ -1254,8 +1270,12 @@ async def get_payment_status(session_id: str, user=Depends(get_current_user)):
             "status": session.status,
             "payment_status": session.payment_status
         }
+    except stripe.error.AuthenticationError as e:
+        logger.error(f"Stripe authentication error in payment status: {e}")
+        raise HTTPException(status_code=503, detail="Payment verification failed. Please contact support.")
     except stripe.error.StripeError as e:
-        raise HTTPException(status_code=500, detail=f"Stripe error: {str(e)}")
+        logger.error(f"Stripe status error: {e}")
+        raise HTTPException(status_code=503, detail="Unable to verify payment status. Please try again later.")
 
 @api_router.post("/webhook/stripe")
 async def stripe_webhook(request: Request):
