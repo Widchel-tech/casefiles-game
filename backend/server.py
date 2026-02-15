@@ -39,6 +39,22 @@ app = FastAPI(title="CASE FILES - FBI Investigation Game")
 # Create routers
 api_router = APIRouter(prefix="/api")
 
+# Health check endpoint for Kubernetes
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for Kubernetes liveness/readiness probes"""
+    try:
+        # Verify MongoDB connection
+        await db.command("ping")
+        return {"status": "healthy", "database": "connected"}
+    except Exception as e:
+        return {"status": "unhealthy", "database": "disconnected", "error": str(e)}
+
+@api_router.get("/health")
+async def api_health_check():
+    """API health check endpoint"""
+    return {"status": "ok", "service": "case-files-api"}
+
 # ============== MODELS ==============
 
 class UserCreate(BaseModel):
