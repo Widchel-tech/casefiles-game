@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { 
   Fingerprint, FileText, Trophy, Target, Clock, 
-  ChevronRight, LogOut, Star, Shield, User
+  ChevronRight, LogOut, Star, Shield, User, Lock
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Progress } from '../components/ui/progress';
 import { useAuth } from '../contexts/AuthContext';
 import { getLevelColor, formatDate } from '../lib/utils';
 import axios from 'axios';
+import { toast } from 'sonner';
 
 const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -16,6 +17,7 @@ export default function DashboardPage() {
   const { user, token, logout } = useAuth();
   const navigate = useNavigate();
   const [cases, setCases] = useState([]);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,11 +29,29 @@ export default function DashboardPage() {
       const response = await axios.get(`${API_URL}/cases`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setCases(response.data);
+      // Handle new API response format
+      if (response.data.cases) {
+        setCases(response.data.cases);
+        setIsSubscribed(response.data.is_subscribed);
+      } else {
+        // Fallback for old format
+        setCases(response.data);
+      }
     } catch (error) {
       console.error('Failed to fetch cases:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePlayCase = (caseItem) => {
+    if (caseItem.is_locked) {
+      toast.error('Subscription required', {
+        description: 'Subscribe to unlock all cases. The first case is free!'
+      });
+      navigate('/subscription');
+    } else {
+      navigate(`/play/${caseItem.id}`);
     }
   };
 
