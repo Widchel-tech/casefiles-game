@@ -113,6 +113,16 @@ export default function GameplayPage() {
 
   const makeChoice = async (choiceId) => {
     try {
+      // Save current scene to history before moving to next
+      if (currentScene) {
+        setSceneHistory(prev => [...prev, {
+          scene: currentScene,
+          score: score,
+          cluesCollected: [...cluesCollected],
+          proceduralRisk: proceduralRisk
+        }]);
+      }
+      
       const response = await axios.post(`${API_URL}/play/choice`,
         { 
           session_id: session.session_id,
@@ -133,6 +143,20 @@ export default function GameplayPage() {
     } catch (error) {
       toast.error(error.response?.data?.detail || 'Action failed');
     }
+  };
+
+  // Go back to previous scene
+  const goBack = () => {
+    if (sceneHistory.length === 0) return;
+    
+    const previousState = sceneHistory[sceneHistory.length - 1];
+    setCurrentScene(previousState.scene);
+    setScore(previousState.score);
+    setCluesCollected(previousState.cluesCollected);
+    setProceduralRisk(previousState.proceduralRisk);
+    setSceneHistory(prev => prev.slice(0, -1));
+    
+    toast.info('Returned to previous scene');
   };
 
   const interrogateSuspect = async () => {
