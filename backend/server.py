@@ -158,6 +158,7 @@ class CaseResponse(BaseModel):
     location_county: str
     location_state: str
     victim_overview: str
+    victim_photo_url: Optional[str] = None
     summary: str
     difficulty: int
     time_limit_minutes: int
