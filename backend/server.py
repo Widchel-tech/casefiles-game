@@ -1409,7 +1409,12 @@ async def connect_stripe_account(request: Request, user=Depends(get_owner_user))
     
     api_key = os.environ.get("STRIPE_API_KEY")
     if not api_key:
-        raise HTTPException(status_code=500, detail="Stripe not configured")
+        raise HTTPException(status_code=503, detail="Stripe integration is not configured. Please contact support.")
+    
+    # Validate API key format (should start with sk_live_ or sk_test_)
+    if not api_key.startswith(("sk_live_", "sk_test_")):
+        logger.error(f"Invalid Stripe API key format")
+        raise HTTPException(status_code=503, detail="Stripe integration is misconfigured. Please contact support.")
     
     stripe.api_key = api_key
     
@@ -1458,9 +1463,12 @@ async def connect_stripe_account(request: Request, user=Depends(get_owner_user))
         
         return {"url": account_link.url}
         
+    except stripe.error.AuthenticationError as e:
+        logger.error(f"Stripe authentication error: {e}")
+        raise HTTPException(status_code=503, detail="Stripe authentication failed. Please verify the API key configuration.")
     except stripe.error.StripeError as e:
-        logging.error(f"Stripe Connect error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Stripe Connect error: {e}")
+        raise HTTPException(status_code=503, detail="Stripe service temporarily unavailable. Please try again later.")
 
 @api_router.get("/owner/stripe/dashboard")
 async def get_stripe_dashboard_link(user=Depends(get_owner_user)):
@@ -1471,7 +1479,12 @@ async def get_stripe_dashboard_link(user=Depends(get_owner_user)):
     
     api_key = os.environ.get("STRIPE_API_KEY")
     if not api_key:
-        raise HTTPException(status_code=500, detail="Stripe not configured")
+        raise HTTPException(status_code=503, detail="Stripe integration is not configured. Please contact support.")
+    
+    # Validate API key format
+    if not api_key.startswith(("sk_live_", "sk_test_")):
+        logger.error(f"Invalid Stripe API key format")
+        raise HTTPException(status_code=503, detail="Stripe integration is misconfigured. Please contact support.")
     
     stripe.api_key = api_key
     
@@ -1483,9 +1496,12 @@ async def get_stripe_dashboard_link(user=Depends(get_owner_user)):
     try:
         login_link = stripe.Account.create_login_link(owner["stripe_account_id"])
         return {"url": login_link.url}
+    except stripe.error.AuthenticationError as e:
+        logger.error(f"Stripe authentication error: {e}")
+        raise HTTPException(status_code=503, detail="Stripe authentication failed. Please verify the API key configuration.")
     except stripe.error.StripeError as e:
-        logging.error(f"Stripe dashboard error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Stripe dashboard error: {e}")
+        raise HTTPException(status_code=503, detail="Stripe service temporarily unavailable. Please try again later.")
 
 # ============== INIT OWNER ==============
 
