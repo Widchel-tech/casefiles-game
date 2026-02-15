@@ -651,13 +651,24 @@ Ensure realistic FBI procedure and chain-of-custody logic."""
 
 @api_router.get("/cases")
 async def get_published_cases(user=Depends(get_current_user)):
+    # Get all published cases sorted by creation date
     cases = await db.cases.find(
         {"published": True},
         {"_id": 0, "id": 1, "case_id": 1, "title": 1, "case_type": 1, 
          "location_county": 1, "location_state": 1, "difficulty": 1,
-         "time_limit_minutes": 1, "tags": 1, "victim_overview": 1}
-    ).to_list(100)
-    return cases
+         "time_limit_minutes": 1, "tags": 1, "victim_overview": 1, "victim_photo_url": 1,
+         "created_at": 1}
+    ).sort("created_at", 1).to_list(100)  # Sort by created_at to get first case
+    
+    # Check user subscription status
+    is_subscribed = user.get("subscription_status") == "active"
+    
+    # Mark first case as free, others as premium
+    for i, case in enumerate(cases):
+        case["is_free"] = (i == 0)  # First case is free
+        case["is_locked"] = not case["is_free"] and not is_subscribed
+    
+    return {"cases": cases, "is_subscribed": is_subscribed}
 
 @api_router.get("/cases/{case_id}")
 async def get_case_for_play(case_id: str, user=Depends(get_current_user)):
@@ -676,6 +687,23 @@ async def start_play_session(data: PlaySessionStart, user=Depends(get_current_us
     case = await db.cases.find_one({"id": data.case_id, "published": True}, {"_id": 0})
     if not case:
         raise HTTPException(status_code=404, detail="Case not found")
+    
+    # Check if this is a premium case and user doesn't have subscription
+    all_cases = await db.cases.find(
+        {"published": True}, 
+        {"_id": 0, "id": 1, "created_at": 1}
+    ).sort("created_at", 1).to_list(100)
+    
+    # Find the index of this case (first case is free)
+    case_index = next((i for i, c in enumerate(all_cases) if c["id"] == data.case_id), -1)
+    is_free_case = (case_index == 0)
+    is_subscribed = user.get("subscription_status") == "active"
+    
+    if not is_free_case and not is_subscribed:
+        raise HTTPException(
+            status_code=403, 
+            detail="Subscription required to play this case. The first case is free!"
+        )
     
     session_id = str(uuid.uuid4())
     first_scene = case["scenes"][0] if case.get("scenes") else None
