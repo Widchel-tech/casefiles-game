@@ -183,7 +183,7 @@ export default function SubscriptionPage() {
                 </div>
               </div>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-3 mb-6">
                 {plan.features.map((feature, index) => (
                   <li key={index} className="flex items-center gap-3 text-zinc-300">
                     <Check className="w-4 h-4 text-emerald-500 flex-shrink-0" />
@@ -191,6 +191,11 @@ export default function SubscriptionPage() {
                   </li>
                 ))}
               </ul>
+
+              {/* Billing Info */}
+              <div className="text-center mb-6 py-2 border-t border-zinc-800">
+                <span className="text-zinc-500 text-xs font-mono">{plan.billing}</span>
+              </div>
 
               <Button
                 onClick={() => handleSubscribe(plan.id)}
