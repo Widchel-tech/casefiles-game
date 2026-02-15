@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
   Fingerprint, LayoutDashboard, FileText, Users, BarChart3, 
-  LogOut, DollarSign, CreditCard, ArrowUpRight, AlertCircle,
-  Banknote, TrendingUp, Calendar
+  LogOut, DollarSign, ArrowUpRight, CheckCircle,
+  Banknote, TrendingUp, Calendar, ExternalLink
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { useAuth } from '../contexts/AuthContext';
 import axios from 'axios';
-import { toast } from 'sonner';
 
 const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
@@ -17,7 +16,6 @@ export default function OwnerRevenuePage() {
   const navigate = useNavigate();
   const [revenue, setRevenue] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [connectingStripe, setConnectingStripe] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -38,36 +36,8 @@ export default function OwnerRevenuePage() {
     }
   };
 
-  const connectStripeAccount = async () => {
-    setConnectingStripe(true);
-    try {
-      const response = await axios.post(`${API_URL}/owner/stripe/connect`, 
-        { return_url: window.location.href },
-        { headers: { Authorization: `Bearer ${token}` }}
-      );
-      
-      if (response.data.url) {
-        window.location.href = response.data.url;
-      }
-    } catch (error) {
-      toast.error('Failed to connect Stripe account');
-    } finally {
-      setConnectingStripe(false);
-    }
-  };
-
-  const openStripeDashboard = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/owner/stripe/dashboard`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      
-      if (response.data.url) {
-        window.open(response.data.url, '_blank');
-      }
-    } catch (error) {
-      toast.error('Failed to open Stripe dashboard');
-    }
+  const openStripeDashboard = () => {
+    window.open('https://dashboard.stripe.com', '_blank');
   };
 
   const handleLogout = () => {
@@ -160,48 +130,29 @@ export default function OwnerRevenuePage() {
             </div>
           ) : (
             <>
-              {/* Stripe Connection Status */}
-              {!revenue?.stripe_connected ? (
-                <div className="mb-8 p-6 border border-amber-800 bg-amber-950/20">
-                  <div className="flex items-start gap-4">
-                    <AlertCircle className="w-6 h-6 text-amber-500 flex-shrink-0 mt-1" />
-                    <div className="flex-1">
-                      <h3 className="text-amber-500 font-heading uppercase text-lg mb-2">
-                        Connect Your Bank Account
-                      </h3>
-                      <p className="text-zinc-400 mb-4">
-                        To receive payouts directly to your bank account, you need to connect your Stripe account. 
-                        This is a one-time setup that allows automatic transfers of your subscription revenue.
-                      </p>
-                      <Button
-                        onClick={connectStripeAccount}
-                        disabled={connectingStripe}
-                        className="bg-amber-600 text-white hover:bg-amber-500 rounded-none uppercase tracking-widest font-bold text-xs"
-                        data-testid="connect-stripe-btn"
-                      >
-                        <CreditCard className="w-4 h-4 mr-2" />
-                        {connectingStripe ? 'Connecting...' : 'Connect Stripe Account'}
-                      </Button>
-                    </div>
+              {/* Stripe Status - Always Connected */}
+              <div className="mb-8 p-6 border border-emerald-800 bg-emerald-950/20">
+                <div className="flex items-start gap-4">
+                  <CheckCircle className="w-6 h-6 text-emerald-500 flex-shrink-0 mt-1" />
+                  <div className="flex-1">
+                    <h3 className="text-emerald-500 font-heading uppercase text-lg mb-2">
+                      Stripe Account Connected
+                    </h3>
+                    <p className="text-zinc-400 mb-4">
+                      Your Stripe account is active! All subscription payments are automatically deposited to your bank account.
+                      To view detailed reports, manage payouts, or update your bank information, visit your Stripe Dashboard.
+                    </p>
+                    <Button
+                      onClick={openStripeDashboard}
+                      className="bg-emerald-600 text-white hover:bg-emerald-500 rounded-none uppercase tracking-widest font-bold text-xs"
+                      data-testid="stripe-dashboard-btn"
+                    >
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Open Stripe Dashboard
+                    </Button>
                   </div>
                 </div>
-              ) : (
-                <div className="mb-8 p-4 border border-emerald-800 bg-emerald-950/20 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-emerald-500 rounded-full animate-pulse" />
-                    <span className="text-emerald-500 font-mono text-sm">STRIPE CONNECTED</span>
-                  </div>
-                  <Button
-                    onClick={openStripeDashboard}
-                    variant="outline"
-                    className="border-emerald-700 text-emerald-500 hover:bg-emerald-950 rounded-none text-xs"
-                    data-testid="stripe-dashboard-btn"
-                  >
-                    Open Stripe Dashboard
-                    <ArrowUpRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </div>
-              )}
+              </div>
 
               {/* Revenue Stats */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -283,10 +234,10 @@ export default function OwnerRevenuePage() {
                 <div className="font-mono text-xs text-zinc-500 mb-4">HOW PAYOUTS WORK</div>
                 <div className="space-y-3 text-zinc-400 text-sm">
                   <p>
-                    • Subscription payments are processed through Stripe
+                    • Subscription payments ($10.99/month or $100/year) are processed through Stripe
                   </p>
                   <p>
-                    • Funds are automatically transferred to your connected bank account
+                    • Funds are automatically transferred to your bank account
                   </p>
                   <p>
                     • Standard payout schedule: 2-7 business days after payment
@@ -295,9 +246,43 @@ export default function OwnerRevenuePage() {
                     • Stripe fees: 2.9% + $0.30 per transaction
                   </p>
                   <p>
-                    • You can view detailed reports in your Stripe Dashboard
+                    • View detailed reports, manage payouts, and update bank info in your{' '}
+                    <button 
+                      onClick={openStripeDashboard}
+                      className="text-emerald-500 hover:underline inline-flex items-center gap-1"
+                    >
+                      Stripe Dashboard <ArrowUpRight className="w-3 h-3" />
+                    </button>
                   </p>
                 </div>
+              </div>
+
+              {/* Quick Actions */}
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button
+                  onClick={openStripeDashboard}
+                  className="p-4 border border-zinc-800 bg-zinc-900/30 hover:bg-zinc-800/50 transition-colors text-left group"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-white font-heading uppercase text-sm mb-1">View Payouts</div>
+                      <div className="text-zinc-500 text-xs">See when money will arrive in your bank</div>
+                    </div>
+                    <ArrowUpRight className="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors" />
+                  </div>
+                </button>
+                <button
+                  onClick={openStripeDashboard}
+                  className="p-4 border border-zinc-800 bg-zinc-900/30 hover:bg-zinc-800/50 transition-colors text-left group"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-white font-heading uppercase text-sm mb-1">Update Bank Account</div>
+                      <div className="text-zinc-500 text-xs">Change where your payouts are sent</div>
+                    </div>
+                    <ArrowUpRight className="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors" />
+                  </div>
+                </button>
               </div>
             </>
           )}
