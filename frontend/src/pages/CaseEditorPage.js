@@ -828,26 +828,43 @@ export default function CaseEditorPage() {
                     }`}>
                       {ending.type.replace('_', ' ')}
                     </span>
-                    <Input
-                      type="number"
-                      value={ending.cp_base}
-                      onChange={(e) => updateEnding(index, 'cp_base', parseInt(e.target.value))}
-                      className="bg-zinc-950 border-zinc-800 rounded-none text-white w-24 h-8"
-                      placeholder="Base CP"
-                    />
+                    <div className="flex items-center gap-4">
+                      <Label className="text-xs text-zinc-400">Base CP:</Label>
+                      <Input
+                        type="number"
+                        value={ending.cp_base}
+                        onChange={(e) => updateEnding(index, 'cp_base', parseInt(e.target.value))}
+                        className="bg-zinc-950 border-zinc-800 rounded-none text-white w-24 h-8"
+                        placeholder="Base CP"
+                      />
+                    </div>
                   </div>
-                  <Input
-                    value={ending.title}
-                    onChange={(e) => updateEnding(index, 'title', e.target.value)}
-                    placeholder="Ending Title"
-                    className="bg-zinc-950 border-zinc-800 rounded-none text-white"
-                  />
-                  <Textarea
-                    value={ending.narration}
-                    onChange={(e) => updateEnding(index, 'narration', e.target.value)}
-                    placeholder="Ending narration..."
-                    className="bg-zinc-950 border-zinc-800 rounded-none text-white h-32 font-typewriter"
-                  />
+                  
+                  <div className="flex gap-6">
+                    {/* Mugshot Upload */}
+                    <ImageUpload
+                      value={ending.mugshot_url}
+                      onChange={(url) => updateEnding(index, 'mugshot_url', url)}
+                      token={token}
+                      label={ending.type === 'CLOSED_GOOD' ? "Perp Mugshot" : "Case File Photo"}
+                      previewSize="medium"
+                    />
+                    
+                    <div className="flex-1 space-y-4">
+                      <Input
+                        value={ending.title}
+                        onChange={(e) => updateEnding(index, 'title', e.target.value)}
+                        placeholder="Ending Title"
+                        className="bg-zinc-950 border-zinc-800 rounded-none text-white"
+                      />
+                      <Textarea
+                        value={ending.narration}
+                        onChange={(e) => updateEnding(index, 'narration', e.target.value)}
+                        placeholder="Ending narration (what happens when the case concludes)..."
+                        className="bg-zinc-950 border-zinc-800 rounded-none text-white h-28 font-typewriter"
+                      />
+                    </div>
+                  </div>
                 </div>
               ))}
             </TabsContent>
