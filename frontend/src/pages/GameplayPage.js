@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { 
   Fingerprint, Clock, Shield, FileText, Users, Search, 
   MessageSquare, Calendar, AlertTriangle, ChevronRight, 
-  Check, X, Target, Notebook, Send, ArrowLeft
+  Check, X, Target, Notebook, Send, ArrowLeft, User
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
@@ -11,7 +11,7 @@ import { Textarea } from '../components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { ScrollArea } from '../components/ui/scroll-area';
 import { useAuth } from '../contexts/AuthContext';
-import { getRiskColor } from '../lib/utils';
+import { getRiskColor, getImageUrl } from '../lib/utils';
 import axios from 'axios';
 import { toast } from 'sonner';
 
