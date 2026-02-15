@@ -7,7 +7,7 @@ import {
 import { Button } from '../components/ui/button';
 import { Progress } from '../components/ui/progress';
 import { useAuth } from '../contexts/AuthContext';
-import { getLevelColor, formatDate } from '../lib/utils';
+import { getLevelColor, formatDate, getImageUrl } from '../lib/utils';
 import axios from 'axios';
 import { toast } from 'sonner';
 
