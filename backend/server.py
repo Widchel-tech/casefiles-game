@@ -92,6 +92,11 @@ class SuspectModel(BaseModel):
     risk_notes: str
     is_guilty: bool = False
     portrait_url: Optional[str] = None
+    # Enhanced interrogation fields
+    personality_type: str = "defensive"  # defensive, cooperative, hostile, calculating
+    breaking_point: int = 3  # evidence pieces needed to crack
+    lawyer_threshold: int = 2  # pressure level before requesting lawyer
+    cooperation_level: int = 50  # 0-100 scale
 
 class ChoiceModel(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -101,6 +106,11 @@ class ChoiceModel(BaseModel):
     require_clues: List[str] = []
     next_scene_id: str
     risk_flag: str = "none"  # none, low, medium, high
+    # New tracking fields
+    conviction_delta: int = 0  # +/- to conviction probability
+    evidence_strength_delta: int = 0  # +/- to evidence strength
+    procedural_violation: Optional[str] = None  # Type of violation if any
+    legal_requirement: Optional[str] = None  # warrant, miranda, consent, etc.
 
 class SceneModel(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
