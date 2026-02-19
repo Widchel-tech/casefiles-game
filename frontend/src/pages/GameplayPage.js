@@ -427,30 +427,49 @@ export default function GameplayPage() {
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div>
-              <span className="font-mono text-xs text-emerald-500">{caseData?.case_id}</span>
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-xs text-emerald-500">{caseData?.case_id}</span>
+                {threatLevel && (
+                  <span className={`font-mono text-xs px-2 py-0.5 border ${
+                    threatLevel === 'critical' ? 'text-red-500 border-red-500' :
+                    threatLevel === 'high' ? 'text-amber-500 border-amber-500' :
+                    'text-zinc-400 border-zinc-600'
+                  }`}>
+                    {threatLevel.toUpperCase()} THREAT
+                  </span>
+                )}
+              </div>
               <h1 className="font-heading text-lg text-white uppercase tracking-wide">
                 {caseData?.title}
               </h1>
             </div>
           </div>
           
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4">
             {/* Timer */}
             <div className={`flex items-center gap-2 font-mono ${timeRemaining < 60 ? 'text-red-500 animate-pulse' : 'text-zinc-300'}`}>
               <Clock className="w-4 h-4" />
               <span data-testid="timer">{formatTime(timeRemaining)}</span>
             </div>
             
-            {/* Score */}
+            {/* Conviction Probability */}
+            <div className="flex items-center gap-2 font-mono" data-testid="conviction-prob">
+              <Scale className="w-4 h-4 text-blue-400" />
+              <span className={`${convictionProbability >= 70 ? 'text-emerald-500' : convictionProbability >= 40 ? 'text-amber-500' : 'text-zinc-400'}`}>
+                {convictionProbability}%
+              </span>
+            </div>
+            
+            {/* Score/XP */}
             <div className="flex items-center gap-2 text-zinc-300 font-mono">
               <Target className="w-4 h-4" />
-              <span data-testid="score">SCORE: {score}</span>
+              <span data-testid="score">{score}</span>
             </div>
             
             {/* Risk */}
-            <div className={`flex items-center gap-2 font-mono border px-3 py-1 ${getRiskColor(proceduralRisk)}`}>
+            <div className={`flex items-center gap-2 font-mono border px-3 py-1 ${getEnhancedRiskColor(proceduralRisk)}`}>
               <Shield className="w-4 h-4" />
-              <span data-testid="risk">RISK: {proceduralRisk}</span>
+              <span data-testid="risk">{proceduralRisk}</span>
             </div>
             
             {/* Notebook */}
@@ -465,6 +484,35 @@ export default function GameplayPage() {
           </div>
         </div>
       </header>
+
+      {/* Enhanced Stats Bar */}
+      <div className="bg-zinc-900/50 border-b border-zinc-800 px-6 py-2">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-6 text-xs font-mono">
+            <div className="flex items-center gap-2">
+              <FileText className="w-3 h-3 text-emerald-500" />
+              <span className="text-zinc-500">EVIDENCE:</span>
+              <span className="text-white">{cluesCollected.length}</span>
+              <span className="text-zinc-600">({evidenceLegallyObtained.length} legal)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Gavel className="w-3 h-3 text-blue-500" />
+              <span className="text-zinc-500">WARRANTS:</span>
+              <span className="text-white">{warrantsObtained.length}</span>
+            </div>
+            {proceduralViolations.length > 0 && (
+              <div className="flex items-center gap-2 text-red-500">
+                <AlertCircle className="w-3 h-3" />
+                <span>{proceduralViolations.length} VIOLATIONS</span>
+              </div>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <BadgeCheck className="w-4 h-4 text-emerald-500" />
+            <span className="font-mono text-xs text-emerald-500">{userRank}</span>
+          </div>
+        </div>
+      </div>
 
       <div className="flex">
         {/* Main Content */}
