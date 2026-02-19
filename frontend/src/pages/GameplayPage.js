@@ -781,7 +781,7 @@ export default function GameplayPage() {
         )}
       </div>
 
-      {/* Interrogation Modal */}
+      {/* Interrogation Modal - Enhanced */}
       <Dialog open={showInterrogation} onOpenChange={setShowInterrogation}>
         <DialogContent className="bg-zinc-950 border-zinc-800 rounded-none max-w-2xl">
           <DialogHeader>
@@ -790,6 +790,53 @@ export default function GameplayPage() {
             </DialogTitle>
           </DialogHeader>
           
+          {/* Suspect Status */}
+          {selectedSuspect && (
+            <div className="flex items-center justify-between mb-4 p-3 bg-zinc-900/50 border border-zinc-800">
+              <div className="flex items-center gap-4">
+                <div>
+                  <div className="font-mono text-xs text-zinc-500">COOPERATION</div>
+                  <Progress 
+                    value={suspectCooperation[selectedSuspect.id] || 50} 
+                    className="w-24 h-2 bg-zinc-800"
+                  />
+                </div>
+                {!mirandaGiven.includes(selectedSuspect.id) && (
+                  <Button
+                    onClick={() => giveMiranda(selectedSuspect.id)}
+                    variant="outline"
+                    size="sm"
+                    className="text-amber-500 border-amber-500 hover:bg-amber-500/10 rounded-none text-xs"
+                  >
+                    <Radio className="w-3 h-3 mr-1" />
+                    READ MIRANDA
+                  </Button>
+                )}
+                {mirandaGiven.includes(selectedSuspect.id) && (
+                  <span className="text-emerald-500 text-xs font-mono flex items-center gap-1">
+                    <Check className="w-3 h-3" /> MIRANDA GIVEN
+                  </span>
+                )}
+              </div>
+              
+              {/* Approach Selector */}
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-xs text-zinc-500">APPROACH:</span>
+                <Select value={interrogationApproach} onValueChange={setInterrogationApproach}>
+                  <SelectTrigger className="w-36 bg-zinc-900 border-zinc-700 rounded-none text-xs">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-zinc-900 border-zinc-700 rounded-none">
+                    <SelectItem value="professional">Professional</SelectItem>
+                    <SelectItem value="aggressive">Aggressive</SelectItem>
+                    <SelectItem value="sympathetic">Sympathetic</SelectItem>
+                    <SelectItem value="strategic_silence">Silence</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          )}
+          
           <ScrollArea className="h-[300px] border border-zinc-800 bg-zinc-900/30 p-4 mb-4">
             {interrogationHistory.length === 0 ? (
               <p className="text-zinc-500 text-center py-8">Begin your interrogation</p>
@@ -797,12 +844,23 @@ export default function GameplayPage() {
               <div className="space-y-4">
                 {interrogationHistory.map((entry, index) => (
                   <div key={index}>
-                    <div className="text-emerald-500 font-mono text-sm mb-1">
-                      AGENT: {entry.question}
+                    <div className="text-emerald-500 font-mono text-sm mb-1 flex items-center gap-2">
+                      <span>AGENT ({entry.approach || 'professional'}):</span>
+                      <span className="text-zinc-400">{entry.question}</span>
                     </div>
                     <div className="text-zinc-300 font-typewriter border-l-2 border-zinc-700 pl-3">
                       {entry.response}
                     </div>
+                    {entry.lawyerRequested && (
+                      <div className="mt-1 text-red-500 text-xs font-mono flex items-center gap-1">
+                        <AlertTriangle className="w-3 h-3" /> LAWYER REQUESTED
+                      </div>
+                    )}
+                    {entry.suspectBreaking && (
+                      <div className="mt-1 text-emerald-500 text-xs font-mono flex items-center gap-1">
+                        <Check className="w-3 h-3" /> SUSPECT SHOWING CRACKS
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
