@@ -273,7 +273,6 @@ PROCEDURAL_VIOLATIONS = {
     "premature_arrest": {"risk_increase": 15, "description": "Arrest made without probable cause"},
     "witness_coercion": {"risk_increase": 25, "description": "Witness statement obtained through coercion"}
 }
-    difficulty: int = 2
 
 class SubscriptionPackage(BaseModel):
     package_type: str  # monthly, yearly
