@@ -158,7 +158,7 @@ class EndingModel(BaseModel):
 
 class CaseCreate(BaseModel):
     case_id: str  # FBI-HOM-24-001
-    case_type: str  # HOM, FRAUD, KID, etc.
+    case_type: str  # HOM, CYB, TRF, FIN, TER, KID, COR
     title: str
     location_county: str
     location_state: str
@@ -175,6 +175,13 @@ class CaseCreate(BaseModel):
     published: bool = False
     patch_notes: List[Dict[str, str]] = []
     bonus_files: List[Dict[str, str]] = []
+    # New case fields
+    crime_classification: str = "Homicide"  # Full crime type name
+    threat_level: str = "moderate"  # low, moderate, high, critical
+    jurisdiction_note: str = ""
+    case_length: str = "standard"  # short (10-15min), standard (20-30min), major (multi-episode)
+    conviction_threshold: int = 70  # Minimum conviction % for CLOSED ending
+    max_procedural_violations: int = 3  # Before case is COMPROMISED
 
 class CaseResponse(BaseModel):
     model_config = ConfigDict(extra="ignore")
@@ -199,6 +206,13 @@ class CaseResponse(BaseModel):
     bonus_files: List[Dict[str, str]]
     created_at: str
     updated_at: str
+    # New fields
+    crime_classification: Optional[str] = "Homicide"
+    threat_level: Optional[str] = "moderate"
+    jurisdiction_note: Optional[str] = ""
+    case_length: Optional[str] = "standard"
+    conviction_threshold: Optional[int] = 70
+    max_procedural_violations: Optional[int] = 3
 
 class PlaySessionStart(BaseModel):
     case_id: str
