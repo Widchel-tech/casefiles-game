@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Dict, Any, Optional
 
 class FBICaseFilesAPITester:
-    def __init__(self, base_url: str = "https://conviction-tracker.preview.emergentagent.com/api"):
+    def __init__(self, base_url: str = "https://investigation-engine-1.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.token: Optional[str] = None
         self.owner_token: Optional[str] = None
