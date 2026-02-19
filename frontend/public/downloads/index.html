@@ -24,11 +24,7 @@
             --gold: #fbbf24;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -38,13 +34,9 @@
             overflow-x: hidden;
         }
 
-        /* Animated background */
         .bg-grid {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-image: 
                 linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
@@ -75,6 +67,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            cursor: pointer;
         }
 
         .logo-icon {
@@ -94,11 +87,8 @@
             letter-spacing: -0.5px;
         }
 
-        .logo-text span {
-            color: var(--accent-blue);
-        }
+        .logo-text span { color: var(--accent-blue); }
 
-        /* Auth Container */
         .auth-container {
             display: flex;
             align-items: center;
@@ -122,6 +112,10 @@
             border-radius: 4px;
             background: var(--accent-blue);
             color: white;
+        }
+
+        .owner-badge {
+            background: var(--accent-red);
         }
 
         /* Buttons */
@@ -154,9 +148,7 @@
             border: 1px solid var(--border-color);
         }
 
-        .btn-secondary:hover {
-            background: var(--bg-card-hover);
-        }
+        .btn-secondary:hover { background: var(--bg-card-hover); }
 
         .btn-danger {
             background: var(--accent-red);
@@ -166,6 +158,11 @@
         .btn-success {
             background: var(--accent-green);
             color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
         }
 
         /* Cards */
@@ -183,10 +180,7 @@
         }
 
         /* Landing Page */
-        .landing {
-            text-align: center;
-            padding: 80px 20px;
-        }
+        .landing { text-align: center; padding: 80px 20px; }
 
         .hero-title {
             font-size: clamp(48px, 8vw, 96px);
@@ -213,9 +207,7 @@
             margin-top: 60px;
         }
 
-        .feature-card {
-            text-align: left;
-        }
+        .feature-card { text-align: left; }
 
         .feature-icon {
             width: 48px;
@@ -253,6 +245,7 @@
         .case-card {
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .case-image {
@@ -262,6 +255,9 @@
             border-radius: 12px;
             margin-bottom: 16px;
             background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .case-difficulty {
@@ -299,15 +295,9 @@
             font-size: 13px;
         }
 
-        .case-meta i {
-            margin-right: 6px;
-        }
+        .case-meta i { margin-right: 6px; }
 
         /* Game Interface */
-        .game-container {
-            display: none;
-        }
-
         .game-header {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -340,7 +330,6 @@
         .stat-low { color: var(--accent-green); }
         .stat-medium { color: var(--accent-amber); }
         .stat-high { color: var(--accent-red); }
-        .stat-critical { color: #dc2626; }
 
         .scene-container {
             display: grid;
@@ -349,9 +338,7 @@
         }
 
         @media (max-width: 1024px) {
-            .scene-container {
-                grid-template-columns: 1fr;
-            }
+            .scene-container { grid-template-columns: 1fr; }
         }
 
         .scene-main {
@@ -502,7 +489,6 @@
 
         .suspect-item:hover {
             background: rgba(239, 68, 68, 0.1);
-            border-color: var(--accent-red);
         }
 
         .suspect-avatar {
@@ -517,19 +503,14 @@
             color: var(--accent-red);
         }
 
-        .suspect-name {
-            font-weight: 600;
-        }
+        .suspect-name { font-weight: 600; }
 
         .suspect-role {
             font-size: 12px;
             color: var(--text-muted);
         }
 
-        /* Progress Bar */
-        .progress-container {
-            margin-bottom: 24px;
-        }
+        .progress-container { margin-bottom: 24px; }
 
         .progress-bar {
             height: 6px;
@@ -549,10 +530,7 @@
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(4px);
             z-index: 100;
@@ -561,9 +539,7 @@
             padding: 20px;
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-overlay.active { display: flex; }
 
         .modal {
             background: var(--bg-card);
@@ -599,9 +575,7 @@
             font-size: 18px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
         .form-label {
             display: block;
@@ -625,6 +599,28 @@
         .form-input:focus {
             outline: none;
             border-color: var(--accent-blue);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 15px;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 15px;
+            min-height: 100px;
+            resize: vertical;
         }
 
         /* Ending Screen */
@@ -676,11 +672,7 @@
             margin: 0 auto 32px;
         }
 
-        /* Interrogation */
-        .interrogation-container {
-            padding: 24px;
-        }
-
+        /* Chat/Interrogation */
         .chat-messages {
             max-height: 400px;
             overflow-y: auto;
@@ -707,13 +699,8 @@
             flex-shrink: 0;
         }
 
-        .chat-avatar.agent {
-            background: var(--accent-blue);
-        }
-
-        .chat-avatar.suspect {
-            background: var(--accent-red);
-        }
+        .chat-avatar.agent { background: var(--accent-blue); }
+        .chat-avatar.suspect { background: var(--accent-red); }
 
         .chat-bubble {
             background: var(--bg-card);
@@ -737,43 +724,327 @@
             font-size: 15px;
         }
 
-        /* Hidden sections */
+        /* Owner Portal */
+        .owner-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .owner-sidebar {
+            width: 250px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 20px 0;
+            flex-shrink: 0;
+        }
+
+        .owner-sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .owner-sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 18px;
+        }
+
+        .owner-badge-text {
+            font-size: 11px;
+            color: var(--accent-red);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 4px;
+        }
+
+        .owner-nav {
+            padding: 0 12px;
+        }
+
+        .owner-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .owner-nav-item:hover {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .owner-nav-item.active {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .owner-main {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .owner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .owner-title {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .owner-subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Stats Grid */
+        .owner-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .owner-stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 12px;
+        }
+
+        .owner-stat-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            color: var(--accent-blue);
+        }
+
+        .owner-stat-value {
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .owner-stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Table */
+        .data-table {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .data-table-header {
+            display: grid;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+
+        .data-table-row {
+            display: grid;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .data-table-row:hover {
+            background: var(--bg-secondary);
+        }
+
+        .data-table-row:last-child {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-published {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--accent-green);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .status-draft {
+            background: var(--bg-secondary);
+            color: var(--text-muted);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-secondary);
+            padding: 4px;
+            border-radius: 10px;
+            margin-bottom: 24px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            border: none;
+            background: none;
+        }
+
+        .tab.active {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+
+        .tab:hover:not(.active) {
+            color: var(--text-primary);
+        }
+
+        /* Form sections */
+        .form-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-green);
+            margin-bottom: 16px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .switch.active {
+            background: var(--accent-green);
+        }
+
+        .switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        .switch.active::after {
+            transform: translateX(20px);
+        }
+
+        /* Item cards (suspects, clues, scenes) */
+        .item-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .item-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .item-card-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
         .hidden { display: none !important; }
 
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .animate-in {
-            animation: fadeIn 0.5s ease;
-        }
+        .animate-in { animation: fadeIn 0.5s ease; }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .game-header {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .scene-title {
-                font-size: 22px;
-            }
+            .header { flex-direction: column; gap: 16px; }
+            .game-header { grid-template-columns: repeat(2, 1fr); }
+            .scene-title { font-size: 22px; }
+            .owner-sidebar { display: none; }
         }
     </style>
 </head>
 <body>
     <div class="bg-grid"></div>
     
-    <div class="container">
+    <div class="container" id="mainContainer">
         <!-- Header -->
         <header class="header">
-            <div class="logo">
+            <div class="logo" onclick="returnToMenu()">
                 <div class="logo-icon"><i class="fas fa-fingerprint"></i></div>
                 <div class="logo-text">CASE <span>FILES</span></div>
             </div>
@@ -794,9 +1065,14 @@
                 Step into the shoes of an FBI investigator. Analyze evidence, interrogate suspects, 
                 and make critical decisions that determine the outcome of complex criminal cases.
             </p>
-            <button class="btn btn-primary btn-lg" onclick="showRegister()" data-testid="get-started-btn">
-                <i class="fas fa-play"></i> Start Investigation
-            </button>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="showRegister()">
+                    <i class="fas fa-play"></i> Start Investigation
+                </button>
+                <button class="btn btn-secondary" onclick="showOwnerLogin()">
+                    <i class="fas fa-lock"></i> Owner Portal
+                </button>
+            </div>
 
             <div class="features-grid">
                 <div class="card feature-card">
@@ -838,24 +1114,17 @@
         <section id="casesPage" class="hidden">
             <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 8px;">Select Your Case</h2>
             <p style="color: var(--text-secondary); margin-bottom: 24px;">Choose a case file to begin your investigation</p>
-            
-            <div class="cases-grid" id="casesGrid">
-                <!-- Cases will be populated here -->
-            </div>
+            <div class="cases-grid" id="casesGrid"></div>
         </section>
 
         <!-- Game Interface -->
-        <section id="gamePage" class="game-container hidden">
-            <div class="game-header" id="gameStats">
-                <!-- Stats will be populated here -->
-            </div>
-
+        <section id="gamePage" class="hidden">
+            <div class="game-header" id="gameStats"></div>
             <div class="progress-container">
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                 </div>
             </div>
-
             <div class="scene-container">
                 <div class="scene-main">
                     <div class="scene-badge" id="sceneBadge">
@@ -864,12 +1133,8 @@
                     </div>
                     <h2 class="scene-title" id="sceneTitle">Loading...</h2>
                     <p class="scene-narration" id="sceneNarration">Loading scene...</p>
-                    
-                    <div class="choices-container" id="choicesContainer">
-                        <!-- Choices will be populated here -->
-                    </div>
+                    <div class="choices-container" id="choicesContainer"></div>
                 </div>
-
                 <div class="sidebar">
                     <div class="sidebar-card">
                         <h3 class="sidebar-title">
@@ -879,17 +1144,13 @@
                             <p style="color: var(--text-muted); font-size: 14px;">No evidence collected yet</p>
                         </div>
                     </div>
-
                     <div class="sidebar-card">
                         <h3 class="sidebar-title">
                             <i class="fas fa-users"></i> Suspects
                         </h3>
-                        <div id="suspectsList">
-                            <!-- Suspects will be populated here -->
-                        </div>
+                        <div id="suspectsList"></div>
                     </div>
-
-                    <button class="btn btn-danger" style="width: 100%;" onclick="showAccusation()" id="accuseBtn">
+                    <button class="btn btn-danger" style="width: 100%;" onclick="showAccusation()">
                         <i class="fas fa-gavel"></i> Make Accusation
                     </button>
                 </div>
@@ -904,11 +1165,7 @@
                 </div>
                 <h2 class="ending-title" id="endingTitle">Case Closed</h2>
                 <p class="ending-narration" id="endingNarration">Loading...</p>
-                
-                <div class="stats-grid" id="endingStats">
-                    <!-- Stats will be populated here -->
-                </div>
-                
+                <div class="stats-grid" id="endingStats"></div>
                 <button class="btn btn-primary" onclick="returnToMenu()">
                     <i class="fas fa-home"></i> Return to Menu
                 </button>
@@ -916,7 +1173,43 @@
         </section>
     </div>
 
-    <!-- Login Modal -->
+    <!-- Owner Portal (separate layout) -->
+    <div id="ownerPortal" class="owner-layout hidden">
+        <aside class="owner-sidebar">
+            <div class="owner-sidebar-header">
+                <div class="owner-sidebar-logo">
+                    <i class="fas fa-fingerprint"></i>
+                    <span>CASE FILES</span>
+                </div>
+                <div class="owner-badge-text">OWNER PORTAL</div>
+            </div>
+            <nav class="owner-nav">
+                <div class="owner-nav-item active" onclick="showOwnerSection('dashboard')">
+                    <i class="fas fa-th-large"></i> Dashboard
+                </div>
+                <div class="owner-nav-item" onclick="showOwnerSection('cases')">
+                    <i class="fas fa-folder"></i> Cases
+                </div>
+                <div class="owner-nav-item" onclick="showOwnerSection('editor')">
+                    <i class="fas fa-edit"></i> Case Editor
+                </div>
+                <div class="owner-nav-item" onclick="showOwnerSection('players')">
+                    <i class="fas fa-users"></i> Players
+                </div>
+                <div class="owner-nav-item" onclick="showOwnerSection('analytics')">
+                    <i class="fas fa-chart-bar"></i> Analytics
+                </div>
+                <div class="owner-nav-item" style="margin-top: auto; color: var(--accent-red);" onclick="ownerLogout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </div>
+            </nav>
+        </aside>
+        <main class="owner-main" id="ownerMainContent">
+            <!-- Content will be injected here -->
+        </main>
+    </div>
+
+    <!-- Modals -->
     <div class="modal-overlay" id="loginModal">
         <div class="modal">
             <div class="modal-header">
@@ -926,20 +1219,19 @@
             <form onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-input" id="loginEmail" placeholder="agent@fbi.gov" required data-testid="login-email">
+                    <input type="email" class="form-input" id="loginEmail" placeholder="agent@fbi.gov" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Password</label>
-                    <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required data-testid="login-password">
+                    <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;" data-testid="login-submit">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Register Modal -->
     <div class="modal-overlay" id="registerModal">
         <div class="modal">
             <div class="modal-header">
@@ -949,31 +1241,55 @@
             <form onsubmit="handleRegister(event)">
                 <div class="form-group">
                     <label class="form-label">Agent Name</label>
-                    <input type="text" class="form-input" id="regUsername" placeholder="Special Agent..." required data-testid="register-username">
+                    <input type="text" class="form-input" id="regUsername" placeholder="Special Agent..." required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-input" id="regEmail" placeholder="agent@fbi.gov" required data-testid="register-email">
+                    <input type="email" class="form-input" id="regEmail" placeholder="agent@fbi.gov" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label">Password</label>
-                    <input type="password" class="form-input" id="regPassword" placeholder="Create a secure password" required data-testid="register-password">
+                    <input type="password" class="form-input" id="regPassword" placeholder="Create a secure password" required>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;" data-testid="register-submit">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
                     <i class="fas fa-user-plus"></i> Create Agent Profile
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- Interrogation Modal -->
+    <div class="modal-overlay" id="ownerLoginModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Owner Login</h3>
+                <button class="modal-close" onclick="closeModals()"><i class="fas fa-times"></i></button>
+            </div>
+            <form onsubmit="handleOwnerLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Owner Email</label>
+                    <input type="email" class="form-input" id="ownerEmail" placeholder="owner@casefiles.fbi" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="ownerPassword" placeholder="Enter owner password" required>
+                </div>
+                <button type="submit" class="btn btn-danger" style="width: 100%;">
+                    <i class="fas fa-lock"></i> Access Owner Portal
+                </button>
+            </form>
+            <p style="color: var(--text-muted); font-size: 12px; margin-top: 16px; text-align: center;">
+                Default: Widchel.ant08@casefiles.fbi / WidAnt1234!
+            </p>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="interrogationModal">
         <div class="modal" style="max-width: 700px;">
             <div class="modal-header">
                 <h3 class="modal-title">Interrogation Room</h3>
                 <button class="modal-close" onclick="closeModals()"><i class="fas fa-times"></i></button>
             </div>
-            <div class="interrogation-container">
+            <div>
                 <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding: 16px; background: var(--bg-secondary); border-radius: 12px;">
                     <div class="suspect-avatar" style="width: 50px; height: 50px;" id="interrogateSuspectAvatar">?</div>
                     <div>
@@ -985,14 +1301,12 @@
                         <div style="font-weight: 700; color: var(--accent-amber);" id="cooperationLevel">50%</div>
                     </div>
                 </div>
-                
                 <div class="chat-messages" id="chatMessages">
                     <p style="color: var(--text-muted); text-align: center;">Start the interrogation...</p>
                 </div>
-                
                 <div class="chat-input-container">
-                    <input type="text" class="chat-input" id="interrogationInput" placeholder="Ask a question..." data-testid="interrogation-input">
-                    <button class="btn btn-primary" onclick="sendInterrogation()" data-testid="interrogation-send">
+                    <input type="text" class="chat-input" id="interrogationInput" placeholder="Ask a question...">
+                    <button class="btn btn-primary" onclick="sendInterrogation()">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
@@ -1000,7 +1314,6 @@
         </div>
     </div>
 
-    <!-- Accusation Modal -->
     <div class="modal-overlay" id="accusationModal">
         <div class="modal">
             <div class="modal-header">
@@ -1011,10 +1324,8 @@
                 <p style="color: var(--text-secondary); margin-bottom: 20px;">
                     Select the suspect you believe is guilty. Choose wisely - wrong accusations damage your career.
                 </p>
-                <div id="accusationSuspects">
-                    <!-- Suspects will be populated here -->
-                </div>
-                <button class="btn btn-danger" style="width: 100%; margin-top: 20px;" onclick="submitAccusation()" data-testid="submit-accusation">
+                <div id="accusationSuspects"></div>
+                <button class="btn btn-danger" style="width: 100%; margin-top: 20px;" onclick="submitAccusation()">
                     <i class="fas fa-gavel"></i> Confirm Accusation
                 </button>
             </div>
@@ -1023,7 +1334,7 @@
 
     <script>
         // ==================== GAME DATA ====================
-        const CASES = [
+        let CASES = [
             {
                 id: "case-001",
                 title: "The Midnight Caller",
@@ -1031,6 +1342,7 @@
                 difficulty: "medium",
                 crime_type: "HOMICIDE",
                 time_limit: 45,
+                published: true,
                 victim: { name: "Sarah Mitchell", age: 34 },
                 suspects: [
                     { id: "s1", name: "Marcus Webb", age: 38, role: "Ex-Husband", motive: "Bitter divorce", alibi: "Claims he was at a bar", is_guilty: false, personality: "hostile" },
@@ -1046,10 +1358,7 @@
                 ],
                 scenes: [
                     {
-                        id: "scene-1",
-                        order: 1,
-                        title: "Crime Scene",
-                        type: "crime_scene",
+                        id: "scene-1", order: 1, title: "Crime Scene", type: "crime_scene",
                         narration: "You arrive at 142 Oak Street. Yellow crime scene tape flutters in the cold night air. The victim, Sarah Mitchell, was found by her cleaning service this morning. As the lead investigator, every decision you make will shape this case.",
                         choices: [
                             { id: "ch1", text: "Examine the body and immediate surroundings", next: "scene-2", risk: "low", clues: ["c3"], score: 10 },
@@ -1058,10 +1367,7 @@
                         ]
                     },
                     {
-                        id: "scene-2",
-                        order: 2,
-                        title: "Forensic Analysis",
-                        type: "evidence_lab",
+                        id: "scene-2", order: 2, title: "Forensic Analysis", type: "evidence_lab",
                         narration: "The forensics team has processed the scene. The point of entry appears to be a back window. A partial fingerprint was recovered, along with traces of an unknown substance on the victim's clothing.",
                         choices: [
                             { id: "ch4", text: "Run the fingerprint through AFIS", next: "scene-5", risk: "low", clues: [], score: 15 },
@@ -1070,10 +1376,7 @@
                         ]
                     },
                     {
-                        id: "scene-3",
-                        order: 2,
-                        title: "Security Review",
-                        type: "investigation",
+                        id: "scene-3", order: 2, title: "Security Review", type: "investigation",
                         narration: "The building's security system recorded footage from the night of the murder. The quality is poor, but you can make out a vehicle leaving the parking garage around 11 PM.",
                         choices: [
                             { id: "ch7", text: "Enhance the footage to identify the vehicle", next: "scene-5", risk: "low", clues: [], score: 15 },
@@ -1081,10 +1384,7 @@
                         ]
                     },
                     {
-                        id: "scene-4",
-                        order: 2,
-                        title: "Witness Interview",
-                        type: "interrogation",
+                        id: "scene-4", order: 2, title: "Witness Interview", type: "interrogation",
                         narration: "Mrs. Patterson, the elderly neighbor, sits nervously in her living room. She claims to have heard something unusual the night of the murder.",
                         choices: [
                             { id: "ch9", text: "Ask about the sounds she heard", next: "scene-5", risk: "low", clues: [], score: 10 },
@@ -1092,10 +1392,7 @@
                         ]
                     },
                     {
-                        id: "scene-5",
-                        order: 3,
-                        title: "The Insurance Lead",
-                        type: "investigation",
+                        id: "scene-5", order: 3, title: "The Insurance Lead", type: "investigation",
                         narration: "Your investigation into the victim's finances reveals a substantial life insurance policy. The beneficiary is her business partner, Diana Cross. The policy was taken out just 6 months ago.",
                         choices: [
                             { id: "ch11", text: "Bring Diana Cross in for questioning", next: "scene-7", risk: "medium", clues: ["c2"], score: 25 },
@@ -1104,10 +1401,7 @@
                         ]
                     },
                     {
-                        id: "scene-6",
-                        order: 3,
-                        title: "Phone Records",
-                        type: "investigation",
+                        id: "scene-6", order: 3, title: "Phone Records", type: "investigation",
                         narration: "The phone records reveal a pattern. The victim received multiple calls from a blocked number in the weeks leading up to her death. The last call was made just hours before the murder.",
                         choices: [
                             { id: "ch14", text: "Subpoena the phone company for caller info", next: "scene-7", risk: "low", clues: ["c1"], score: 20 },
@@ -1115,10 +1409,7 @@
                         ]
                     },
                     {
-                        id: "scene-7",
-                        order: 4,
-                        title: "Interrogation Room",
-                        type: "interrogation",
+                        id: "scene-7", order: 4, title: "Interrogation Room", type: "interrogation",
                         narration: "Diana Cross sits across from you, her lawyer by her side. She maintains her composure, but you notice her hands trembling slightly. The evidence is mounting against her.",
                         choices: [
                             { id: "ch16", text: "Present the insurance evidence", next: "scene-9", risk: "medium", clues: [], score: 30, conviction: 20 },
@@ -1127,10 +1418,7 @@
                         ]
                     },
                     {
-                        id: "scene-8",
-                        order: 4,
-                        title: "Ex-Husband Interview",
-                        type: "interrogation",
+                        id: "scene-8", order: 4, title: "Ex-Husband Interview", type: "interrogation",
                         narration: "Marcus Webb is hostile from the start. He claims he was at O'Malley's Bar the entire evening, but his story has inconsistencies.",
                         choices: [
                             { id: "ch19", text: "Check his alibi at the bar", next: "scene-9", risk: "low", clues: [], score: 15 },
@@ -1138,10 +1426,7 @@
                         ]
                     },
                     {
-                        id: "scene-9",
-                        order: 5,
-                        title: "Final Decision",
-                        type: "briefing",
+                        id: "scene-9", order: 5, title: "Final Decision", type: "briefing",
                         narration: "The captain wants answers. You've gathered evidence, interviewed suspects, and built your case. It's time to make an arrest or admit you need more time. Choose carefully - your career depends on it.",
                         choices: [
                             { id: "ch21", text: "Arrest Diana Cross", next: "ending-correct", risk: "medium", clues: [], score: 50 },
@@ -1151,24 +1436,9 @@
                     }
                 ],
                 endings: {
-                    "ending-correct": {
-                        type: "CLOSED",
-                        title: "Case Closed - Justice Served",
-                        narration: "Diana Cross confessed after you presented the overwhelming evidence. She planned the murder to collect the insurance money and save their failing business. Your meticulous investigation led to a successful prosecution.",
-                        xp: 100
-                    },
-                    "ending-wrong": {
-                        type: "COMPROMISED",
-                        title: "Case Compromised",
-                        narration: "Marcus Webb was released when his alibi checked out. The real killer, Diana Cross, fled the country. Your rush to judgment cost us a conviction.",
-                        xp: -50
-                    },
-                    "ending-incomplete": {
-                        type: "ESCALATED",
-                        title: "Case Escalated",
-                        narration: "The case has been reassigned to a senior agent. While no one was wrongfully accused, the delay allowed critical evidence to degrade. Mixed results for your file.",
-                        xp: 25
-                    }
+                    "ending-correct": { type: "CLOSED", title: "Case Closed - Justice Served", narration: "Diana Cross confessed after you presented the overwhelming evidence. She planned the murder to collect the insurance money and save their failing business. Your meticulous investigation led to a successful prosecution.", xp: 100 },
+                    "ending-wrong": { type: "COMPROMISED", title: "Case Compromised", narration: "Marcus Webb was released when his alibi checked out. The real killer, Diana Cross, fled the country. Your rush to judgment cost us a conviction.", xp: -50 },
+                    "ending-incomplete": { type: "ESCALATED", title: "Case Escalated", narration: "The case has been reassigned to a senior agent. While no one was wrongfully accused, the delay allowed critical evidence to degrade. Mixed results for your file.", xp: 25 }
                 }
             },
             {
@@ -1178,6 +1448,7 @@
                 difficulty: "hard",
                 crime_type: "HOMICIDE",
                 time_limit: 60,
+                published: true,
                 victim: { name: "Richard Blackwood", age: 67 },
                 suspects: [
                     { id: "s1", name: "Elena Vasquez", age: 29, role: "Personal Assistant", motive: "Unpaid wages", alibi: "Claims she was traveling", is_guilty: false, personality: "defensive" },
@@ -1190,100 +1461,37 @@
                     { id: "c3", label: "Blood Trace", description: "DNA evidence on display case", category: "physical" }
                 ],
                 scenes: [
-                    {
-                        id: "scene-1",
-                        order: 1,
-                        title: "The Gallery",
-                        type: "crime_scene",
-                        narration: "The Blackwood private gallery is a crime scene now. Empty frames hang where masterpieces once resided. Richard Blackwood lies at the center of it all, a victim of what appears to be a carefully planned operation.",
-                        choices: [
-                            { id: "ch1", text: "Examine the security system", next: "scene-2", risk: "low", clues: ["c1"], score: 15 },
-                            { id: "ch2", text: "Document the missing artwork", next: "scene-3", risk: "low", clues: [], score: 10 },
-                            { id: "ch3", text: "Interview the first responders", next: "scene-4", risk: "low", clues: [], score: 5 }
-                        ]
-                    },
-                    {
-                        id: "scene-2",
-                        order: 2,
-                        title: "Security Analysis",
-                        type: "evidence_lab",
-                        narration: "The security logs reveal something troubling - the system was disabled using a master code, accessible only to family members and the head of security.",
-                        choices: [
-                            { id: "ch4", text: "Interview Thomas Blackwood", next: "scene-5", risk: "medium", clues: ["c2"], score: 25 },
-                            { id: "ch5", text: "Review all access logs", next: "scene-6", risk: "low", clues: [], score: 15 }
-                        ]
-                    },
-                    {
-                        id: "scene-3",
-                        order: 2,
-                        title: "Art Assessment",
-                        type: "investigation",
-                        narration: "Art experts confirm the missing pieces are worth over $40 million. Insurance investigators are already circling, but something doesn't add up - the most valuable piece was left behind.",
-                        choices: [
-                            { id: "ch6", text: "Investigate insurance claims", next: "scene-5", risk: "low", clues: [], score: 20 },
-                            { id: "ch7", text: "Question why certain art was left", next: "scene-6", risk: "low", clues: [], score: 15 }
-                        ]
-                    },
-                    {
-                        id: "scene-4",
-                        order: 2,
-                        title: "First Responder Accounts",
-                        type: "interrogation",
-                        narration: "The security guard who found the body is visibly shaken. He mentions seeing Thomas Blackwood's car in the parking garage that morning, hours before the body was discovered.",
-                        choices: [
-                            { id: "ch8", text: "Pull parking garage footage", next: "scene-5", risk: "low", clues: [], score: 20 },
-                            { id: "ch9", text: "Get official witness statement", next: "scene-6", risk: "low", clues: [], score: 10 }
-                        ]
-                    },
-                    {
-                        id: "scene-5",
-                        order: 3,
-                        title: "The Heir",
-                        type: "interrogation",
-                        narration: "Thomas Blackwood arrives with his lawyer. He's calm, almost too calm. You notice fresh scratches on his hands that he claims came from his cat.",
-                        choices: [
-                            { id: "ch10", text: "Request DNA sample", next: "scene-7", risk: "medium", clues: ["c3"], score: 30 },
-                            { id: "ch11", text: "Ask about the will changes", next: "scene-7", risk: "medium", clues: [], score: 25 },
-                            { id: "ch12", text: "Question his alibi in detail", next: "scene-7", risk: "low", clues: [], score: 15 }
-                        ]
-                    },
-                    {
-                        id: "scene-6",
-                        order: 3,
-                        title: "Following the Money",
-                        type: "investigation",
-                        narration: "Financial records reveal Richard was about to disinherit Thomas after discovering he had been embezzling from the family foundation. The will change was scheduled for next week.",
-                        choices: [
-                            { id: "ch13", text: "Confront Thomas with evidence", next: "scene-7", risk: "high", clues: ["c2"], score: 35 },
-                            { id: "ch14", text: "Build more evidence first", next: "scene-7", risk: "low", clues: [], score: 20 }
-                        ]
-                    },
-                    {
-                        id: "scene-7",
-                        order: 4,
-                        title: "Case Conference",
-                        type: "briefing",
-                        narration: "Your team assembles in the war room. The evidence points in multiple directions, but time is running out. The DA wants an arrest or the case goes cold.",
-                        choices: [
-                            { id: "ch15", text: "Arrest Thomas Blackwood", next: "ending-correct", risk: "medium", clues: [], score: 50 },
-                            { id: "ch16", text: "Arrest Victor Morel", next: "ending-wrong", risk: "high", clues: [], score: -30 },
-                            { id: "ch17", text: "Arrest Elena Vasquez", next: "ending-wrong", risk: "high", clues: [], score: -30 }
-                        ]
-                    }
+                    { id: "scene-1", order: 1, title: "The Gallery", type: "crime_scene", narration: "The Blackwood private gallery is a crime scene now. Empty frames hang where masterpieces once resided. Richard Blackwood lies at the center of it all, a victim of what appears to be a carefully planned operation.", choices: [
+                        { id: "ch1", text: "Examine the security system", next: "scene-2", risk: "low", clues: ["c1"], score: 15 },
+                        { id: "ch2", text: "Document the missing artwork", next: "scene-3", risk: "low", clues: [], score: 10 },
+                        { id: "ch3", text: "Interview the first responders", next: "scene-4", risk: "low", clues: [], score: 5 }
+                    ]},
+                    { id: "scene-2", order: 2, title: "Security Analysis", type: "evidence_lab", narration: "The security logs reveal something troubling - the system was disabled using a master code, accessible only to family members and the head of security.", choices: [
+                        { id: "ch4", text: "Interview Thomas Blackwood", next: "scene-5", risk: "medium", clues: ["c2"], score: 25 },
+                        { id: "ch5", text: "Review all access logs", next: "scene-5", risk: "low", clues: [], score: 15 }
+                    ]},
+                    { id: "scene-3", order: 2, title: "Art Assessment", type: "investigation", narration: "Art experts confirm the missing pieces are worth over $40 million. Insurance investigators are already circling, but something doesn't add up - the most valuable piece was left behind.", choices: [
+                        { id: "ch6", text: "Investigate insurance claims", next: "scene-5", risk: "low", clues: [], score: 20 },
+                        { id: "ch7", text: "Question why certain art was left", next: "scene-5", risk: "low", clues: [], score: 15 }
+                    ]},
+                    { id: "scene-4", order: 2, title: "First Responder Accounts", type: "interrogation", narration: "The security guard who found the body is visibly shaken. He mentions seeing Thomas Blackwood's car in the parking garage that morning, hours before the body was discovered.", choices: [
+                        { id: "ch8", text: "Pull parking garage footage", next: "scene-5", risk: "low", clues: [], score: 20 },
+                        { id: "ch9", text: "Get official witness statement", next: "scene-5", risk: "low", clues: [], score: 10 }
+                    ]},
+                    { id: "scene-5", order: 3, title: "The Heir", type: "interrogation", narration: "Thomas Blackwood arrives with his lawyer. He's calm, almost too calm. You notice fresh scratches on his hands that he claims came from his cat.", choices: [
+                        { id: "ch10", text: "Request DNA sample", next: "scene-6", risk: "medium", clues: ["c3"], score: 30 },
+                        { id: "ch11", text: "Ask about the will changes", next: "scene-6", risk: "medium", clues: [], score: 25 },
+                        { id: "ch12", text: "Question his alibi in detail", next: "scene-6", risk: "low", clues: [], score: 15 }
+                    ]},
+                    { id: "scene-6", order: 4, title: "Case Conference", type: "briefing", narration: "Your team assembles in the war room. The evidence points in multiple directions, but time is running out. The DA wants an arrest or the case goes cold.", choices: [
+                        { id: "ch15", text: "Arrest Thomas Blackwood", next: "ending-correct", risk: "medium", clues: [], score: 50 },
+                        { id: "ch16", text: "Arrest Victor Morel", next: "ending-wrong", risk: "high", clues: [], score: -30 },
+                        { id: "ch17", text: "Arrest Elena Vasquez", next: "ending-wrong", risk: "high", clues: [], score: -30 }
+                    ]}
                 ],
                 endings: {
-                    "ending-correct": {
-                        type: "CLOSED",
-                        title: "Case Closed - The Heir Unmasked",
-                        narration: "Thomas Blackwood's DNA matched the blood found at the scene. Faced with the evidence, he confessed to killing his father to prevent being disinherited. The 'stolen' art was hidden in a storage unit he rented. Justice is served.",
-                        xp: 150
-                    },
-                    "ending-wrong": {
-                        type: "DISMISSED",
-                        title: "Case Dismissed",
-                        narration: "Your suspect had an airtight alibi. The wrongful arrest led to a lawsuit and the real killer walked free. This one will haunt your career.",
-                        xp: -75
-                    }
+                    "ending-correct": { type: "CLOSED", title: "Case Closed - The Heir Unmasked", narration: "Thomas Blackwood's DNA matched the blood found at the scene. Faced with the evidence, he confessed to killing his father to prevent being disinherited. The 'stolen' art was hidden in a storage unit he rented. Justice is served.", xp: 150 },
+                    "ending-wrong": { type: "DISMISSED", title: "Case Dismissed", narration: "Your suspect had an airtight alibi. The wrongful arrest led to a lawsuit and the real killer walked free. This one will haunt your career.", xp: -75 }
                 }
             },
             {
@@ -1293,6 +1501,7 @@
                 difficulty: "easy",
                 crime_type: "MISSING PERSON",
                 time_limit: 30,
+                published: true,
                 victim: { name: "Alex Chen", age: 28 },
                 suspects: [
                     { id: "s1", name: "Victoria Sterling", age: 45, role: "CEO", motive: "Protect company", alibi: "Board meeting", is_guilty: true, personality: "calculating" },
@@ -1304,83 +1513,29 @@
                     { id: "c3", label: "GPS Data", description: "Last known location tracking", category: "digital" }
                 ],
                 scenes: [
-                    {
-                        id: "scene-1",
-                        order: 1,
-                        title: "The Digital Trail",
-                        type: "investigation",
-                        narration: "Alex Chen was last seen leaving Sterling Tech headquarters three days ago. Their apartment is untouched, their phone is offline, but they left breadcrumbs across the digital landscape.",
-                        choices: [
-                            { id: "ch1", text: "Analyze their computer", next: "scene-2", risk: "low", clues: ["c1"], score: 15 },
-                            { id: "ch2", text: "Review security footage", next: "scene-3", risk: "low", clues: [], score: 10 },
-                            { id: "ch3", text: "Interview coworkers", next: "scene-4", risk: "low", clues: [], score: 10 }
-                        ]
-                    },
-                    {
-                        id: "scene-2",
-                        order: 2,
-                        title: "The Files",
-                        type: "evidence_lab",
-                        narration: "Hidden in encrypted partitions, you find evidence of massive financial fraud at Sterling Tech. Alex was about to blow the whistle on a billion-dollar scheme.",
-                        choices: [
-                            { id: "ch4", text: "Search for threatening communications", next: "scene-5", risk: "low", clues: ["c2"], score: 20 },
-                            { id: "ch5", text: "Trace the money trail", next: "scene-5", risk: "low", clues: [], score: 15 }
-                        ]
-                    },
-                    {
-                        id: "scene-3",
-                        order: 2,
-                        title: "Security Review",
-                        type: "investigation",
-                        narration: "The footage shows Alex leaving normally, but their car GPS tells a different story - it was last tracked heading to an industrial area owned by Sterling Tech.",
-                        choices: [
-                            { id: "ch6", text: "Investigate the industrial site", next: "scene-5", risk: "medium", clues: ["c3"], score: 25 },
-                            { id: "ch7", text: "Subpoena Sterling Tech records", next: "scene-5", risk: "low", clues: [], score: 15 }
-                        ]
-                    },
-                    {
-                        id: "scene-4",
-                        order: 2,
-                        title: "Coworker Interviews",
-                        type: "interrogation",
-                        narration: "Alex's colleagues are scared to talk, but one mentions seeing Alex arguing with Victoria Sterling the day before they disappeared.",
-                        choices: [
-                            { id: "ch8", text: "Interview Victoria Sterling", next: "scene-5", risk: "medium", clues: [], score: 20 },
-                            { id: "ch9", text: "Protect the witness", next: "scene-5", risk: "low", clues: [], score: 15 }
-                        ]
-                    },
-                    {
-                        id: "scene-5",
-                        order: 3,
-                        title: "Confrontation",
-                        type: "briefing",
-                        narration: "The evidence points to corporate involvement in Alex's disappearance. Victoria Sterling is lawyered up, but you have leverage. Time to close this case.",
-                        choices: [
-                            { id: "ch10", text: "Arrest Victoria Sterling", next: "ending-correct", risk: "medium", clues: [], score: 50 },
-                            { id: "ch11", text: "Arrest Derek Hayes", next: "ending-wrong", risk: "high", clues: [], score: -20 },
-                            { id: "ch12", text: "Request FBI assistance", next: "ending-escalated", risk: "low", clues: [], score: 25 }
-                        ]
-                    }
+                    { id: "scene-1", order: 1, title: "The Digital Trail", type: "investigation", narration: "Alex Chen was last seen leaving Sterling Tech headquarters three days ago. Their apartment is untouched, their phone is offline, but they left breadcrumbs across the digital landscape.", choices: [
+                        { id: "ch1", text: "Analyze their computer", next: "scene-2", risk: "low", clues: ["c1"], score: 15 },
+                        { id: "ch2", text: "Review security footage", next: "scene-3", risk: "low", clues: [], score: 10 },
+                        { id: "ch3", text: "Interview coworkers", next: "scene-3", risk: "low", clues: [], score: 10 }
+                    ]},
+                    { id: "scene-2", order: 2, title: "The Files", type: "evidence_lab", narration: "Hidden in encrypted partitions, you find evidence of massive financial fraud at Sterling Tech. Alex was about to blow the whistle on a billion-dollar scheme.", choices: [
+                        { id: "ch4", text: "Search for threatening communications", next: "scene-4", risk: "low", clues: ["c2"], score: 20 },
+                        { id: "ch5", text: "Trace the money trail", next: "scene-4", risk: "low", clues: [], score: 15 }
+                    ]},
+                    { id: "scene-3", order: 2, title: "Security Review", type: "investigation", narration: "The footage shows Alex leaving normally, but their car GPS tells a different story - it was last tracked heading to an industrial area owned by Sterling Tech.", choices: [
+                        { id: "ch6", text: "Investigate the industrial site", next: "scene-4", risk: "medium", clues: ["c3"], score: 25 },
+                        { id: "ch7", text: "Subpoena Sterling Tech records", next: "scene-4", risk: "low", clues: [], score: 15 }
+                    ]},
+                    { id: "scene-4", order: 3, title: "Confrontation", type: "briefing", narration: "The evidence points to corporate involvement in Alex's disappearance. Victoria Sterling is lawyered up, but you have leverage. Time to close this case.", choices: [
+                        { id: "ch10", text: "Arrest Victoria Sterling", next: "ending-correct", risk: "medium", clues: [], score: 50 },
+                        { id: "ch11", text: "Arrest Derek Hayes", next: "ending-wrong", risk: "high", clues: [], score: -20 },
+                        { id: "ch12", text: "Request FBI assistance", next: "ending-escalated", risk: "low", clues: [], score: 25 }
+                    ]}
                 ],
                 endings: {
-                    "ending-correct": {
-                        type: "CLOSED",
-                        title: "Case Closed - Whistleblower Found",
-                        narration: "Victoria Sterling's arrest led to the discovery of Alex Chen, alive but held captive in a company facility. Sterling is facing kidnapping and fraud charges. Alex's evidence brings down the whole corrupt operation.",
-                        xp: 100
-                    },
-                    "ending-wrong": {
-                        type: "COMPROMISED",
-                        title: "Wrong Target",
-                        narration: "Derek Hayes was following orders - he didn't know where Alex was held. Your arrest gave Sterling time to cover her tracks. The victim was never found.",
-                        xp: -50
-                    },
-                    "ending-escalated": {
-                        type: "ESCALATED",
-                        title: "Federal Case",
-                        narration: "The FBI took over and eventually cracked the case. Good instincts calling for backup, but your supervisor notes you could have closed it yourself.",
-                        xp: 40
-                    }
+                    "ending-correct": { type: "CLOSED", title: "Case Closed - Whistleblower Found", narration: "Victoria Sterling's arrest led to the discovery of Alex Chen, alive but held captive in a company facility. Sterling is facing kidnapping and fraud charges. Alex's evidence brings down the whole corrupt operation.", xp: 100 },
+                    "ending-wrong": { type: "COMPROMISED", title: "Wrong Target", narration: "Derek Hayes was following orders - he didn't know where Alex was held. Your arrest gave Sterling time to cover her tracks. The victim was never found.", xp: -50 },
+                    "ending-escalated": { type: "ESCALATED", title: "Federal Case", narration: "The FBI took over and eventually cracked the case. Good instincts calling for backup, but your supervisor notes you could have closed it yourself.", xp: 40 }
                 }
             }
         ];
@@ -1389,34 +1544,30 @@
         let currentUser = null;
         let currentCase = null;
         let currentScene = null;
+        let isOwner = false;
+        let currentOwnerSection = 'dashboard';
+        let editingCase = null;
         let gameState = {
-            score: 0,
-            cluesCollected: [],
-            proceduralRisk: 'LOW',
-            convictionProbability: 10,
-            sceneHistory: [],
-            selectedSuspect: null,
-            interrogationHistory: []
+            score: 0, cluesCollected: [], proceduralRisk: 'LOW', convictionProbability: 10, sceneHistory: [], selectedSuspect: null, interrogationHistory: []
         };
 
         // ==================== UI FUNCTIONS ====================
-        function showLogin() {
-            closeModals();
-            document.getElementById('loginModal').classList.add('active');
-        }
-
-        function showRegister() {
-            closeModals();
-            document.getElementById('registerModal').classList.add('active');
-        }
-
-        function closeModals() {
-            document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
-        }
+        function showLogin() { closeModals(); document.getElementById('loginModal').classList.add('active'); }
+        function showRegister() { closeModals(); document.getElementById('registerModal').classList.add('active'); }
+        function showOwnerLogin() { closeModals(); document.getElementById('ownerLoginModal').classList.add('active'); }
+        function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
 
         function showPage(pageId) {
-            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-            document.getElementById(pageId).classList.remove('hidden');
+            document.querySelectorAll('#mainContainer > section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(pageId)?.classList.remove('hidden');
+            document.getElementById('mainContainer').classList.remove('hidden');
+            document.getElementById('ownerPortal').classList.add('hidden');
+        }
+
+        function showOwnerPortal() {
+            document.getElementById('mainContainer').classList.add('hidden');
+            document.getElementById('ownerPortal').classList.remove('hidden');
+            showOwnerSection('dashboard');
         }
 
         function updateAuthUI() {
@@ -1424,21 +1575,16 @@
             if (currentUser) {
                 container.innerHTML = `
                     <div class="user-badge">
-                        <span class="user-rank">${currentUser.rank || 'ANALYST'}</span>
+                        <span class="user-rank ${isOwner ? 'owner-badge' : ''}">${isOwner ? 'OWNER' : currentUser.rank || 'ANALYST'}</span>
                         <span style="font-weight: 600;">${currentUser.username}</span>
                     </div>
-                    <button class="btn btn-secondary" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </button>
+                    ${isOwner ? '<button class="btn btn-secondary btn-sm" onclick="showOwnerPortal()"><i class="fas fa-cog"></i> Portal</button>' : ''}
+                    <button class="btn btn-secondary btn-sm" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
                 `;
             } else {
                 container.innerHTML = `
-                    <button class="btn btn-secondary" onclick="showLogin()">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </button>
-                    <button class="btn btn-primary" onclick="showRegister()">
-                        Get Started
-                    </button>
+                    <button class="btn btn-secondary" onclick="showLogin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+                    <button class="btn btn-primary" onclick="showRegister()">Get Started</button>
                 `;
             }
         }
@@ -1447,16 +1593,7 @@
         function handleLogin(e) {
             e.preventDefault();
             const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            // Demo login
-            currentUser = {
-                username: email.split('@')[0],
-                email: email,
-                rank: 'ANALYST',
-                xp: 0
-            };
-            
+            currentUser = { username: email.split('@')[0], email: email, rank: 'ANALYST', xp: 0 };
             localStorage.setItem('casefiles_user', JSON.stringify(currentUser));
             closeModals();
             updateAuthUI();
@@ -1467,36 +1604,51 @@
             e.preventDefault();
             const username = document.getElementById('regUsername').value;
             const email = document.getElementById('regEmail').value;
-            
-            currentUser = {
-                username: username,
-                email: email,
-                rank: 'ANALYST',
-                xp: 0
-            };
-            
+            currentUser = { username: username, email: email, rank: 'ANALYST', xp: 0 };
             localStorage.setItem('casefiles_user', JSON.stringify(currentUser));
             closeModals();
             updateAuthUI();
             loadCases();
         }
 
+        function handleOwnerLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('ownerEmail').value;
+            const password = document.getElementById('ownerPassword').value;
+            if (email === 'Widchel.ant08@casefiles.fbi' && password === 'WidAnt1234!') {
+                isOwner = true;
+                currentUser = { username: 'Owner Admin', email: email, rank: 'OWNER', xp: 9999 };
+                localStorage.setItem('casefiles_user', JSON.stringify(currentUser));
+                localStorage.setItem('casefiles_owner', 'true');
+                closeModals();
+                updateAuthUI();
+                showOwnerPortal();
+            } else {
+                alert('Invalid owner credentials');
+            }
+        }
+
         function logout() {
             currentUser = null;
+            isOwner = false;
             localStorage.removeItem('casefiles_user');
+            localStorage.removeItem('casefiles_owner');
             updateAuthUI();
             showPage('landingPage');
+        }
+
+        function ownerLogout() {
+            logout();
         }
 
         // ==================== CASE FUNCTIONS ====================
         function loadCases() {
             showPage('casesPage');
             const grid = document.getElementById('casesGrid');
-            grid.innerHTML = CASES.map(c => `
-                <div class="card case-card" onclick="startCase('${c.id}')" data-testid="case-card-${c.id}">
-                    <div class="case-image" style="display: flex; align-items: center; justify-content: center;">
-                        <i class="fas fa-folder-open" style="font-size: 48px; color: var(--accent-blue);"></i>
-                    </div>
+            const publishedCases = CASES.filter(c => c.published);
+            grid.innerHTML = publishedCases.map(c => `
+                <div class="card case-card" onclick="startCase('${c.id}')">
+                    <div class="case-image"><i class="fas fa-folder-open" style="font-size: 48px; color: var(--accent-blue);"></i></div>
                     <span class="case-difficulty difficulty-${c.difficulty}">${c.difficulty}</span>
                     <h3 class="case-title">${c.title}</h3>
                     <p class="case-synopsis">${c.synopsis}</p>
@@ -1511,73 +1663,34 @@
         function startCase(caseId) {
             currentCase = CASES.find(c => c.id === caseId);
             if (!currentCase) return;
-            
-            // Reset game state
-            gameState = {
-                score: 0,
-                cluesCollected: [],
-                proceduralRisk: 'LOW',
-                convictionProbability: 10,
-                sceneHistory: [],
-                selectedSuspect: null,
-                interrogationHistory: []
-            };
-            
-            // Load first scene
+            gameState = { score: 0, cluesCollected: [], proceduralRisk: 'LOW', convictionProbability: 10, sceneHistory: [], selectedSuspect: null, interrogationHistory: [] };
             currentScene = currentCase.scenes[0];
             showPage('gamePage');
-            document.getElementById('gamePage').classList.remove('hidden');
-            document.getElementById('gamePage').style.display = 'block';
             renderScene();
         }
 
-        // ==================== GAME RENDERING ====================
         function renderScene() {
             if (!currentScene) return;
-            
-            // Update stats
             document.getElementById('gameStats').innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-label">Score</div>
-                    <div class="stat-value">${gameState.score}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Procedural Risk</div>
-                    <div class="stat-value stat-${gameState.proceduralRisk.toLowerCase()}">${gameState.proceduralRisk}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Conviction Prob.</div>
-                    <div class="stat-value">${gameState.convictionProbability}%</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Evidence</div>
-                    <div class="stat-value">${gameState.cluesCollected.length}/${currentCase.clues.length}</div>
-                </div>
+                <div class="stat-card"><div class="stat-label">Score</div><div class="stat-value">${gameState.score}</div></div>
+                <div class="stat-card"><div class="stat-label">Procedural Risk</div><div class="stat-value stat-${gameState.proceduralRisk.toLowerCase()}">${gameState.proceduralRisk}</div></div>
+                <div class="stat-card"><div class="stat-label">Conviction Prob.</div><div class="stat-value">${gameState.convictionProbability}%</div></div>
+                <div class="stat-card"><div class="stat-label">Evidence</div><div class="stat-value">${gameState.cluesCollected.length}/${currentCase.clues.length}</div></div>
             `;
-            
-            // Update progress
             const progress = (currentScene.order / currentCase.scenes.length) * 100;
             document.getElementById('progressFill').style.width = `${progress}%`;
-            
-            // Update scene info
             document.getElementById('sceneType').textContent = currentScene.type.toUpperCase().replace('_', ' ');
             document.getElementById('sceneTitle').textContent = currentScene.title;
             document.getElementById('sceneNarration').textContent = currentScene.narration;
-            
-            // Render choices
             const choicesContainer = document.getElementById('choicesContainer');
             choicesContainer.innerHTML = currentScene.choices.map((choice, i) => `
-                <button class="choice-btn" onclick="makeChoice('${choice.id}')" data-testid="choice-${choice.id}">
+                <button class="choice-btn" onclick="makeChoice('${choice.id}')">
                     <span class="choice-number">${i + 1}</span>
                     <span>${choice.text}</span>
                     ${choice.risk && choice.risk !== 'low' ? `<span class="choice-risk risk-${choice.risk}">${choice.risk} risk</span>` : ''}
                 </button>
             `).join('');
-            
-            // Update clues list
             renderClues();
-            
-            // Update suspects list
             renderSuspects();
         }
 
@@ -1589,15 +1702,7 @@
                 cluesList.innerHTML = gameState.cluesCollected.map(clueId => {
                     const clue = currentCase.clues.find(c => c.id === clueId);
                     if (!clue) return '';
-                    return `
-                        <div class="clue-item">
-                            <div class="clue-icon"><i class="fas fa-puzzle-piece"></i></div>
-                            <div>
-                                <div style="font-weight: 600;">${clue.label}</div>
-                                <div style="font-size: 12px; color: var(--text-muted);">${clue.description}</div>
-                            </div>
-                        </div>
-                    `;
+                    return `<div class="clue-item"><div class="clue-icon"><i class="fas fa-puzzle-piece"></i></div><div><div style="font-weight: 600;">${clue.label}</div><div style="font-size: 12px; color: var(--text-muted);">${clue.description}</div></div></div>`;
                 }).join('');
             }
         }
@@ -1605,129 +1710,62 @@
         function renderSuspects() {
             const suspectsList = document.getElementById('suspectsList');
             suspectsList.innerHTML = currentCase.suspects.map(suspect => `
-                <div class="suspect-item" onclick="openInterrogation('${suspect.id}')" data-testid="suspect-${suspect.id}">
+                <div class="suspect-item" onclick="openInterrogation('${suspect.id}')">
                     <div class="suspect-avatar">${suspect.name.charAt(0)}</div>
-                    <div>
-                        <div class="suspect-name">${suspect.name}</div>
-                        <div class="suspect-role">${suspect.role}</div>
-                    </div>
+                    <div><div class="suspect-name">${suspect.name}</div><div class="suspect-role">${suspect.role}</div></div>
                 </div>
             `).join('');
         }
 
-        // ==================== GAME LOGIC ====================
         function makeChoice(choiceId) {
             const choice = currentScene.choices.find(c => c.id === choiceId);
             if (!choice) return;
-            
-            // Save current scene to history
             gameState.sceneHistory.push(currentScene.id);
-            
-            // Apply choice effects
             gameState.score += choice.score || 0;
-            
-            // Add clues
             if (choice.clues && choice.clues.length > 0) {
-                choice.clues.forEach(clueId => {
-                    if (!gameState.cluesCollected.includes(clueId)) {
-                        gameState.cluesCollected.push(clueId);
-                    }
-                });
+                choice.clues.forEach(clueId => { if (!gameState.cluesCollected.includes(clueId)) gameState.cluesCollected.push(clueId); });
             }
-            
-            // Update risk
-            if (choice.risk === 'high') {
-                gameState.proceduralRisk = gameState.proceduralRisk === 'LOW' ? 'MEDIUM' : 'HIGH';
-            }
-            
-            // Update conviction probability
-            if (choice.conviction) {
-                gameState.convictionProbability = Math.max(0, Math.min(100, gameState.convictionProbability + choice.conviction));
-            }
-            
-            // Navigate to next scene or ending
-            if (choice.next.startsWith('ending-')) {
-                showEnding(choice.next);
-            } else {
-                currentScene = currentCase.scenes.find(s => s.id === choice.next);
-                if (currentScene) {
-                    renderScene();
-                }
-            }
+            if (choice.risk === 'high') gameState.proceduralRisk = gameState.proceduralRisk === 'LOW' ? 'MEDIUM' : 'HIGH';
+            if (choice.conviction) gameState.convictionProbability = Math.max(0, Math.min(100, gameState.convictionProbability + choice.conviction));
+            if (choice.next.startsWith('ending-')) { showEnding(choice.next); }
+            else { currentScene = currentCase.scenes.find(s => s.id === choice.next); if (currentScene) renderScene(); }
         }
 
         function showEnding(endingId) {
             const ending = currentCase.endings[endingId];
             if (!ending) return;
-            
             showPage('endingPage');
-            
             const icon = document.getElementById('endingIcon');
-            if (ending.type === 'CLOSED') {
-                icon.className = 'ending-icon ending-success';
-                icon.innerHTML = '<i class="fas fa-check"></i>';
-            } else {
-                icon.className = 'ending-icon ending-failure';
-                icon.innerHTML = '<i class="fas fa-times"></i>';
-            }
-            
+            icon.className = ending.type === 'CLOSED' ? 'ending-icon ending-success' : 'ending-icon ending-failure';
+            icon.innerHTML = ending.type === 'CLOSED' ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>';
             document.getElementById('endingTitle').textContent = ending.title;
             document.getElementById('endingNarration').textContent = ending.narration;
-            
-            // Final score calculation
             const finalScore = gameState.score + (ending.xp || 0);
-            
             document.getElementById('endingStats').innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-label">Final Score</div>
-                    <div class="stat-value">${finalScore}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Evidence Found</div>
-                    <div class="stat-value">${gameState.cluesCollected.length}/${currentCase.clues.length}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">XP Earned</div>
-                    <div class="stat-value">${ending.xp > 0 ? '+' : ''}${ending.xp}</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Verdict</div>
-                    <div class="stat-value" style="font-size: 14px;">${ending.type}</div>
-                </div>
+                <div class="stat-card"><div class="stat-label">Final Score</div><div class="stat-value">${finalScore}</div></div>
+                <div class="stat-card"><div class="stat-label">Evidence Found</div><div class="stat-value">${gameState.cluesCollected.length}/${currentCase.clues.length}</div></div>
+                <div class="stat-card"><div class="stat-label">XP Earned</div><div class="stat-value">${ending.xp > 0 ? '+' : ''}${ending.xp}</div></div>
+                <div class="stat-card"><div class="stat-label">Verdict</div><div class="stat-value" style="font-size: 14px;">${ending.type}</div></div>
             `;
-            
-            // Update user XP
-            if (currentUser) {
-                currentUser.xp = (currentUser.xp || 0) + (ending.xp || 0);
-                localStorage.setItem('casefiles_user', JSON.stringify(currentUser));
-            }
+            if (currentUser) { currentUser.xp = (currentUser.xp || 0) + (ending.xp || 0); localStorage.setItem('casefiles_user', JSON.stringify(currentUser)); }
         }
 
         function returnToMenu() {
             currentCase = null;
             currentScene = null;
-            loadCases();
+            if (currentUser) loadCases();
+            else showPage('landingPage');
         }
 
-        // ==================== INTERROGATION ====================
         function openInterrogation(suspectId) {
             const suspect = currentCase.suspects.find(s => s.id === suspectId);
             if (!suspect) return;
-            
             gameState.selectedSuspect = suspect;
-            gameState.interrogationHistory = [];
-            
             document.getElementById('interrogateSuspectName').textContent = suspect.name;
             document.getElementById('interrogateSuspectRole').textContent = suspect.role;
             document.getElementById('interrogateSuspectAvatar').textContent = suspect.name.charAt(0);
             document.getElementById('cooperationLevel').textContent = '50%';
-            document.getElementById('chatMessages').innerHTML = `
-                <div class="chat-message">
-                    <div class="chat-avatar suspect">${suspect.name.charAt(0)}</div>
-                    <div class="chat-bubble">"I've already told the other officers everything I know. What more do you want?"</div>
-                </div>
-            `;
-            
+            document.getElementById('chatMessages').innerHTML = `<div class="chat-message"><div class="chat-avatar suspect">${suspect.name.charAt(0)}</div><div class="chat-bubble">"I've already told the other officers everything I know. What more do you want?"</div></div>`;
             document.getElementById('interrogationModal').classList.add('active');
         }
 
@@ -1735,126 +1773,599 @@
             const input = document.getElementById('interrogationInput');
             const question = input.value.trim();
             if (!question || !gameState.selectedSuspect) return;
-            
             const suspect = gameState.selectedSuspect;
             const messages = document.getElementById('chatMessages');
-            
-            // Add agent message
-            messages.innerHTML += `
-                <div class="chat-message">
-                    <div class="chat-avatar agent">A</div>
-                    <div class="chat-bubble">${question}</div>
-                </div>
-            `;
-            
-            // Generate suspect response based on personality
-            let response = generateSuspectResponse(suspect, question);
-            
-            messages.innerHTML += `
-                <div class="chat-message">
-                    <div class="chat-avatar suspect">${suspect.name.charAt(0)}</div>
-                    <div class="chat-bubble">${response}</div>
-                </div>
-            `;
-            
+            messages.innerHTML += `<div class="chat-message"><div class="chat-avatar agent">A</div><div class="chat-bubble">${question}</div></div>`;
+            const responses = {
+                defensive: ["I don't have to answer that.", "Why are you asking me?", "This feels like harassment."],
+                cooperative: ["I'll tell you everything I know.", "I want to help.", "Let me think..."],
+                hostile: ["I'm not saying another word without my lawyer.", "You're wasting your time.", "Am I under arrest or not?"],
+                calculating: ["That's an interesting question.", "What's in it for me?", "You seem to have a theory already."]
+            };
+            const personalityResponses = responses[suspect.personality] || responses.defensive;
+            const response = personalityResponses[Math.floor(Math.random() * personalityResponses.length)];
+            messages.innerHTML += `<div class="chat-message"><div class="chat-avatar suspect">${suspect.name.charAt(0)}</div><div class="chat-bubble">${response}</div></div>`;
             input.value = '';
             messages.scrollTop = messages.scrollHeight;
         }
 
-        function generateSuspectResponse(suspect, question) {
-            const responses = {
-                defensive: [
-                    "I don't have to answer that.",
-                    "Why are you asking me? I wasn't there.",
-                    "Look, I've got nothing to hide, but this feels like harassment.",
-                    "Maybe you should be looking at other people, not me."
-                ],
-                cooperative: [
-                    "I'll tell you everything I know.",
-                    "I want to help. What do you need?",
-                    "Yes, I can confirm that happened.",
-                    "Let me think... I might remember something useful."
-                ],
-                hostile: [
-                    "I'm not saying another word without my lawyer.",
-                    "You're wasting your time with me.",
-                    "This is ridiculous. Am I under arrest or not?",
-                    "I know my rights. This interrogation is over."
-                ],
-                calculating: [
-                    "That's an interesting question. What makes you ask?",
-                    "I suppose I could tell you, but what's in it for me?",
-                    "You seem to already have a theory. Why don't you share it first?",
-                    "I'll cooperate, but only if you're asking the right questions."
-                ]
-            };
-            
-            const personalityResponses = responses[suspect.personality] || responses.defensive;
-            return personalityResponses[Math.floor(Math.random() * personalityResponses.length)];
-        }
-
-        // ==================== ACCUSATION ====================
         function showAccusation() {
             const suspects = document.getElementById('accusationSuspects');
             suspects.innerHTML = currentCase.suspects.map(suspect => `
-                <div class="suspect-item" onclick="selectAccusation('${suspect.id}')" id="accuse-${suspect.id}" data-testid="accuse-suspect-${suspect.id}">
+                <div class="suspect-item" onclick="selectAccusation('${suspect.id}')" id="accuse-${suspect.id}">
                     <div class="suspect-avatar">${suspect.name.charAt(0)}</div>
-                    <div>
-                        <div class="suspect-name">${suspect.name}</div>
-                        <div class="suspect-role">${suspect.role}</div>
-                    </div>
+                    <div><div class="suspect-name">${suspect.name}</div><div class="suspect-role">${suspect.role}</div></div>
                 </div>
             `).join('');
-            
             document.getElementById('accusationModal').classList.add('active');
         }
 
         function selectAccusation(suspectId) {
             gameState.selectedSuspect = currentCase.suspects.find(s => s.id === suspectId);
-            
-            // Update visual selection
-            document.querySelectorAll('#accusationSuspects .suspect-item').forEach(el => {
-                el.style.background = 'var(--bg-secondary)';
-                el.style.borderColor = 'transparent';
-            });
-            
+            document.querySelectorAll('#accusationSuspects .suspect-item').forEach(el => { el.style.background = 'var(--bg-secondary)'; });
             const selected = document.getElementById(`accuse-${suspectId}`);
-            if (selected) {
-                selected.style.background = 'rgba(239, 68, 68, 0.2)';
-                selected.style.border = '1px solid var(--accent-red)';
-            }
+            if (selected) { selected.style.background = 'rgba(239, 68, 68, 0.2)'; selected.style.border = '1px solid var(--accent-red)'; }
         }
 
         function submitAccusation() {
-            if (!gameState.selectedSuspect) {
-                alert('Please select a suspect to accuse.');
-                return;
-            }
-            
+            if (!gameState.selectedSuspect) { alert('Please select a suspect to accuse.'); return; }
             closeModals();
-            
             const suspect = gameState.selectedSuspect;
-            if (suspect.is_guilty) {
-                showEnding('ending-correct');
-            } else {
-                showEnding('ending-wrong');
+            showEnding(suspect.is_guilty ? 'ending-correct' : 'ending-wrong');
+        }
+
+        // ==================== OWNER PORTAL ====================
+        function showOwnerSection(section) {
+            currentOwnerSection = section;
+            document.querySelectorAll('.owner-nav-item').forEach(el => el.classList.remove('active'));
+            event?.target?.classList.add('active');
+            const content = document.getElementById('ownerMainContent');
+            
+            if (section === 'dashboard') {
+                content.innerHTML = `
+                    <div class="owner-header">
+                        <div><h1 class="owner-title">Dashboard</h1><p class="owner-subtitle">Welcome back, Owner Admin</p></div>
+                        <button class="btn btn-primary" onclick="showOwnerSection('editor')"><i class="fas fa-plus"></i> New Case</button>
+                    </div>
+                    <div class="owner-stats">
+                        <div class="owner-stat-card"><div class="owner-stat-icon"><i class="fas fa-users"></i></div><div class="owner-stat-value">127</div><div class="owner-stat-label">Total Players</div></div>
+                        <div class="owner-stat-card"><div class="owner-stat-icon" style="color: var(--accent-green);"><i class="fas fa-chart-line"></i></div><div class="owner-stat-value">43</div><div class="owner-stat-label">Active Today</div></div>
+                        <div class="owner-stat-card"><div class="owner-stat-icon" style="color: var(--accent-purple);"><i class="fas fa-gamepad"></i></div><div class="owner-stat-value">892</div><div class="owner-stat-label">Total Sessions</div></div>
+                        <div class="owner-stat-card"><div class="owner-stat-icon" style="color: var(--accent-amber);"><i class="fas fa-check-circle"></i></div><div class="owner-stat-value">67%</div><div class="owner-stat-label">Completion Rate</div></div>
+                    </div>
+                    <div class="data-table">
+                        <div class="data-table-header" style="grid-template-columns: 2fr 3fr 1fr 1fr;">
+                            <div>Case ID</div><div>Title</div><div>Status</div><div>Sessions</div>
+                        </div>
+                        ${CASES.map(c => `
+                            <div class="data-table-row" style="grid-template-columns: 2fr 3fr 1fr 1fr;">
+                                <div style="font-family: 'JetBrains Mono', monospace; color: var(--accent-green);">${c.id}</div>
+                                <div style="font-weight: 600;">${c.title}</div>
+                                <div><span class="status-badge ${c.published ? 'status-published' : 'status-draft'}">${c.published ? 'Published' : 'Draft'}</span></div>
+                                <div>${Math.floor(Math.random() * 200)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (section === 'cases') {
+                content.innerHTML = `
+                    <div class="owner-header">
+                        <div><h1 class="owner-title">Case Manager</h1><p class="owner-subtitle">${CASES.length} cases in database</p></div>
+                        <button class="btn btn-primary" onclick="showOwnerSection('editor')"><i class="fas fa-plus"></i> New Case</button>
+                    </div>
+                    <div class="data-table">
+                        <div class="data-table-header" style="grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr;">
+                            <div>Case ID</div><div>Title</div><div>Type</div><div>Scenes</div><div>Status</div><div>Actions</div>
+                        </div>
+                        ${CASES.map(c => `
+                            <div class="data-table-row" style="grid-template-columns: 1fr 2fr 1fr 1fr 1fr 1fr;">
+                                <div style="font-family: 'JetBrains Mono', monospace; color: var(--accent-green);">${c.id}</div>
+                                <div style="font-weight: 600;">${c.title}</div>
+                                <div>${c.crime_type}</div>
+                                <div>${c.scenes.length}</div>
+                                <div><span class="status-badge ${c.published ? 'status-published' : 'status-draft'}">${c.published ? 'Published' : 'Draft'}</span></div>
+                                <div>
+                                    <button class="btn btn-secondary btn-sm" onclick="editCase('${c.id}')" style="padding: 6px 12px;"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-secondary btn-sm" onclick="togglePublish('${c.id}')" style="padding: 6px 12px;"><i class="fas ${c.published ? 'fa-eye-slash' : 'fa-eye'}"></i></button>
+                                    <button class="btn btn-secondary btn-sm" onclick="deleteCase('${c.id}')" style="padding: 6px 12px; color: var(--accent-red);"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (section === 'editor') {
+                renderCaseEditor();
+            } else if (section === 'players') {
+                content.innerHTML = `
+                    <div class="owner-header">
+                        <div><h1 class="owner-title">Players</h1><p class="owner-subtitle">127 registered players</p></div>
+                    </div>
+                    <div class="form-group" style="max-width: 400px; margin-bottom: 24px;">
+                        <div style="position: relative;"><i class="fas fa-search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted);"></i>
+                        <input type="text" class="form-input" placeholder="Search players..." style="padding-left: 44px;"></div>
+                    </div>
+                    <div class="data-table">
+                        <div class="data-table-header" style="grid-template-columns: 2fr 2fr 1fr 1fr 1fr;">
+                            <div>Username</div><div>Email</div><div>Level</div><div>Career Points</div><div>Joined</div>
+                        </div>
+                        ${['Agent_Smith', 'Diana_Hunter', 'Case_Solver99', 'FBI_Rookie', 'Detective_X'].map((name, i) => `
+                            <div class="data-table-row" style="grid-template-columns: 2fr 2fr 1fr 1fr 1fr;">
+                                <div style="font-weight: 600;">${name}</div>
+                                <div style="color: var(--text-muted);">${name.toLowerCase()}@fbi.gov</div>
+                                <div style="color: var(--accent-blue);">LVL ${5-i}</div>
+                                <div>${(5-i) * 250} CP</div>
+                                <div style="color: var(--text-muted);">Dec ${20-i}, 2024</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (section === 'analytics') {
+                content.innerHTML = `
+                    <div class="owner-header">
+                        <div><h1 class="owner-title">Analytics</h1><p class="owner-subtitle">Platform performance metrics</p></div>
+                        <button class="btn btn-secondary"><i class="fas fa-download"></i> Export CSV</button>
+                    </div>
+                    <div class="owner-stats">
+                        <div class="owner-stat-card"><div class="owner-stat-icon"><i class="fas fa-users"></i></div><div class="owner-stat-value">127</div><div class="owner-stat-label">Total Players</div></div>
+                        <div class="owner-stat-card"><div class="owner-stat-icon" style="color: var(--accent-green);"><i class="fas fa-chart-line"></i></div><div class="owner-stat-value">43</div><div class="owner-stat-label">Active Today</div></div>
+                        <div class="owner-stat-card"><div class="owner-stat-icon" style="color: var(--accent-purple);"><i class="fas fa-gamepad"></i></div><div class="owner-stat-value">892</div><div class="owner-stat-label">Total Sessions</div></div>
+                        <div class="owner-stat-card"><div class="owner-stat-icon" style="color: var(--accent-amber);"><i class="fas fa-credit-card"></i></div><div class="owner-stat-value">34</div><div class="owner-stat-label">Subscribers</div></div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                        <div class="form-section">
+                            <div class="form-section-title" style="color: var(--text-muted);">Completion Rate</div>
+                            <div style="font-size: 48px; font-weight: 800;">67%</div>
+                            <div style="height: 12px; background: var(--bg-secondary); border-radius: 6px; margin-top: 16px;">
+                                <div style="height: 100%; width: 67%; background: var(--accent-green); border-radius: 6px;"></div>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <div class="form-section-title" style="color: var(--text-muted);">Ending Distribution</div>
+                            <div style="margin-top: 16px;">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span style="color: var(--accent-green);">CLOSED (Good)</span><span>543</span></div>
+                                <div style="height: 8px; background: var(--bg-secondary); border-radius: 4px; margin-bottom: 12px;"><div style="height: 100%; width: 61%; background: var(--accent-green); border-radius: 4px;"></div></div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span style="color: var(--accent-red);">COMPROMISED (Bad)</span><span>349</span></div>
+                                <div style="height: 8px; background: var(--bg-secondary); border-radius: 4px;"><div style="height: 100%; width: 39%; background: var(--accent-red); border-radius: 4px;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderCaseEditor() {
+            const c = editingCase || {
+                id: 'case-' + Date.now(),
+                title: '',
+                synopsis: '',
+                difficulty: 'medium',
+                crime_type: 'HOMICIDE',
+                time_limit: 30,
+                published: false,
+                suspects: [],
+                clues: [],
+                scenes: [],
+                endings: {}
+            };
+            
+            document.getElementById('ownerMainContent').innerHTML = `
+                <div class="owner-header">
+                    <div>
+                        <h1 class="owner-title">${editingCase ? 'Edit Case' : 'Create New Case'}</h1>
+                        <p class="owner-subtitle">${c.id}</p>
+                    </div>
+                    <div style="display: flex; gap: 12px;">
+                        <button class="btn btn-secondary" onclick="showOwnerSection('cases')"><i class="fas fa-arrow-left"></i> Back</button>
+                        <button class="btn btn-success" onclick="saveCase()"><i class="fas fa-save"></i> Save Case</button>
+                    </div>
+                </div>
+                
+                <div class="tabs" id="editorTabs">
+                    <button class="tab active" onclick="switchEditorTab('header', this)">Header</button>
+                    <button class="tab" onclick="switchEditorTab('suspects', this)">Suspects (${c.suspects.length})</button>
+                    <button class="tab" onclick="switchEditorTab('scenes', this)">Scenes (${c.scenes.length})</button>
+                    <button class="tab" onclick="switchEditorTab('clues', this)">Evidence (${c.clues.length})</button>
+                    <button class="tab" onclick="switchEditorTab('endings', this)">Endings</button>
+                </div>
+                
+                <div id="editorContent">
+                    <div id="tab-header">
+                        <div class="form-section">
+                            <div class="form-section-title">Case Identification</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Case ID</label>
+                                    <input type="text" class="form-input" id="case-id" value="${c.id}" placeholder="FBI-HOM-24-001">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Crime Type</label>
+                                    <select class="form-select" id="case-type">
+                                        <option value="HOMICIDE" ${c.crime_type === 'HOMICIDE' ? 'selected' : ''}>Homicide</option>
+                                        <option value="KIDNAPPING" ${c.crime_type === 'KIDNAPPING' ? 'selected' : ''}>Kidnapping</option>
+                                        <option value="CYBERCRIME" ${c.crime_type === 'CYBERCRIME' ? 'selected' : ''}>Cybercrime</option>
+                                        <option value="MISSING PERSON" ${c.crime_type === 'MISSING PERSON' ? 'selected' : ''}>Missing Person</option>
+                                        <option value="FRAUD" ${c.crime_type === 'FRAUD' ? 'selected' : ''}>Fraud</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Difficulty</label>
+                                    <select class="form-select" id="case-difficulty">
+                                        <option value="easy" ${c.difficulty === 'easy' ? 'selected' : ''}>Easy</option>
+                                        <option value="medium" ${c.difficulty === 'medium' ? 'selected' : ''}>Medium</option>
+                                        <option value="hard" ${c.difficulty === 'hard' ? 'selected' : ''}>Hard</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <div class="form-section-title">Case Details</div>
+                            <div class="form-group">
+                                <label class="form-label">Title</label>
+                                <input type="text" class="form-input" id="case-title" value="${c.title}" placeholder="The Midnight Caller">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Synopsis</label>
+                                <textarea class="form-textarea" id="case-synopsis" placeholder="Brief description of the case...">${c.synopsis}</textarea>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Time Limit (minutes)</label>
+                                    <input type="number" class="form-input" id="case-time" value="${c.time_limit}" min="5" max="120">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Published</label>
+                                    <div class="switch-container">
+                                        <div class="switch ${c.published ? 'active' : ''}" onclick="this.classList.toggle('active')" id="case-published"></div>
+                                        <span>${c.published ? 'Yes' : 'No'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="tab-suspects" class="hidden">
+                        <button class="btn btn-primary" onclick="addSuspect()" style="margin-bottom: 20px;"><i class="fas fa-plus"></i> Add Suspect</button>
+                        <div id="suspects-list">
+                            ${c.suspects.map((s, i) => renderSuspectCard(s, i)).join('')}
+                            ${c.suspects.length === 0 ? '<p style="color: var(--text-muted);">No suspects added yet. Click "Add Suspect" to create one.</p>' : ''}
+                        </div>
+                    </div>
+                    
+                    <div id="tab-scenes" class="hidden">
+                        <button class="btn btn-primary" onclick="addScene()" style="margin-bottom: 20px;"><i class="fas fa-plus"></i> Add Scene</button>
+                        <div id="scenes-list">
+                            ${c.scenes.map((s, i) => renderSceneCard(s, i)).join('')}
+                            ${c.scenes.length === 0 ? '<p style="color: var(--text-muted);">No scenes added yet. Click "Add Scene" to create one.</p>' : ''}
+                        </div>
+                    </div>
+                    
+                    <div id="tab-clues" class="hidden">
+                        <button class="btn btn-primary" onclick="addClue()" style="margin-bottom: 20px;"><i class="fas fa-plus"></i> Add Evidence</button>
+                        <div id="clues-list">
+                            ${c.clues.map((cl, i) => renderClueCard(cl, i)).join('')}
+                            ${c.clues.length === 0 ? '<p style="color: var(--text-muted);">No evidence added yet. Click "Add Evidence" to create one.</p>' : ''}
+                        </div>
+                    </div>
+                    
+                    <div id="tab-endings" class="hidden">
+                        <div class="form-section" style="border-color: var(--accent-green);">
+                            <div class="form-section-title" style="color: var(--accent-green);">CLOSED (Success)</div>
+                            <div class="form-group">
+                                <label class="form-label">Title</label>
+                                <input type="text" class="form-input" id="ending-closed-title" value="${c.endings['ending-correct']?.title || ''}" placeholder="Case Closed - Justice Served">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Narration</label>
+                                <textarea class="form-textarea" id="ending-closed-narration" placeholder="What happens when the player solves the case correctly...">${c.endings['ending-correct']?.narration || ''}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">XP Reward</label>
+                                <input type="number" class="form-input" id="ending-closed-xp" value="${c.endings['ending-correct']?.xp || 100}" style="width: 150px;">
+                            </div>
+                        </div>
+                        
+                        <div class="form-section" style="border-color: var(--accent-red);">
+                            <div class="form-section-title" style="color: var(--accent-red);">COMPROMISED (Failure)</div>
+                            <div class="form-group">
+                                <label class="form-label">Title</label>
+                                <input type="text" class="form-input" id="ending-wrong-title" value="${c.endings['ending-wrong']?.title || ''}" placeholder="Case Compromised">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Narration</label>
+                                <textarea class="form-textarea" id="ending-wrong-narration" placeholder="What happens when the player accuses the wrong suspect...">${c.endings['ending-wrong']?.narration || ''}</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">XP Penalty</label>
+                                <input type="number" class="form-input" id="ending-wrong-xp" value="${c.endings['ending-wrong']?.xp || -50}" style="width: 150px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSuspectCard(s, i) {
+            return `
+                <div class="item-card">
+                    <div class="item-card-header">
+                        <span class="item-card-title">SUSPECT #${i + 1}</span>
+                        <div>
+                            <span style="color: ${s.is_guilty ? 'var(--accent-red)' : 'var(--text-muted)'}; margin-right: 16px;">${s.is_guilty ? 'GUILTY' : 'INNOCENT'}</span>
+                            <button class="btn btn-secondary btn-sm" onclick="removeSuspect(${i})" style="padding: 4px 8px; color: var(--accent-red);"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" value="${s.name}" onchange="updateSuspect(${i}, 'name', this.value)"></div>
+                        <div class="form-group"><label class="form-label">Age</label><input type="number" class="form-input" value="${s.age}" onchange="updateSuspect(${i}, 'age', parseInt(this.value))"></div>
+                        <div class="form-group"><label class="form-label">Role</label><input type="text" class="form-input" value="${s.role}" onchange="updateSuspect(${i}, 'role', this.value)"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label class="form-label">Motive</label><input type="text" class="form-input" value="${s.motive || ''}" onchange="updateSuspect(${i}, 'motive', this.value)"></div>
+                        <div class="form-group"><label class="form-label">Alibi</label><input type="text" class="form-input" value="${s.alibi || ''}" onchange="updateSuspect(${i}, 'alibi', this.value)"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Personality</label>
+                            <select class="form-select" onchange="updateSuspect(${i}, 'personality', this.value)">
+                                <option value="defensive" ${s.personality === 'defensive' ? 'selected' : ''}>Defensive</option>
+                                <option value="cooperative" ${s.personality === 'cooperative' ? 'selected' : ''}>Cooperative</option>
+                                <option value="hostile" ${s.personality === 'hostile' ? 'selected' : ''}>Hostile</option>
+                                <option value="calculating" ${s.personality === 'calculating' ? 'selected' : ''}>Calculating</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Is Guilty</label>
+                            <div class="switch-container">
+                                <div class="switch ${s.is_guilty ? 'active' : ''}" onclick="this.classList.toggle('active'); updateSuspect(${i}, 'is_guilty', this.classList.contains('active'))"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSceneCard(s, i) {
+            return `
+                <div class="item-card">
+                    <div class="item-card-header">
+                        <span class="item-card-title" style="color: var(--accent-green);">SCENE ${s.id}</span>
+                        <button class="btn btn-secondary btn-sm" onclick="removeScene(${i})" style="padding: 4px 8px; color: var(--accent-red);"><i class="fas fa-trash"></i></button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label class="form-label">Title</label><input type="text" class="form-input" value="${s.title}" onchange="updateScene(${i}, 'title', this.value)"></div>
+                        <div class="form-group">
+                            <label class="form-label">Type</label>
+                            <select class="form-select" onchange="updateScene(${i}, 'type', this.value)">
+                                <option value="investigation" ${s.type === 'investigation' ? 'selected' : ''}>Investigation</option>
+                                <option value="crime_scene" ${s.type === 'crime_scene' ? 'selected' : ''}>Crime Scene</option>
+                                <option value="evidence_lab" ${s.type === 'evidence_lab' ? 'selected' : ''}>Evidence Lab</option>
+                                <option value="interrogation" ${s.type === 'interrogation' ? 'selected' : ''}>Interrogation</option>
+                                <option value="briefing" ${s.type === 'briefing' ? 'selected' : ''}>Briefing</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Narration</label>
+                        <textarea class="form-textarea" onchange="updateScene(${i}, 'narration', this.value)">${s.narration}</textarea>
+                    </div>
+                    <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <span style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Choices (${s.choices.length})</span>
+                            <button class="btn btn-secondary btn-sm" onclick="addChoice(${i})"><i class="fas fa-plus"></i> Add Choice</button>
+                        </div>
+                        ${s.choices.map((ch, ci) => `
+                            <div style="background: var(--bg-primary); padding: 12px; border-radius: 8px; margin-bottom: 8px;">
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    <input type="text" class="form-input" value="${ch.text}" placeholder="Choice text..." style="flex: 1;" onchange="updateChoice(${i}, ${ci}, 'text', this.value)">
+                                    <input type="text" class="form-input" value="${ch.next}" placeholder="Next scene" style="width: 100px;" onchange="updateChoice(${i}, ${ci}, 'next', this.value)">
+                                    <select class="form-select" style="width: 100px;" onchange="updateChoice(${i}, ${ci}, 'risk', this.value)">
+                                        <option value="low" ${ch.risk === 'low' ? 'selected' : ''}>Low</option>
+                                        <option value="medium" ${ch.risk === 'medium' ? 'selected' : ''}>Medium</option>
+                                        <option value="high" ${ch.risk === 'high' ? 'selected' : ''}>High</option>
+                                    </select>
+                                    <button class="btn btn-secondary btn-sm" onclick="removeChoice(${i}, ${ci})" style="padding: 4px 8px; color: var(--accent-red);"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderClueCard(cl, i) {
+            return `
+                <div class="item-card">
+                    <div class="item-card-header">
+                        <span class="item-card-title">EVIDENCE #${i + 1}</span>
+                        <button class="btn btn-secondary btn-sm" onclick="removeClue(${i})" style="padding: 4px 8px; color: var(--accent-red);"><i class="fas fa-trash"></i></button>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label class="form-label">Label</label><input type="text" class="form-input" value="${cl.label}" onchange="updateClue(${i}, 'label', this.value)"></div>
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" onchange="updateClue(${i}, 'category', this.value)">
+                                <option value="physical" ${cl.category === 'physical' ? 'selected' : ''}>Physical</option>
+                                <option value="digital" ${cl.category === 'digital' ? 'selected' : ''}>Digital</option>
+                                <option value="financial" ${cl.category === 'financial' ? 'selected' : ''}>Financial</option>
+                                <option value="witness" ${cl.category === 'witness' ? 'selected' : ''}>Witness</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" style="min-height: 60px;" onchange="updateClue(${i}, 'description', this.value)">${cl.description}</textarea>
+                    </div>
+                </div>
+            `;
+        }
+
+        function switchEditorTab(tabName, btn) {
+            document.querySelectorAll('#editorTabs .tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('#editorContent > div').forEach(d => d.classList.add('hidden'));
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+        }
+
+        function getEditingCase() {
+            return editingCase || {
+                id: document.getElementById('case-id')?.value || 'case-' + Date.now(),
+                title: '', synopsis: '', difficulty: 'medium', crime_type: 'HOMICIDE', time_limit: 30, published: false, suspects: [], clues: [], scenes: [], endings: {}
+            };
+        }
+
+        function addSuspect() {
+            const c = getEditingCase();
+            c.suspects.push({ id: 's' + (c.suspects.length + 1), name: '', age: 30, role: '', motive: '', alibi: '', is_guilty: false, personality: 'defensive' });
+            editingCase = c;
+            renderCaseEditor();
+            switchEditorTab('suspects', document.querySelector('#editorTabs .tab:nth-child(2)'));
+        }
+
+        function updateSuspect(i, field, value) {
+            const c = getEditingCase();
+            c.suspects[i][field] = value;
+            editingCase = c;
+        }
+
+        function removeSuspect(i) {
+            const c = getEditingCase();
+            c.suspects.splice(i, 1);
+            editingCase = c;
+            renderCaseEditor();
+            switchEditorTab('suspects', document.querySelector('#editorTabs .tab:nth-child(2)'));
+        }
+
+        function addScene() {
+            const c = getEditingCase();
+            c.scenes.push({ id: 'scene-' + (c.scenes.length + 1), order: c.scenes.length + 1, title: '', type: 'investigation', narration: '', choices: [] });
+            editingCase = c;
+            renderCaseEditor();
+            switchEditorTab('scenes', document.querySelector('#editorTabs .tab:nth-child(3)'));
+        }
+
+        function updateScene(i, field, value) {
+            const c = getEditingCase();
+            c.scenes[i][field] = value;
+            editingCase = c;
+        }
+
+        function removeScene(i) {
+            const c = getEditingCase();
+            c.scenes.splice(i, 1);
+            editingCase = c;
+            renderCaseEditor();
+            switchEditorTab('scenes', document.querySelector('#editorTabs .tab:nth-child(3)'));
+        }
+
+        function addChoice(sceneIndex) {
+            const c = getEditingCase();
+            c.scenes[sceneIndex].choices.push({ id: 'ch' + Date.now(), text: '', next: '', risk: 'low', clues: [], score: 0 });
+            editingCase = c;
+            renderCaseEditor();
+            switchEditorTab('scenes', document.querySelector('#editorTabs .tab:nth-child(3)'));
+        }
+
+        function updateChoice(si, ci, field, value) {
+            const c = getEditingCase();
+            c.scenes[si].choices[ci][field] = value;
+            editingCase = c;
+        }
+
+        function removeChoice(si, ci) {
+            const c = getEditingCase();
+            c.scenes[si].choices.splice(ci, 1);
+            editingCase = c;
+            renderCaseEditor();
+            switchEditorTab('scenes', document.querySelector('#editorTabs .tab:nth-child(3)'));
+        }
+
+        function addClue() {
+            const c = getEditingCase();
+            c.clues.push({ id: 'c' + (c.clues.length + 1), label: '', description: '', category: 'physical' });
+            editingCase = c;
+            renderCaseEditor();
+            switchEditorTab('clues', document.querySelector('#editorTabs .tab:nth-child(4)'));
+        }
+
+        function updateClue(i, field, value) {
+            const c = getEditingCase();
+            c.clues[i][field] = value;
+            editingCase = c;
+        }
+
+        function removeClue(i) {
+            const c = getEditingCase();
+            c.clues.splice(i, 1);
+            editingCase = c;
+            renderCaseEditor();
+            switchEditorTab('clues', document.querySelector('#editorTabs .tab:nth-child(4)'));
+        }
+
+        function saveCase() {
+            const c = {
+                id: document.getElementById('case-id').value,
+                title: document.getElementById('case-title').value,
+                synopsis: document.getElementById('case-synopsis').value,
+                difficulty: document.getElementById('case-difficulty').value,
+                crime_type: document.getElementById('case-type').value,
+                time_limit: parseInt(document.getElementById('case-time').value),
+                published: document.getElementById('case-published').classList.contains('active'),
+                suspects: editingCase?.suspects || [],
+                clues: editingCase?.clues || [],
+                scenes: editingCase?.scenes || [],
+                endings: {
+                    'ending-correct': { type: 'CLOSED', title: document.getElementById('ending-closed-title')?.value || '', narration: document.getElementById('ending-closed-narration')?.value || '', xp: parseInt(document.getElementById('ending-closed-xp')?.value || 100) },
+                    'ending-wrong': { type: 'COMPROMISED', title: document.getElementById('ending-wrong-title')?.value || '', narration: document.getElementById('ending-wrong-narration')?.value || '', xp: parseInt(document.getElementById('ending-wrong-xp')?.value || -50) }
+                }
+            };
+            
+            const existingIndex = CASES.findIndex(cs => cs.id === c.id);
+            if (existingIndex >= 0) { CASES[existingIndex] = c; }
+            else { CASES.push(c); }
+            
+            localStorage.setItem('casefiles_cases', JSON.stringify(CASES));
+            editingCase = null;
+            alert('Case saved successfully!');
+            showOwnerSection('cases');
+        }
+
+        function editCase(caseId) {
+            editingCase = JSON.parse(JSON.stringify(CASES.find(c => c.id === caseId)));
+            showOwnerSection('editor');
+        }
+
+        function togglePublish(caseId) {
+            const c = CASES.find(cs => cs.id === caseId);
+            if (c) {
+                c.published = !c.published;
+                localStorage.setItem('casefiles_cases', JSON.stringify(CASES));
+                showOwnerSection('cases');
+            }
+        }
+
+        function deleteCase(caseId) {
+            if (confirm('Are you sure you want to delete this case?')) {
+                CASES = CASES.filter(c => c.id !== caseId);
+                localStorage.setItem('casefiles_cases', JSON.stringify(CASES));
+                showOwnerSection('cases');
             }
         }
 
         // ==================== INITIALIZATION ====================
         document.addEventListener('DOMContentLoaded', function() {
-            // Check for saved user
+            const savedCases = localStorage.getItem('casefiles_cases');
+            if (savedCases) { CASES = JSON.parse(savedCases); }
+            
             const savedUser = localStorage.getItem('casefiles_user');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
+                isOwner = localStorage.getItem('casefiles_owner') === 'true';
                 updateAuthUI();
             }
             
-            // Handle Enter key for interrogation
-            document.getElementById('interrogationInput').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendInterrogation();
-                }
+            document.getElementById('interrogationInput')?.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') sendInterrogation();
             });
         });
     </script>
