@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASE FILES - FBI Investigation Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Courier+Prime:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Landing Page -->
+        <div id="landing-page" class="page active">
+            <header class="landing-header">
+                <div class="logo">
+                    <i class="fas fa-fingerprint"></i>
+                    <span>CASE FILES</span>
+                </div>
+                <nav>
+                    <button class="btn btn-ghost" onclick="showPage('login-page')">Sign In</button>
+                    <button class="btn btn-primary" onclick="showPage('register-page')">Join the Bureau</button>
+                </nav>
+            </header>
+            <main class="landing-hero">
+                <div class="hero-content">
+                    <div class="badge">FEDERAL BUREAU OF INVESTIGATION</div>
+                    <h1>SOLVE CRIMES.<br>CATCH KILLERS.<br>BECOME A LEGEND.</h1>
+                    <p class="hero-subtitle">Step into the shoes of an FBI agent. Navigate complex investigations, interrogate suspects, and bring justice to the victims.</p>
+                    <button class="btn btn-primary btn-lg" onclick="showPage('register-page')">
+                        <i class="fas fa-badge"></i>
+                        Begin Your Career
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">500+</div>
+                        <div class="stat-label">Active Agents</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">98%</div>
+                        <div class="stat-label">Closure Rate</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Operations</div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page">
+            <div class="auth-container">
+                <button class="back-btn" onclick="showPage('landing-page')">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <i class="fas fa-fingerprint"></i>
+                        <h2>AGENT LOGIN</h2>
+                        <p>Access your case files</p>
+                    </div>
+                    <form id="login-form" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label>BADGE EMAIL</label>
+                            <input type="email" id="login-email" required placeholder="agent@fbi.gov">
+                        </div>
+                        <div class="form-group">
+                            <label>ACCESS CODE</label>
+                            <input type="password" id="login-password" required placeholder="********">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-sign-in-alt"></i> Access Portal
+                        </button>
+                    </form>
+                    <p class="auth-link">New recruit? <a href="#" onclick="showPage('register-page')">Register here</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page">
+            <div class="auth-container">
+                <button class="back-btn" onclick="showPage('landing-page')">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <i class="fas fa-user-plus"></i>
+                        <h2>AGENT REGISTRATION</h2>
+                        <p>Join the Bureau</p>
+                    </div>
+                    <form id="register-form" onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label>AGENT CODENAME</label>
+                            <input type="text" id="register-username" required placeholder="Agent_Smith">
+                        </div>
+                        <div class="form-group">
+                            <label>BADGE EMAIL</label>
+                            <input type="email" id="register-email" required placeholder="agent@fbi.gov">
+                        </div>
+                        <div class="form-group">
+                            <label>ACCESS CODE</label>
+                            <input type="password" id="register-password" required placeholder="********" minlength="6">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-user-shield"></i> Create Badge
+                        </button>
+                    </form>
+                    <p class="auth-link">Already an agent? <a href="#" onclick="showPage('login-page')">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page">
+            <header class="dashboard-header">
+                <div class="logo">
+                    <i class="fas fa-fingerprint"></i>
+                    <span>CASE FILES</span>
+                </div>
+                <div class="user-info">
+                    <span id="user-rank" class="rank-badge">ANALYST</span>
+                    <span id="user-name">Agent</span>
+                    <button class="btn btn-ghost" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </header>
+            <main class="dashboard-main">
+                <div class="dashboard-welcome">
+                    <h1>AGENT DOSSIER</h1>
+                    <p>Welcome back, <span id="welcome-name">Agent</span></p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <i class="fas fa-star"></i>
+                        <div class="stat-content">
+                            <div class="stat-value" id="career-points">0</div>
+                            <div class="stat-label">Career Points</div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-folder-open"></i>
+                        <div class="stat-content">
+                            <div class="stat-value" id="cases-solved">0</div>
+                            <div class="stat-label">Cases Solved</div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fas fa-chart-line"></i>
+                        <div class="stat-content">
+                            <div class="stat-value" id="user-level">1</div>
+                            <div class="stat-label">Agent Level</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cases-section">
+                    <h2><i class="fas fa-folder"></i> AVAILABLE CASES</h2>
+                    <div id="cases-list" class="cases-grid">
+                        <!-- Cases loaded dynamically -->
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Gameplay Page -->
+        <div id="gameplay-page" class="page">
+            <header class="gameplay-header">
+                <div class="header-left">
+                    <button class="btn btn-ghost" onclick="exitGame()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="case-info">
+                        <span class="case-id" id="game-case-id">FBI-HOM-24-001</span>
+                        <span class="threat-badge" id="game-threat">HIGH THREAT</span>
+                    </div>
+                </div>
+                <div class="header-center">
+                    <h1 id="game-case-title">Case Title</h1>
+                </div>
+                <div class="header-right">
+                    <div class="game-stat">
+                        <i class="fas fa-clock"></i>
+                        <span id="game-timer">15:00</span>
+                    </div>
+                    <div class="game-stat">
+                        <i class="fas fa-balance-scale"></i>
+                        <span id="game-conviction">10%</span>
+                    </div>
+                    <div class="game-stat risk" id="game-risk-container">
+                        <i class="fas fa-shield-alt"></i>
+                        <span id="game-risk">LOW</span>
+                    </div>
+                </div>
+            </header>
+            <div class="gameplay-stats-bar">
+                <div class="stat-item">
+                    <i class="fas fa-file-alt"></i>
+                    <span>Evidence: <span id="evidence-count">0</span></span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-gavel"></i>
+                    <span>Warrants: <span id="warrant-count">0</span></span>
+                </div>
+                <div class="stat-item violations" id="violations-container" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span><span id="violations-count">0</span> Violations</span>
+                </div>
+                <div class="stat-item rank">
+                    <i class="fas fa-badge-check"></i>
+                    <span id="game-rank">ANALYST</span>
+                </div>
+            </div>
+            <main class="gameplay-main">
+                <nav class="gameplay-tabs">
+                    <button class="tab-btn active" onclick="switchTab('scene')">
+                        <i class="fas fa-file-alt"></i> Scene
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('suspects')">
+                        <i class="fas fa-users"></i> Suspects
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('clues')">
+                        <i class="fas fa-search"></i> Clues (<span id="clues-count">0</span>)
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('timeline')">
+                        <i class="fas fa-calendar"></i> Timeline
+                    </button>
+                </nav>
+                <div id="tab-scene" class="tab-content active">
+                    <div class="scene-container">
+                        <div class="scene-header">
+                            <span class="scene-number">SCENE 1</span>
+                            <h2 id="scene-title">Scene Title</h2>
+                        </div>
+                        <div class="scene-media" id="scene-media"></div>
+                        <div class="scene-narration" id="scene-narration">
+                            Scene narration goes here...
+                        </div>
+                        <div class="choices-container" id="choices-container">
+                            <!-- Choices loaded dynamically -->
+                        </div>
+                        <button id="back-btn" class="btn btn-back" style="display: none;" onclick="goBack()">
+                            <i class="fas fa-arrow-left"></i> Go Back & Try Different Choice
+                        </button>
+                    </div>
+                </div>
+                <div id="tab-suspects" class="tab-content">
+                    <div class="suspects-grid" id="suspects-grid">
+                        <!-- Suspects loaded dynamically -->
+                    </div>
+                </div>
+                <div id="tab-clues" class="tab-content">
+                    <div id="clues-empty" class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <p>No evidence collected yet</p>
+                        <span>Investigate scenes to gather clues</span>
+                    </div>
+                    <div class="clues-grid" id="clues-grid">
+                        <!-- Clues loaded dynamically -->
+                    </div>
+                </div>
+                <div id="tab-timeline" class="tab-content">
+                    <div class="timeline-container" id="timeline-container">
+                        <!-- Timeline loaded dynamically -->
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Interrogation Modal -->
+        <div id="interrogation-modal" class="modal">
+            <div class="modal-content modal-lg">
+                <div class="modal-header">
+                    <h2><i class="fas fa-comments"></i> Interrogation: <span id="interrogation-suspect-name"></span></h2>
+                    <button class="btn btn-ghost" onclick="closeModal('interrogation-modal')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="interrogation-status">
+                    <div class="status-item">
+                        <label>Cooperation</label>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="cooperation-bar" style="width: 50%"></div>
+                        </div>
+                    </div>
+                    <div class="status-item">
+                        <button id="miranda-btn" class="btn btn-warning btn-sm" onclick="giveMiranda()">
+                            <i class="fas fa-broadcast-tower"></i> Read Miranda
+                        </button>
+                        <span id="miranda-status" style="display: none;" class="status-badge success">
+                            <i class="fas fa-check"></i> Miranda Given
+                        </span>
+                    </div>
+                    <div class="approach-selector">
+                        <label>Approach:</label>
+                        <select id="interrogation-approach">
+                            <option value="professional">Professional</option>
+                            <option value="aggressive">Aggressive</option>
+                            <option value="sympathetic">Sympathetic</option>
+                            <option value="strategic_silence">Strategic Silence</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="interrogation-chat" id="interrogation-chat">
+                    <p class="chat-placeholder">Begin your interrogation</p>
+                </div>
+                <div class="interrogation-input">
+                    <textarea id="interrogation-question" placeholder="Ask your question..."></textarea>
+                    <button class="btn btn-primary" onclick="sendQuestion()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accusation Modal -->
+        <div id="accusation-modal" class="modal">
+            <div class="modal-content modal-lg">
+                <div class="modal-header">
+                    <h2><i class="fas fa-gavel"></i> Make Accusation</h2>
+                    <button class="btn btn-ghost" onclick="closeModal('accusation-modal')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="accusation-body">
+                    <div class="accusation-section">
+                        <h3>SELECT SUSPECT</h3>
+                        <div class="suspect-select-grid" id="accusation-suspects">
+                            <!-- Suspects loaded dynamically -->
+                        </div>
+                    </div>
+                    <div class="accusation-section">
+                        <h3>SELECT EVIDENCE (MIN. 3) - <span id="selected-evidence-count">0</span> SELECTED</h3>
+                        <div class="evidence-select-grid" id="accusation-evidence">
+                            <!-- Evidence loaded dynamically -->
+                        </div>
+                    </div>
+                    <button class="btn btn-danger btn-block" id="confirm-accusation-btn" onclick="confirmAccusation()">
+                        <i class="fas fa-crosshairs"></i> Confirm Accusation
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Over Modal -->
+        <div id="gameover-modal" class="modal">
+            <div class="modal-content">
+                <div class="gameover-content" id="gameover-content">
+                    <!-- Game over content loaded dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast Container -->
+        <div id="toast-container"></div>
+    </div>
+
+    <script src="cases.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
