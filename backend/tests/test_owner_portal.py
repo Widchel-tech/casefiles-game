@@ -88,7 +88,7 @@ class TestOwnerRevenue:
         response = requests.post(
             f"{BASE_URL}/api/owner/stripe/connect",
             headers={"Authorization": f"Bearer {auth_token}"},
-            json={"return_url": "https://detective-gameplay.preview.emergentagent.com/owner/revenue"}
+            json={"return_url": "https://conviction-tracker.preview.emergentagent.com/owner/revenue"}
         )
         
         # May return 200 with onboarding URL, 500/520 if Stripe has issues

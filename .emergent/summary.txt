@@ -1,150 +1,143 @@
 <analysis>**original_problem_statement:**
-The user wants to build CASE FILES, a hyper-realistic FBI investigation game platform.
+The user wants to build CASE FILES, a hyper-realistic FBI investigation game.
 The core features include:
-- A player-facing application for playing through text-based investigation scenes.
-- A persistent player progression system.
+- A player-facing application for playing through text-based investigation scenes with a focus on realism.
+- A persistent player progression and career system (Analyst to Task Force Lead).
 - A comprehensive OWNER/ADMIN PORTAL for game management, including a Case Manager with AI generation, media attachments, and player analytics.
-- Monetization via a subscription system. Initially requested at /month, 0/year, later updated to **0.99/month or 00/year**.
-- A freemium model where the first case is free, and all subsequent cases require a subscription.
-- A payout system for the owner to receive subscription revenue.
+- Monetization via a subscription system at **0.99/month or 00/year**.
+- A freemium model where the first case is free.
+- The game engine must track complex metrics like Procedural Risk, Evidence Strength, and Conviction Probability, affecting case outcomes.
+- An AI-powered interrogation system.
+- Integration prompts for generating 3D CGI animated scenes.
 - **PRODUCT REQUIREMENTS:**
-    - The ability for the owner to upload photos for victims, suspects, clues, scenes, and case endings (mugshots).
+    - The owner can upload photos for victims, suspects, clues, scenes, and case endings.
+    - The entire game system must be dynamically adaptable to any crime type.
 
 **User's preferred language**: English
 
 **what currently exists?**
-A full-stack application with a FastAPI backend, React frontend, and MongoDB. The core player experience is functional, allowing users to register, log in, and play cases. The owner portal is functional and allows for manual case creation, viewing, and editing. The previously recurring navigation bug in the owner portal has been fixed. Photo upload functionality has been implemented across the case editor. The backend has been optimized for production deployments, and a freemium/subscription model is partially implemented.
+A full-stack application with a FastAPI backend, React frontend, and MongoDB. The application is configured with LIVE Stripe keys and can process real payments. The owner portal allows for user management and viewing revenue. The core gameplay logic has just undergone a massive backend overhaul to support the new hyper-realistic mechanics but is currently in a non-functional state as the frontend has not been fully updated to match. The image upload and display functionality is working correctly.
 
 **Last working item**:
--   **Last item agent was working:** The agent received a user request to change the subscription pricing to 0.99 per month or 00 per year. The agent had just started analyzing the necessary changes in the backend ('s Stripe integration) and frontend () before the session ended. This is part of the larger task of implementing the freemium/subscription model.
+-   **Last item agent was working:** A major overhaul of the game's core mechanics based on a detailed user prompt. The agent completed a significant refactor of the backend () to introduce new data models and logic for tracking realistic investigation metrics (Procedural Risk, Conviction Probability, etc.). The agent was in the middle of updating the frontend  to display these new metrics and handle the new API structure before the session ended.
 -   **Status:** IN PROGRESS
 -   **Agent Testing Done:** N
 -   **Which testing method agent to use?** both
 -   **User Testing Done:** N
 
 **All Pending/In progress Issue list**:
--   Issue 1: AI Case Generation is not implemented (P2)
-
-**Issues Detail:**
--   **Issue 1: AI Case Generation is not implemented**
-    -   **Description:** The owner portal has a page for AI case generation, but the backend endpoint () is a placeholder and does not call any LLM to generate case data.
-    -   **Attempted fixes:** None.
-    -   **Next debug checklist:**
-        1.  Call  for OpenAI GPT-5.2 integration.
-        2.  Implement the logic in  for the  endpoint using the playbook.
-        3.  Create a detailed prompt that instructs the LLM to generate case data in the precise JSON format required by the application.
-        4.  Connect the frontend  to this endpoint and handle the response.
-    -   **Why fix this issue and what will be achieved with the fix?** This is a core feature requested in the problem statement for the owner portal.
-    -   **Status:** NOT STARTED
-    -   **Is recurring issue?** N
-    -   **Should Test frontend/backend/both after fix?** both
-    -   **Blocked on other issue:** None
+-   There are no specific bugs, as the current priority is the large-scale feature implementation. The entire gameplay system is the issue being worked on.
 
 **In progress Task List**:
--   Task 1: Implement new subscription pricing and finalize freemium model (P0)
+-   Task 1: Complete the hyper-realistic game mechanic overhaul (P0)
 
 **Task Detail:**
--   **Task 1: Implement new subscription pricing and finalize freemium model**
+-   **Task 1: Complete the hyper-realistic game mechanic overhaul**
     -   **Where to resume:**
-        1.  **Backend:** Modify the Stripe price ID handling in  within the  endpoint to reflect the new pricing (0.99/month, 00/year). You may need to create new Price IDs in the Stripe Dashboard (or use test IDs if available).
-        2.  **Frontend:** Update the  to display the new pricing options to the user.
-        3.  **Testing:** Thoroughly test the entire subscription flow: a new user playing the first case for free, getting prompted to subscribe for the second case, completing the checkout with the new price, and verifying their subscription status is updated in the database.
-    -   **What will be achieved with this?** The application will have a fully functional freemium and recurring subscription model with the user's specified pricing.
+        1.  **Frontend (Player):** Continue refactoring . The UI needs to be fully implemented to display all the new stats (Procedural Risk, Conviction Probability, Clue List, XP). The new AI interrogation modal (with approach selection) needs to be built. All API calls (, , , ) must be aligned with the new backend logic.
+        2.  **Frontend (Owner):** This is a critical unstarted task. The Owner Case Editor at  is now obsolete. It must be completely rebuilt to allow the owner to create cases that conform to the new, complex data structure (e.g., defining procedural risk on choices, linking clues to evidence categories, setting conviction probability thresholds).
+        3.  **Backend:** The backend code in  has been heavily modified but not tested end-to-end with a compatible frontend. It will likely require debugging and adjustments once the frontend is updated.
+    -   **What will be achieved with this?** The application's core gameplay will be transformed into the hyper-realistic FBI investigation simulator the user envisioned.
     -   **Status:** IN PROGRESS
     -   **Should Test frontend/backend/both after fix?** both
-    -   **Blocked on something:** None
+    -   **Blocked on something:** The player-facing game is blocked until the  refactor is complete. The entire system is blocked from being usable until the  is rebuilt.
 
 **Upcoming and Future Tasks**
 -   **Upcoming Tasks:**
-    -   **(P1) Implement Analytics Backend:** Create backend endpoints to compute and serve the analytics data required by the .
-    -   **(P2) Implement Validate Case Feature:** Build the backend logic to validate a case against a set of rules (e.g., all scenes are reachable, endings exist).
+    -   **(P1) Implement AI Case Generation:** After the owner can manually create new-style cases, implement the backend logic for the  endpoint. This will involve significant prompt engineering to generate the complex JSON required for the new case structure.
+    -   **(P2) Implement Career Progression UI:** The backend tracks XP and rank, but the frontend needs UI elements to display the player's career progress and potentially unlock features based on rank.
 -   **Future Tasks:**
-    -   Implement Patch Notes and Bonus Files for cases.
-    -   Implement the immersive player screen with tabs (Evidence Locker, Timeline, etc.).
-    -   Implement the AI-powered interrogation system.
-    -   Implement level-based timers and the full replayable failure system.
+    -   Implement the 3D CGI Animation Integration prompt system.
+    -   Update the Owner Analytics page to track and display the new game metrics.
+    -   Implement the remaining features from the user's prompt, like level-based timers and multi-episode arcs.
 
 **Completed work in this session**
--   **Owner Portal Navigation (RESOLVED):** Fixed the critical bug that caused all owner portal links to redirect to the homepage by adding the missing routes in .
--   **Photo Uploads (DONE):** Implemented file upload functionality in the Case Editor for victim photos, suspect portraits, scene media, clue evidence, and ending mugshots.
--   **Deployment Readiness (DONE):** Optimized multiple database queries in  for production performance and added an automatic startup event to create the default owner/admin user in fresh database environments.
--   **Health Check (DONE):** Added a  endpoint to  for use by deployment systems.
--   **Freemium Model (Started):** Began implementation of the freemium logic in both the backend and frontend.
+-   **Stripe Integration:**
+    -   Updated subscription pricing to 0.99/month and 00/year.
+    -   Configured the application with the user's LIVE Stripe secret and publishable keys.
+    -   Fixed deployment errors by adding graceful error handling for Stripe API key issues.
+    -   Simplified the Owner Revenue page by removing the unnecessary Stripe Connect flow and linking directly to the Stripe Dashboard.
+-   **Image Uploads:** Fixed a critical bug preventing uploaded images from displaying correctly across the player and owner-facing apps.
+-   **Owner Account:** Changed the owner's login credentials as requested.
+-   **Gameplay Feature:** Added a back button to allow players to revisit previous scenes, including the backend endpoint and frontend UI.
+-   **Core Game Refactor (Backend):** Completed a massive overhaul of the backend data models and logic in  to support the new hyper-realistic gameplay.
 
 **Earlier issues found/mentioned but not fixed**
 -   None.
 
 **Known issue recurrence from previous fork**
--   **Issue recurrence in previous fork:** Owner Portal Navigation Bug
--   **Recurrence count:** 2+
--   **Status:** RESOLVED
+-   None.
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Backend:** FastAPI, MongoDB (using ), Pydantic
--   **Frontend:** React, React Router, Tailwind CSS, shadcn/ui
--   **Authentication:** JSON Web Tokens (JWT) with role-based access control ('user' vs 'owner')
--   **Integrations:** Stripe (Subscriptions & Payouts via Connect), OpenAI (Planned)
+-   **Backend:** FastAPI, MongoDB (), Pydantic. Features complex new models like  to track detailed game state.
+-   **Frontend:** React, React Router, Tailwind CSS, shadcn/ui.  is undergoing a major refactor.
+-   **Integrations:** Stripe (Subscriptions are LIVE and functional).
+-   **File Storage:** Local filesystem at , served via a static FastAPI route at .
 
 **key DB schema**
--   **Users:** {..., subscription_status, stripe_customer_id, stripe_subscription_id}
--   **Cases:** {..., **victim_photo_url**}
--   **Endings:** {..., **mugshot_url**, **case_file_photo_url**}
--   **Suspects:** {..., portrait_url}
--   **Clues:** {..., image_url}
+-   **Users:** {..., subscription_status, stripe_customer_id, xp, rank}
+-   **Cases:** Contains complex nested structures for scenes, choices, clues, and endings based on the new hyper-realistic spec.
+-   **PlaySessions (New Collection):** {user_id, case_id, current_scene_id, procedural_risk, conviction_probability, collected_clues, scene_history}
 
 **changes in tech stack**
 -   None.
 
 **All files of reference**
--   : The entire backend logic. Was heavily modified for bug fixes, query optimization, owner initialization, and the subscription model. It needs further changes for the new pricing.
--   : Modified to fix the owner portal navigation bug.
--   : Modified to add UI for photo uploads.
--   : Modified to handle the freemium model UI (displaying locked/free cases).
--   : Needs to be updated to display the new pricing.
--   : A new component for handling file uploads.
+-   : The entire backend logic, recently rewritten for the new gameplay.
+-   : Currently being modified to match the new backend.
+-   : Must be completely rebuilt to support creating/editing cases with the new mechanics.
+-   : Recently updated to simplify the Stripe flow.
+-   : New utility file for handling image URLs.
+-    & : Contain LIVE Stripe keys.
 
 **Areas that need refactoring**:
--   The owner portal pages (, , etc.) still contain duplicated sidebar and authentication logic. Consolidating this into a single shared  component is recommended for long-term maintainability.
+-   ****: This is a **critical rewrite**, not just a refactor. The current editor is incompatible with the new backend case structure and is a blocker for the entire application being usable.
 
 **key api endpoints**
--   **/api/health**: (GET) New health check endpoint.
--   **/api/cases**: (GET) Updated to return  and  status for each case based on user subscription.
--   **/api/play/start**: (POST) Updated to enforce subscription checks for non-free cases.
--   **/api/stripe/create-checkout-session**: (POST) Updated for recurring subscriptions; needs price ID changes.
--   **/api/stripe/webhook**: (POST) Updated to handle subscription lifecycle events (, etc.).
+-   **/api/play/start**: (POST) Creates a detailed  document.
+-   **/api/play/choice**: (POST) Updates the  based on complex game rules.
+-   **/api/play/back**: (POST) A new endpoint to revert to the previous scene in the session history.
+-   **/api/play/accuse**: (POST) Determines the case ending based on new metrics.
+-   **/api/uploads/**: (GET) Serves uploaded images.
 
 **Critical Info for New Agent**
--   The highest priority is to finish the pricing change to **0.99/month and 00/year**. This is a hard blocker for completing the subscription feature.
--   The freemium model and recurring subscriptions are partially implemented. You must complete the changes in  and the corresponding frontend pages and then test the entire flow end-to-end.
--   The critical owner portal navigation bug has been fixed, so you should not encounter redirection issues while working on the admin panel.
+-   **Top Priority:** The user has requested a massive overhaul of the game mechanics. The backend is updated, but the frontend is out of sync. You must finish the  refactor.
+-   **CRITICAL BLOCKER:** The **Owner's Case Editor** () is now completely incompatible with the new backend. After fixing the player gameplay page, your immediate next task **must** be to rebuild the case editor. Without it, the owner cannot create any content, and the game is unusable.
+-   The application is configured with **LIVE STRIPE KEYS**. All subscription transactions are real and will charge a credit card.
+-   The back button feature has a new dedicated backend endpoint (). Ensure the frontend uses this new endpoint rather than any old client-side logic.
 
 **documents and test reports created in this job**
 -   
--   
 
 **Last 10 User Messages and any pending HUMAN messages**
--   **User:** Call Deployer Agent and Run Health Check to Check for Readiness for Deployment - **Status:** DONE. The agent ran the deployment check and found issues.
--   **User:** Use deployment agent to identify the issues... - **Status:** DONE. The agent analyzed the logs, identified missing startup logic, and implemented fixes (owner user creation, health check endpoint).
--   **User:** I want more photo option, I want to put photos on the header... - **Status:** DONE. The agent implemented photo uploads for victims and case endings.
--   **User:** Make the first case on the game free... - **Status:** IN PROGRESS. The agent started implementing the freemium model and recurring subscriptions.
--   **User:** I would like to change pricing to 10.99 per month or 100 per year - **Status:** PENDING. This is the current highest-priority task.
+-   **User:** Fix scene images, give app link, change owner credentials. **Status:** DONE
+-   **User:** (Provides new owner credentials). **Status:** DONE
+-   **User:** Give me an updated link. **Status:** DONE
+-   **User:** Add a back button for players. **Status:** DONE
+-   **User:** (Posts a very long, detailed prompt to overhaul the entire game to be a hyper-realistic FBI simulator). **Status:** IN PROGRESS
+-   **User:** Yes, also add the realist 3d CGI. **Status:** ACKNOWLEDGED
+-   **User:** continue building. **Status:** ACKNOWLEDGED
 
 **Project Health Check:**
--   **Broken:** The subscription checkout flow is incomplete. It was being modified for recurring billing and is now blocked by the new pricing request.
--   **Mocked:** The AI Case Generation feature remains a placeholder.
+-   **Broken:**
+    -   The core gameplay is non-functional because the frontend is out of sync with the recently overhauled backend.
+    -   The Owner Case Editor is incompatible with the new game logic, making it impossible to create or edit cases.
+-   **Mocked:**
+    -   AI Case Generation is a placeholder.
+    -   3D CGI Animation is a concept.
 
 **3rd Party Integrations**
--   **Stripe (Payments & Payouts):** In use and currently being modified for recurring subscriptions with new pricing. Uses a test key from the environment.
--   **OpenAI GPT-5.2:** Planned for AI case generation. Will use Emergent LLM Key. Not yet implemented.
+-   **Stripe (Payments):** Integrated for subscriptions. Configured with **LIVE keys**.
+-   **OpenAI:** Planned for AI case generation but not yet implemented.
 
 **Testing status**
--   **Testing agent used after significant changes:** YES (to verify the owner portal navigation fix).
+-   **Testing agent used after significant changes:** NO (the current overhaul is in-progress).
 -   **Troubleshoot agent used after agent stuck in loop:** NO
 -   **Test files created:** None
--   **Known regressions:** None.
+-   **Known regressions:** The entire gameplay loop is currently broken due to the ongoing refactor.
 
 **Credentials to test flow:**
 -   **Owner/Admin:**
@@ -155,4 +148,4 @@ A full-stack application with a FastAPI backend, React frontend, and MongoDB. Th
     -   Register a new user via the UI.
 
 **What agent forgot to execute**
--   The agent was interrupted by the user's pricing change request while in the middle of implementing the subscription feature. The task is therefore left in an incomplete state.</analysis>
+-   The agent did not plan for the necessary, consequent overhaul of the **Owner's Case Editor**. This is a critical dependency for the new game mechanics to be usable and must be addressed immediately after the player-facing UI is updated.</analysis>
