@@ -1163,8 +1163,6 @@ async def make_accusation(data: AccusationRequest, user=Depends(get_current_user
         "outcome_message": outcome_message,
         "mugshot_url": ending.get("mugshot_url") if ending else None
     }
-        "procedural_risk": risk
-    }
 
 # ============== AI INTERROGATION ==============
 
@@ -1182,41 +1180,172 @@ async def interrogate_suspect(data: InterrogationRequest, user=Depends(get_curre
     if not suspect:
         raise HTTPException(status_code=404, detail="Suspect not found")
     
+    # Get interrogation state
+    suspect_cooperation = session.get("suspect_cooperation", {})
+    interrogation_pressure = session.get("interrogation_pressure", {})
+    miranda_given = session.get("miranda_given", [])
+    evidence_collected = session.get("clues_collected", [])
+    
+    # Get suspect-specific state
+    current_cooperation = suspect_cooperation.get(data.suspect_id, suspect.get("cooperation_level", 50))
+    current_pressure = interrogation_pressure.get(data.suspect_id, 0)
+    
+    # Calculate pressure change based on approach
+    approach_effects = {
+        "professional": {"pressure": 1, "cooperation": 0},
+        "aggressive": {"pressure": 3, "cooperation": -10},
+        "sympathetic": {"pressure": 0, "cooperation": 5},
+        "strategic_silence": {"pressure": 2, "cooperation": -5}
+    }
+    
+    effect = approach_effects.get(data.approach, approach_effects["professional"])
+    new_pressure = current_pressure + effect["pressure"]
+    new_cooperation = max(0, min(100, current_cooperation + effect["cooperation"]))
+    
+    # Check if Miranda was given (for custodial interrogation)
+    procedural_violations = session.get("procedural_violations", [])
+    if data.suspect_id not in miranda_given and new_pressure >= 2:
+        if "miranda_failure" not in procedural_violations:
+            procedural_violations.append("miranda_failure")
+    
+    # Check if suspect requests lawyer
+    lawyer_requested = new_pressure >= suspect.get("lawyer_threshold", 3)
+    
+    # Check if suspect breaks (reveals more info)
+    suspect_breaks = (
+        len(evidence_collected) >= suspect.get("breaking_point", 3) and 
+        new_pressure >= 2 and 
+        new_cooperation < 30
+    )
+    
     api_key = os.environ.get("EMERGENT_LLM_KEY")
     if not api_key:
         raise HTTPException(status_code=500, detail="AI service not configured")
     
+    # Build dynamic interrogation context
+    evidence_context = ""
+    if evidence_collected:
+        case_clues = case.get("clues", [])
+        collected_clue_labels = [c.get("label", "") for c in case_clues if c.get("id") in evidence_collected]
+        if collected_clue_labels:
+            evidence_context = f"Evidence the agent has collected: {', '.join(collected_clue_labels[:5])}"
+    
+    personality_behaviors = {
+        "defensive": "deflect questions, give vague answers, cross arms",
+        "cooperative": "answer questions but avoid self-incrimination",
+        "hostile": "be confrontational, challenge the agent's authority",
+        "calculating": "give careful, measured responses, try to mislead"
+    }
+    
+    personality = suspect.get("personality_type", "defensive")
+    behavior = personality_behaviors.get(personality, personality_behaviors["defensive"])
+    
+    system_prompt = f"""You are {suspect['name']}, a {suspect['age']}-year-old {suspect['role']} being interrogated by an FBI agent.
+
+PERSONALITY: {personality.upper()}
+BEHAVIOR: {behavior}
+
+YOUR BACKGROUND:
+- Role: {suspect['role']}
+- Alibi: {suspect['alibi_summary']}
+- Motive: {suspect['motive_angle']}
+- Are you guilty: {'Yes, but never admit it directly' if suspect.get('is_guilty') else 'No, you are innocent'}
+
+CURRENT STATE:
+- Cooperation level: {new_cooperation}/100
+- Pressure level: {new_pressure}/5
+- Agent's approach: {data.approach}
+{evidence_context}
+
+INTERROGATION RULES:
+1. {'You feel cornered. Start showing cracks in your story.' if suspect_breaks else 'Maintain your composure.'}
+2. {'REQUEST A LAWYER. Say "I want my lawyer present before answering any more questions."' if lawyer_requested else 'Answer questions but protect yourself.'}
+3. If guilty: deflect, create doubt, point at others subtly
+4. If innocent: be confused, frustrated, cooperative but defensive
+5. Show realistic emotional responses (pauses, sighs, nervous habits)
+6. Keep responses under 120 words
+7. NEVER break character or reveal the game mechanics
+8. Use realistic FBI interview language and pacing"""
+
     chat = LlmChat(
         api_key=api_key,
         session_id=f"{data.session_id}_{data.suspect_id}",
-        system_message=f"""You are {suspect['name']}, a {suspect['age']}-year-old {suspect['role']} being interviewed by an FBI agent.
-
-Your background:
-- Role: {suspect['role']}
-- Alibi: {suspect['alibi_summary']}
-- Notes: {suspect['risk_notes']}
-- Are you guilty: {'Yes, but hide it carefully' if suspect.get('is_guilty') else 'No'}
-
-Rules:
-- Stay in character at all times
-- Be realistic - show nervousness, evasiveness, or confidence as appropriate
-- If guilty, deflect and mislead subtly without being obviously deceptive
-- You may request a lawyer if pressed too hard
-- Give partial answers, pause, show emotion
-- Never reveal guilt directly
-- Keep responses under 150 words
-- Respond as the suspect would in a real FBI interview"""
+        system_message=system_prompt
     ).with_model("openai", "gpt-5.2")
     
     try:
-        response = await chat.send_message(UserMessage(text=f"FBI Agent: {data.question}"))
+        response = await chat.send_message(UserMessage(text=f"FBI Agent ({data.approach} tone): {data.question}"))
+        
+        # Update session with interrogation state
+        suspect_cooperation[data.suspect_id] = new_cooperation
+        interrogation_pressure[data.suspect_id] = new_pressure
+        
+        await db.play_sessions.update_one(
+            {"id": data.session_id},
+            {"$set": {
+                "suspect_cooperation": suspect_cooperation,
+                "interrogation_pressure": interrogation_pressure,
+                "procedural_violations": procedural_violations
+            }}
+        )
+        
         return {
             "suspect_name": suspect["name"],
-            "response": response
+            "response": response,
+            "cooperation_level": new_cooperation,
+            "pressure_level": new_pressure,
+            "lawyer_requested": lawyer_requested,
+            "suspect_breaking": suspect_breaks,
+            "approach_used": data.approach
         }
     except Exception as e:
         logging.error(f"Interrogation error: {e}")
         raise HTTPException(status_code=500, detail="Interrogation failed")
+
+@api_router.post("/play/miranda")
+async def give_miranda_rights(session_id: str, suspect_id: str, user=Depends(get_current_user)):
+    """Give Miranda rights to a suspect before custodial interrogation"""
+    session = await db.play_sessions.find_one({"id": session_id, "user_id": user["id"]}, {"_id": 0})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    miranda_given = session.get("miranda_given", [])
+    if suspect_id not in miranda_given:
+        miranda_given.append(suspect_id)
+        await db.play_sessions.update_one(
+            {"id": session_id},
+            {"$set": {"miranda_given": miranda_given}}
+        )
+    
+    return {"message": "Miranda rights administered", "suspect_id": suspect_id}
+
+@api_router.post("/play/warrant")
+async def request_warrant(session_id: str, warrant_type: str, user=Depends(get_current_user)):
+    """Request a warrant for search, arrest, or surveillance"""
+    session = await db.play_sessions.find_one({"id": session_id, "user_id": user["id"]}, {"_id": 0})
+    if not session:
+        raise HTTPException(status_code=404, detail="Session not found")
+    
+    valid_warrants = ["search_warrant", "arrest_warrant", "surveillance_warrant", "financial_warrant"]
+    if warrant_type not in valid_warrants:
+        raise HTTPException(status_code=400, detail="Invalid warrant type")
+    
+    # Check user rank for faster warrant approval
+    user_perks = session.get("user_perks", [])
+    
+    warrants_obtained = session.get("warrants_obtained", [])
+    if warrant_type not in warrants_obtained:
+        warrants_obtained.append(warrant_type)
+        await db.play_sessions.update_one(
+            {"id": session_id},
+            {"$set": {"warrants_obtained": warrants_obtained}}
+        )
+    
+    return {
+        "message": f"{warrant_type.replace('_', ' ').title()} approved",
+        "warrant_type": warrant_type,
+        "fast_track": "faster_warrant" in user_perks
+    }
 
 @api_router.post("/play/notes")
 async def save_notes(session_id: str, notes: str, user=Depends(get_current_user)):
