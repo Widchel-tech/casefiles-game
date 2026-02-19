@@ -3,19 +3,33 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { 
   Fingerprint, Clock, Shield, FileText, Users, Search, 
   MessageSquare, Calendar, AlertTriangle, ChevronRight, 
-  Check, X, Target, Notebook, Send, ArrowLeft, User
+  Check, X, Target, Notebook, Send, ArrowLeft, User,
+  Scale, Gavel, BadgeCheck, AlertCircle, Radio, FileWarning
 } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Textarea } from '../components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { ScrollArea } from '../components/ui/scroll-area';
+import { Progress } from '../components/ui/progress';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { useAuth } from '../contexts/AuthContext';
 import { getRiskColor, getImageUrl } from '../lib/utils';
 import axios from 'axios';
 import { toast } from 'sonner';
 
 const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
+
+// Risk color helper for new CRITICAL level
+const getEnhancedRiskColor = (risk) => {
+  const colors = {
+    'LOW': 'text-emerald-500 border-emerald-500',
+    'MEDIUM': 'text-amber-500 border-amber-500',
+    'HIGH': 'text-red-500 border-red-500',
+    'CRITICAL': 'text-red-700 border-red-700 bg-red-500/10'
+  };
+  return colors[risk] || 'text-zinc-400 border-zinc-400';
+};
 
 export default function GameplayPage() {
   const { caseId } = useParams();
@@ -33,15 +47,31 @@ export default function GameplayPage() {
   const [notes, setNotes] = useState('');
   const [showNotebook, setShowNotebook] = useState(false);
   
+  // New enhanced state
+  const [convictionProbability, setConvictionProbability] = useState(10);
+  const [evidenceStrength, setEvidenceStrength] = useState(0);
+  const [xpEarned, setXpEarned] = useState(0);
+  const [proceduralViolations, setProceduralViolations] = useState([]);
+  const [evidenceLegallyObtained, setEvidenceLegallyObtained] = useState([]);
+  const [evidenceSuppressed, setEvidenceSuppressed] = useState([]);
+  const [userRank, setUserRank] = useState('ANALYST');
+  const [threatLevel, setThreatLevel] = useState('moderate');
+  
   // Scene history for back navigation
   const [sceneHistory, setSceneHistory] = useState([]);
   
-  // Interrogation state
+  // Interrogation state - enhanced
   const [showInterrogation, setShowInterrogation] = useState(false);
   const [selectedSuspect, setSelectedSuspect] = useState(null);
   const [interrogationQuestion, setInterrogationQuestion] = useState('');
   const [interrogationHistory, setInterrogationHistory] = useState([]);
   const [interrogating, setInterrogating] = useState(false);
+  const [interrogationApproach, setInterrogationApproach] = useState('professional');
+  const [suspectCooperation, setSuspectCooperation] = useState({});
+  const [mirandaGiven, setMirandaGiven] = useState([]);
+  
+  // Warrants state
+  const [warrantsObtained, setWarrantsObtained] = useState([]);
   
   // Accusation state
   const [showAccusation, setShowAccusation] = useState(false);
