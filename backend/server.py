@@ -1013,21 +1013,28 @@ async def make_accusation(data: AccusationRequest, user=Depends(get_current_user
     if not case:
         raise HTTPException(status_code=404, detail="Case not found")
     
-    # Validate clues count
-    if len(data.clue_ids) < 3:
-        return {
-            "success": False,
-            "message": "Insufficient evidence. You need at least 3 clues to support your accusation.",
-            "continue_investigation": True
-        }
+    # Get session metrics
+    conviction_prob = session.get("conviction_probability", 0)
+    procedural_risk = session.get("procedural_risk", "LOW")
+    procedural_violations = session.get("procedural_violations", [])
+    evidence_legally_obtained = session.get("evidence_legally_obtained", [])
+    xp_earned = session.get("xp_earned", 0)
     
-    # Check if clues are valid
+    # Validate legally obtained evidence count
+    legal_evidence_count = len(evidence_legally_obtained)
+    min_evidence_required = case.get("required_evidence_count", 3)
+    conviction_threshold = case.get("conviction_threshold", 70)
+    max_violations = case.get("max_procedural_violations", 3)
+    
+    # Check if clues are valid and legally obtained
     player_clues = session.get("clues_collected", [])
     valid_clues = [c for c in data.clue_ids if c in player_clues]
+    legal_clues = [c for c in valid_clues if c in evidence_legally_obtained]
+    
     if len(valid_clues) < 3:
         return {
             "success": False,
-            "message": "Some of the clues you selected were not collected. Please select clues from your evidence.",
+            "message": "Insufficient evidence. You need at least 3 clues to support your accusation.",
             "continue_investigation": True
         }
     
@@ -1036,29 +1043,63 @@ async def make_accusation(data: AccusationRequest, user=Depends(get_current_user
     if not suspect:
         raise HTTPException(status_code=404, detail="Suspect not found")
     
-    # Determine outcome
+    # Determine outcome based on new system
     is_correct = suspect.get("is_guilty", False)
-    risk = session.get("procedural_risk", "LOW")
     
-    # Calculate CP
-    base_cp = 0
-    if is_correct and risk != "HIGH":
-        # CLOSED (GOOD)
-        ending_type = "CLOSED_GOOD"
-        ending = next((e for e in case["endings"] if e["type"] == "CLOSED_GOOD"), None)
-        base_cp = ending.get("cp_base", 30) if ending else 30
-        # Bonus for clues used
-        base_cp += min(len(valid_clues) * 2, 10)
-        # Bonus for low risk
-        if risk == "LOW":
-            base_cp += 5
-    else:
-        # COMPROMISED (BAD)
-        ending_type = "COMPROMISED_BAD"
-        ending = next((e for e in case["endings"] if e["type"] == "COMPROMISED_BAD"), None)
+    # Determine ending type based on accumulated evidence and procedure
+    if len(procedural_violations) > max_violations or procedural_risk == "CRITICAL":
+        # COMPROMISED - Too many procedural violations
+        ending_type = "COMPROMISED"
+        ending = next((e for e in case["endings"] if e["type"] == "COMPROMISED"), None)
         base_cp = ending.get("cp_base", 5) if ending else 5
-        if risk == "HIGH":
-            base_cp -= 10
+        outcome_message = "Case compromised due to procedural violations. Evidence may be suppressed."
+        
+    elif legal_evidence_count < min_evidence_required:
+        # DISMISSED - Not enough legally obtained evidence
+        ending_type = "DISMISSED"
+        ending = next((e for e in case["endings"] if e["type"] == "DISMISSED"), None)
+        base_cp = ending.get("cp_base", 10) if ending else 10
+        outcome_message = "Case dismissed due to insufficient admissible evidence."
+        
+    elif conviction_prob < conviction_threshold:
+        # DISMISSED - Conviction probability too low
+        ending_type = "DISMISSED"
+        ending = next((e for e in case["endings"] if e["type"] == "DISMISSED"), None)
+        base_cp = ending.get("cp_base", 10) if ending else 10
+        outcome_message = f"Case dismissed. Conviction probability ({conviction_prob}%) below threshold ({conviction_threshold}%)."
+        
+    elif is_correct and conviction_prob >= conviction_threshold:
+        # Check if case should escalate
+        threat_level = case.get("threat_level", "moderate")
+        if threat_level in ["critical", "high"] and conviction_prob >= 85:
+            # ESCALATED - High-profile successful case
+            ending_type = "ESCALATED"
+            ending = next((e for e in case["endings"] if e["type"] == "ESCALATED"), None)
+            base_cp = ending.get("cp_base", 50) if ending else 50
+            outcome_message = "Case escalated to Federal Task Force level. Outstanding work, Agent."
+        else:
+            # CLOSED - Standard successful case
+            ending_type = "CLOSED"
+            ending = next((e for e in case["endings"] if e["type"] == "CLOSED"), None)
+            base_cp = ending.get("cp_base", 35) if ending else 35
+            outcome_message = "Case closed. Suspect in custody with prosecution-ready evidence."
+    else:
+        # Wrong suspect
+        ending_type = "DISMISSED"
+        ending = next((e for e in case["endings"] if e["type"] == "DISMISSED"), None)
+        base_cp = ending.get("cp_base", 5) if ending else 5
+        outcome_message = "Wrong suspect accused. Investigation failed."
+    
+    # Calculate final CP with modifiers
+    if is_correct:
+        base_cp += min(len(legal_clues) * 3, 15)  # Bonus for legally obtained evidence
+    if procedural_risk == "LOW":
+        base_cp += 10  # Bonus for clean procedure
+    elif procedural_risk == "HIGH":
+        base_cp -= 10  # Penalty for high risk
+    
+    # Add XP earned during investigation
+    total_xp = xp_earned + base_cp
     
     final_score = session.get("score", 0) + base_cp
     
@@ -1070,34 +1111,58 @@ async def make_accusation(data: AccusationRequest, user=Depends(get_current_user
             "ending_type": ending_type,
             "final_score": final_score,
             "accused_suspect_id": data.suspect_id,
-            "accusation_clues": data.clue_ids
+            "accusation_clues": data.clue_ids,
+            "conviction_probability_final": conviction_prob,
+            "total_xp_earned": total_xp
         }}
     )
     
-    # Update user CP
+    # Update user CP and check for rank up
     await db.users.update_one(
         {"id": user["id"]},
-        {"$inc": {"career_points": base_cp}}
+        {"$inc": {"career_points": total_xp}}
     )
     
-    # Get updated level
+    # Get updated level using new rank system
     updated_user = await db.users.find_one({"id": user["id"]}, {"_id": 0})
-    new_level, new_title = get_level_info(updated_user.get("career_points", 0))
+    new_cp = updated_user.get("career_points", 0)
+    
+    # Determine new rank
+    new_level = 1
+    new_title = "ANALYST"
+    for level, rank_info in sorted(CAREER_RANKS.items(), reverse=True):
+        if new_cp >= rank_info["min_cp"]:
+            new_level = level
+            new_title = rank_info["title"]
+            break
+    
     await db.users.update_one(
         {"id": user["id"]},
         {"$set": {"level": new_level, "level_title": new_title}}
     )
     
     ending = next((e for e in case["endings"] if e["type"] == ending_type), None)
+    # Fallback to any ending if specific type not found
+    if not ending and case.get("endings"):
+        ending = case["endings"][0]
     
     return {
         "success": True,
         "correct_accusation": is_correct,
         "ending_type": ending_type,
         "ending_title": ending.get("title", ending_type) if ending else ending_type,
-        "ending_narration": ending.get("narration", "") if ending else "",
-        "career_points_earned": base_cp,
+        "ending_narration": ending.get("narration", outcome_message) if ending else outcome_message,
+        "career_points_earned": total_xp,
         "final_score": final_score,
+        "new_level": new_level,
+        "new_title": new_title,
+        "conviction_probability": conviction_prob,
+        "evidence_strength": session.get("evidence_strength", 0),
+        "procedural_violations_count": len(procedural_violations),
+        "legal_evidence_count": legal_evidence_count,
+        "outcome_message": outcome_message,
+        "mugshot_url": ending.get("mugshot_url") if ending else None
+    }
         "procedural_risk": risk
     }
 
