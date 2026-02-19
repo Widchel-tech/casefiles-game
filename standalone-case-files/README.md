@@ -1,15 +1,33 @@
 # CASE FILES - FBI Investigation Game
 
-A standalone, hyper-realistic FBI investigation game built with vanilla HTML, CSS, and JavaScript. No external dependencies required.
+A standalone, hyper-realistic FBI investigation game built with vanilla HTML, CSS, and JavaScript. Now with AI-powered interrogations and a case editor!
 
 ## Features
 
-- **Immersive FBI Investigation Gameplay**: Navigate crime scenes, interrogate suspects, collect evidence
-- **Procedural Risk System**: Your choices affect the case outcome - too many violations can compromise the case
+### Core Gameplay
+- **5 Complete Cases**: Homicide, Cybercrime, Kidnapping, Financial Crimes, and Domestic Terrorism
+- **Procedural Risk System**: Your choices affect the case outcome
 - **Conviction Probability Tracking**: Build a strong case with legally obtained evidence
-- **AI-Simulated Interrogations**: Choose your approach - professional, aggressive, sympathetic, or strategic silence
+- **Multiple Endings**: CLOSED, DISMISSED, COMPROMISED, or ESCALATED based on investigation quality
 - **Career Progression**: Earn XP and climb the ranks from Analyst to Task Force Lead
-- **Multiple Case Outcomes**: CLOSED, DISMISSED, COMPROMISED, or ESCALATED based on your investigation
+
+### AI-Powered Interrogations (Optional)
+- **OpenAI GPT Integration**: Suspects respond dynamically to your questions
+- **Approach Selection**: Professional, Aggressive, Sympathetic, or Strategic Silence
+- **Miranda Rights System**: Proper procedure affects case outcomes
+- **Suspect Personalities**: Each suspect has unique traits that affect responses
+
+### Sound System
+- **Ambient Audio**: Immersive soundscapes for different scene types
+- **Sound Effects**: Feedback for actions, discoveries, and warnings
+- **Adjustable Volume**: Control audio through settings
+
+### Case Editor
+- **Create Custom Cases**: Design your own investigations
+- **Add Suspects**: Define personalities, motives, and alibis
+- **Build Scenes**: Create narrative with branching choices
+- **Define Evidence**: Add clues with legal requirements
+- **Set Endings**: Configure multiple outcomes
 
 ## Project Structure
 
@@ -17,151 +35,139 @@ A standalone, hyper-realistic FBI investigation game built with vanilla HTML, CS
 standalone-case-files/
 ├── index.html      # Main HTML file
 ├── styles.css      # All CSS styles
-├── app.js          # Main application logic
-├── cases.js        # Case data (local JSON)
+├── app.js          # Main application logic + AI + Audio + Editor
+├── cases.js        # 5 complete cases + audio config
 ├── vercel.json     # Vercel deployment config
+├── netlify.toml    # Netlify deployment config
 └── README.md       # This file
 ```
 
 ## Run Locally
 
 ### Option 1: Simple HTTP Server (Python)
-
 ```bash
 cd standalone-case-files
 python -m http.server 8080
 ```
-
-Then open http://localhost:8080 in your browser.
+Open http://localhost:8080
 
 ### Option 2: Live Server (VS Code)
+1. Install "Live Server" extension
+2. Right-click `index.html` → "Open with Live Server"
 
-1. Install the "Live Server" extension in VS Code
-2. Right-click on `index.html`
-3. Select "Open with Live Server"
-
-### Option 3: Node.js HTTP Server
-
+### Option 3: Node.js
 ```bash
-npm install -g http-server
-cd standalone-case-files
-http-server -p 8080
+npx serve standalone-case-files
 ```
-
-Then open http://localhost:8080 in your browser.
 
 ## Deploy to Vercel
 
-### Option 1: Vercel CLI
-
-1. Install Vercel CLI:
+### CLI Deployment
 ```bash
 npm install -g vercel
-```
-
-2. Deploy:
-```bash
 cd standalone-case-files
 vercel
 ```
 
-3. Follow the prompts to complete deployment
-
-### Option 2: Vercel Dashboard (Git Integration)
-
-1. Push your code to a Git repository (GitHub, GitLab, or Bitbucket)
-2. Go to [vercel.com](https://vercel.com) and sign in
-3. Click "New Project"
-4. Import your repository
-5. Click "Deploy"
-
-### Option 3: Drag and Drop
-
-1. Go to [vercel.com](https://vercel.com)
-2. Drag the `standalone-case-files` folder onto the page
-3. Vercel will automatically deploy
+### Dashboard Deployment
+1. Push to GitHub/GitLab
+2. Go to [vercel.com](https://vercel.com)
+3. Import repository → Deploy
 
 ## Deploy to Netlify
 
-### Option 1: Netlify CLI
-
+### CLI Deployment
 ```bash
 npm install -g netlify-cli
 cd standalone-case-files
 netlify deploy --prod
 ```
 
-### Option 2: Drag and Drop
-
+### Drag & Drop
 1. Go to [app.netlify.com](https://app.netlify.com)
-2. Drag the `standalone-case-files` folder to the deploy area
-3. Done!
+2. Drag the folder to deploy area
 
-## Adding More Cases
+## OpenAI Integration Setup
 
-Edit `cases.js` to add new cases. Each case follows this structure:
+The AI interrogation feature is **optional**. Without an API key, the game uses simulated responses.
 
+### To Enable AI:
+1. Get an API key from [platform.openai.com](https://platform.openai.com)
+2. In-game: Click ⚙️ Settings
+3. Paste your API key
+4. Save
+
+### Supported Models
+The integration uses GPT-4o for realistic suspect roleplay.
+
+## Included Cases
+
+| Case | Type | Difficulty | Time |
+|------|------|------------|------|
+| The Riverside Conspiracy | Homicide | ⭐⭐⭐ | 20 min |
+| Digital Ghost | Cybercrime | ⭐⭐⭐⭐ | 25 min |
+| The Vanishing Act | Kidnapping | ⭐⭐⭐⭐⭐ | 15 min |
+| The Ponzi Prince | Financial | ⭐⭐⭐⭐ | 25 min |
+| Countdown | Terrorism | ⭐⭐⭐⭐⭐ | 18 min |
+
+## Creating Custom Cases
+
+1. Go to Dashboard
+2. Click "Create Custom Case"
+3. Fill in case details:
+   - Case ID and title
+   - Victim overview
+   - Add suspects (mark one as guilty)
+   - Create scenes with choices
+   - Define clues/evidence
+   - Configure endings
+4. Save and play!
+
+### Case Structure
 ```javascript
 {
-    id: "case-xxx",
-    case_id: "FBI-TYPE-YY-XXX",
-    case_type: "HOM", // HOM, CYB, FIN, TER, KID, etc.
-    title: "Case Title",
-    location_county: "County",
-    location_state: "State",
-    victim_overview: "Brief description...",
-    summary: "Case summary...",
-    difficulty: 3, // 1-5
-    time_limit_minutes: 20,
-    tags: ["tag1", "tag2"],
-    threat_level: "high", // low, moderate, high, critical
-    crime_classification: "Homicide",
-    conviction_threshold: 70, // Minimum % for CLOSED ending
-    max_procedural_violations: 3,
-    is_free: true, // or false for premium
-    suspects: [...],
-    scenes: [...],
-    clues: [...],
-    endings: [...]
+    id: "custom-xxx",
+    case_id: "FBI-CUS-24-001",
+    case_type: "HOM",
+    title: "Your Case Title",
+    suspects: [{
+        name: "Suspect Name",
+        is_guilty: true,
+        personality_type: "defensive",
+        // ...
+    }],
+    scenes: [{
+        id: "S0",
+        title: "Scene Title",
+        narration: "What happens...",
+        choices: [{
+            text: "Choice text",
+            next_scene_id: "S1",
+            add_clues: ["clue-1"]
+        }]
+    }],
+    clues: [{
+        id: "clue-1",
+        label: "Evidence Name",
+        description: "What it proves"
+    }],
+    endings: [{
+        type: "CLOSED",
+        title: "Success",
+        narration: "Victory text"
+    }]
 }
 ```
 
-## Optional: External Services
+## Audio Sources
 
-The game is fully functional without any external services. However, you can optionally integrate:
-
-### AI Interrogation (OpenAI)
-
-Replace the `generateInterrogationResponse()` function in `app.js` with an API call:
-
-```javascript
-async function generateInterrogationResponse(suspect, question, approach) {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${YOUR_API_KEY}`
-        },
-        body: JSON.stringify({
-            model: 'gpt-4',
-            messages: [
-                { role: 'system', content: `You are ${suspect.name}...` },
-                { role: 'user', content: question }
-            ]
-        })
-    });
-    const data = await response.json();
-    return { text: data.choices[0].message.content };
-}
-```
-
-### User Authentication (Firebase)
-
-For persistent user accounts across devices, integrate Firebase Authentication.
-
-### Database (Firebase Firestore)
-
-For cloud-saved progress, integrate Firebase Firestore.
+Ambient sounds and effects are loaded from Mixkit (free to use):
+- Office ambiance
+- Outdoor environments
+- Rain and weather
+- Lab equipment
+- Sirens and alerts
+- Courtroom atmosphere
 
 ## Browser Support
 
@@ -170,10 +176,17 @@ For cloud-saved progress, integrate Firebase Firestore.
 - Safari 13+
 - Edge 80+
 
+## Local Storage
+
+The game saves to browser localStorage:
+- User accounts and progress
+- Custom cases
+- Settings (audio, API key)
+
 ## License
 
-MIT License - Feel free to use, modify, and distribute.
+MIT License - Free to use, modify, and distribute.
 
-## Credits
+---
 
-Built as a standalone version of the CASE FILES FBI Investigation Game.
+Built with ❤️ for aspiring FBI agents everywhere.
