@@ -1,4 +1,7 @@
-const screens = {
+function enterSystem() {
+  document.querySelector(".landing").style.display = "none";
+  document.querySelector(".login-section").style.display = "block";
+}const screens = {
   home: document.getElementById("screenHome"),
   dash: document.getElementById("screenDashboard"),
   play: document.getElementById("screenCase")
