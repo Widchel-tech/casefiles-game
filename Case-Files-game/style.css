@@ -53,4 +53,156 @@ button{
   border-radius: 10px;
   cursor: pointer;
 }
+/* ===== DASHBOARD LAYOUT ===== */
+.dash{
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 18px;
+  max-width: 1400px;
+  margin: 24px auto;
+  padding: 0 18px;
+}
 
+.leaderboard{
+  background: rgba(12,15,20,0.86);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 16px;
+  height: calc(100vh - 48px);
+  position: sticky;
+  top: 24px;
+  overflow: auto;
+}
+
+.lb-title{
+  font-weight: 800;
+  letter-spacing: .12em;
+  font-size: .78rem;
+  color: rgba(255,255,255,0.8);
+}
+
+.lb-sub{
+  margin-top: 6px;
+  color: rgba(255,255,255,0.55);
+  font-size: .85rem;
+}
+
+.lb-list{
+  margin: 14px 0 0;
+  padding-left: 18px;
+}
+
+.lb-list li{
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: rgba(255,255,255,0.86);
+}
+
+.lb-cp{
+  color: rgba(160,190,210,0.85);
+  font-weight: 700;
+}
+
+.dash-main{
+  min-width: 0;
+}
+
+.dash-topbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 4px;
+}
+
+.brandline{
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  opacity: .9;
+}
+
+.top-right{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sub-link{
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(160,190,210,0.25);
+  background: rgba(160,190,210,0.08);
+  color: rgba(255,255,255,0.9);
+}
+
+.sub-link:hover{
+  background: rgba(160,190,210,0.14);
+}
+
+.user-badge{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.25);
+}
+
+.rank-badge{
+  font-weight: 900;
+  font-size: .75rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(160,190,210,0.25);
+  background: rgba(160,190,210,0.12);
+}
+
+.cp-box{
+  margin-top: 10px;
+  margin-bottom: 18px;
+  transform: translateY(-8px); /* “sits slightly above” */
+  background: rgba(12,15,20,0.86);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+}
+
+.cp-label{
+  letter-spacing: .14em;
+  font-size: .72rem;
+  opacity: .75;
+}
+
+.cp-value{
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin-top: 6px;
+}
+
+.cp-hint{
+  color: rgba(255,255,255,0.55);
+  max-width: 520px;
+  font-size: .9rem;
+  line-height: 1.4;
+}
+
+/* Case grid */
+.case-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+@media (max-width: 1100px){
+  .dash{ grid-template-columns: 1fr; }
+  .leaderboard{ position: relative; height: auto; }
+  .case-grid{ grid-template-columns: 1fr; }
+}
